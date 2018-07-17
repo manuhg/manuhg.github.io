@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faGithub from '@fortawesome/fontawesome-free-brands/faGithub';
 import faLinkedin from '@fortawesome/fontawesome-free-brands/faLinkedin';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
-import faEnvelope from '@fortawesome/free-solid-svg-icons/faEnvelope';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Button from 'antd/lib/button';
 import dp from 'Manu.png';
 import Resume from 'Resume.pdf';
@@ -42,9 +42,9 @@ class App extends Component {
           </div>
           <div className="col-12">
             <div className="text-center">
-              <div style={{ fontSize: '1em' }}>
+              <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
-                VII Sem CSE student at Dr. Ambedkar Institute of Technology
+                VII Sem CSE student at Dr.Ambedkar Institute of Technology
               </div>
               <div>&nbsp;</div>
               <div>
