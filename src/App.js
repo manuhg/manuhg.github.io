@@ -5,7 +5,7 @@ import faLinkedin from '@fortawesome/fontawesome-free-brands/faLinkedin';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Button from 'antd/lib/button';
-import dp from 'Manu.png';
+import dp from '1dp.jpg';
 import Resume from 'Resume.pdf';
 
 // import { Document, Page } from 'react-pdf';
