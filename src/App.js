@@ -27,8 +27,8 @@ class App extends Component {
       ['https://github.com/manuhg', faGithub],
       ['http://www.linkedin.com/in/manu-hegde', faLinkedin],
       ['https://twitter.com/manuhegdev', faTwitter],
-      ['mailto:me@manuhegde.in', faEnvelope],
       ['https://stackoverflow.com/users/1147882/manuhg', faStackOverflow],
+      ['mailto:me@manuhegde.in', faEnvelope],
     ];
     return (
       <div className="App container">
@@ -37,20 +37,24 @@ class App extends Component {
             <img style={{ borderRadius: '50%', width: '150px' }} src={dp} alt="Manu Hegde" />
             <h1>Manu Hegde</h1>
             <div>
+              <a target="_blank" rel="noopener noreferrer" href="https://dev.to/manuhg">
+                <img
+                  style={{ marginBottom: '10px', width: '25px' }}
+                  src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg"
+                  alt="Manu Hegde's DEV Profile"
+                />
+              </a>&nbsp;
               {links.map((link, i) => (
-                <a className="mr-auto" key={i} href={link[0]}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mr-auto"
+                  key={i}
+                  href={link[0]}
+                >
                   <FontAwesomeIcon icon={link[1]} size="2x" />&nbsp;
                 </a>
               ))}
-              <a href="https://dev.to/manuhg">
-                <img
-                  style={{ marginBottom: '10px' }}
-                  src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg"
-                  alt="Manu Hegde's DEV Profile"
-                  height="25"
-                  width="25"
-                />
-              </a>
             </div>
           </div>
           <div className="col-12">
