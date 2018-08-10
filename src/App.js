@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import faGithub from '@fortawesome/fontawesome-free-brands/faGithub';
 import faLinkedin from '@fortawesome/fontawesome-free-brands/faLinkedin';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
+import faStackOverflow from '@fortawesome/fontawesome-free-brands/faStackOverflow';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Button from 'antd/lib/button';
 import dp from '1dp.jpg';
@@ -27,6 +28,7 @@ class App extends Component {
       ['http://www.linkedin.com/in/manu-hegde', faLinkedin],
       ['https://twitter.com/manuhegdev', faTwitter],
       ['mailto:me@manuhegde.in', faEnvelope],
+      ['https://stackoverflow.com/users/1147882/manuhg', faStackOverflow],
     ];
     return (
       <div className="App container">
@@ -34,17 +36,28 @@ class App extends Component {
           <div className="col-12">
             <img style={{ borderRadius: '50%', width: '150px' }} src={dp} alt="Manu Hegde" />
             <h1>Manu Hegde</h1>
-            {links.map((link, i) => (
-              <a className="mr-auto" key={i} href={link[0]}>
-                <FontAwesomeIcon icon={link[1]} size="2x" />&nbsp;
+            <div>
+              {links.map((link, i) => (
+                <a className="mr-auto" key={i} href={link[0]}>
+                  <FontAwesomeIcon icon={link[1]} size="2x" />&nbsp;
+                </a>
+              ))}
+              <a href="https://dev.to/manuhg">
+                <img
+                  style={{ marginBottom: '10px' }}
+                  src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg"
+                  alt="Manu Hegde's DEV Profile"
+                  height="25"
+                  width="25"
+                />
               </a>
-            ))}
+            </div>
           </div>
           <div className="col-12">
             <div className="text-center">
               <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
-                VII Sem CSE student at Dr.Ambedkar Institute of Technology
+                Student | Geek | Machine Learning Enthusiast
               </div>
               <div>&nbsp;</div>
               <div>
