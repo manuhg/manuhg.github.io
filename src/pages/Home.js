@@ -5,6 +5,7 @@ import faLinkedin from '@fortawesome/fontawesome-free-brands/faLinkedin';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
 import faStackOverflow from '@fortawesome/fontawesome-free-brands/faStackOverflow';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import faKeybase from '@fortawesome/fontawesome-free-brands/faKeybase';
 import Button from 'antd/lib/button';
 import dp from '2dp.jpg';
 
@@ -21,6 +22,7 @@ class Home extends Component {
       ['https://github.com/manuhg', faGithub],
       ['http://www.linkedin.com/in/manu-hegde', faLinkedin],
       ['https://twitter.com/manuhegdev', faTwitter],
+      ['https://keybase.io/gk1000', faKeybase],
       ['https://stackoverflow.com/users/1147882/manuhg', faStackOverflow],
       ['mailto:me@manuhegde.in', faEnvelope],
     ];
