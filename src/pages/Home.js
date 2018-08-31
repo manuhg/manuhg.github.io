@@ -8,6 +8,7 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import faKeybase from '@fortawesome/fontawesome-free-brands/faKeybase';
 import Button from 'antd/lib/button';
 import dp from '2dp.jpg';
+import location from 'location.png';
 
 class Home extends Component {
   render() {
@@ -60,6 +61,10 @@ class Home extends Component {
                 Student | Geek | Machine Learning Enthusiast
               </div>
               <div>&nbsp;</div>
+              <div style={{ marginBottom: '10px' }}>
+                <img src={location} style={{ height: '1.5em' }} alt="Bengaluru, India" /> Bengaluru,
+                India<br />
+              </div>
               <div>
                 <a href="/resume">
                   <Button>Resume</Button>
