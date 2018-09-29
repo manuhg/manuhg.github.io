@@ -13,7 +13,8 @@ class Resume extends Component {
     return <div>Hang on!</div>;
   }
   componentDidMount() {
-    this.props.history.push(resume_doc);
+    // this.props.history.push(resume_doc);
+    window.location = resume_doc;
   }
 }
 export default Resume;
