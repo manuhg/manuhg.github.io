@@ -4,6 +4,7 @@ import resume_doc from 'Resume.pdf';
 
 class Resume extends Component {
   render() {
+    var site_url = 'https://manuhegde.in';
     var w = window,
       d = document,
       documentElement = d.documentElement,
@@ -15,7 +16,12 @@ class Resume extends Component {
         <div className="row">
           <div className="col-12">
             <div className="text-center">
-              <object height={height} width={width} data={resume_doc} type="application/pdf">
+              <object
+                height={height}
+                width={width}
+                data={site_url + resume_doc}
+                type="application/pdf"
+              >
                 <ResumeReactEmbed />
               </object>
             </div>
