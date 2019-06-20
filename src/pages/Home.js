@@ -70,7 +70,7 @@ class Home extends Component {
             <div className="text-center">
               <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
-                Student | Geek | Deep Learning Intern
+                Geek | Machine Learning Engineer | Cybersecurity Enthusiast
               </div>
               <div>&nbsp;</div>
               <div style={{ marginBottom: '10px' }}>
