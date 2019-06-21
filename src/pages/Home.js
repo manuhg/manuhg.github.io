@@ -70,7 +70,16 @@ class Home extends Component {
             <div className="text-center">
               <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
-                Geek | Machine Learning Engineer | Cybersecurity Enthusiast
+                Geek | Machine Learning Engineer | Cybersecurity Enthusiast<br />
+                I also sometimes intend to write some stuff{' '}
+                <a
+                  href="https://blog.manuhegde.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'underline', display: 'inline' }}
+                >
+                  here.
+                </a>{' '}
               </div>
               <div>&nbsp;</div>
               <div style={{ marginBottom: '10px' }}>
