@@ -38,13 +38,13 @@ export const links = [
   {
     name: 'vocabulary',
     url: 'https://www.vocabulary.com/',
-    category: 'general',
+    category: 'errands',
     frequency: 1,
   },
   {
     name: 'tweetdeck.twitter',
     url: 'https://tweetdeck.twitter.com/',
-    category: 'general',
+    category: 'errands',
     frequency: 1,
   },
   {
@@ -56,25 +56,25 @@ export const links = [
   {
     name: 'mail.google',
     url: 'https://mail.google.com/mail/u/0/#inbox',
-    category: 'general',
+    category: 'errands',
     frequency: 1,
   },
   {
     name: 'mail.google',
     url: 'https://mail.google.com/mail/u/1/#inbox',
-    category: 'general',
+    category: 'errands',
     frequency: 1,
   },
   {
     name: 'mail.google',
     url: 'https://mail.google.com/mail/u/2/#inbox',
-    category: 'general',
+    category: 'errands',
     frequency: 1,
   },
   {
     name: 'mail.google',
     url: 'https://mail.google.com/mail/u/3/#inbox',
-    category: 'general',
+    category: 'errands',
     frequency: 1,
   },
   {
@@ -152,13 +152,7 @@ export const links = [
   {
     name: 'discordapp',
     url: 'https://discordapp.com/channels/514337135491416065/555093365742501928',
-    category: 'general',
-    frequency: 7,
-  },
-  {
-    name: 'blog.spearhead',
-    url: 'https://blog.spearhead.co/',
-    category: 'general',
+    category: 'errands',
     frequency: 7,
   },
   {
