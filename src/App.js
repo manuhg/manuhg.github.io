@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from 'pages/Home';
 import Resume from 'pages/Resume';
+import Tabopan from 'pages/Tabopan';
 // import resume_doc from 'Resume.pdf';
 
 import 'css/loader.css';
@@ -14,6 +15,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           {/* <Route path="/resume" component={() => (window.location = resume_doc)} /> */}
           <Route path="/resume" component={Resume} />
+          <Route path="/tabopan" component={Tabopan} />
         </Switch>
       </Router>
     );
