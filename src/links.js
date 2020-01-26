@@ -1,5 +1,29 @@
 export const links = [
   {
+    name: 'fortune',
+    url: 'https://fortune.com/',
+    category: 'general',
+    frequency: 7,
+  },
+  {
+    name: 'gizmodo',
+    url: 'https://gizmodo.com/',
+    category: 'general',
+    frequency: 1,
+  },
+  {
+    name: 'nature',
+    url: 'https://www.nature.com/',
+    category: 'general',
+    frequency: 2,
+  },
+  {
+    name: 'producthunt',
+    url: 'https://www.producthunt.com/',
+    category: 'general',
+    frequency: 2,
+  },
+  {
     name: 'app.getpocket',
     url: 'https://app.getpocket.com/',
     category: 'general',
@@ -7,8 +31,8 @@ export const links = [
   },
   {
     name: 'kaggle',
-    url: 'https://www.kaggle.com/kernels',
-    category: 'ML/DL',
+    url: 'https://www.kaggle.com/discussion',
+    category: 'daily',
     frequency: 1,
   },
   {
@@ -32,7 +56,7 @@ export const links = [
   {
     name: 'techcrunch',
     url: 'https://techcrunch.com/',
-    category: 'general',
+    category: 'daily',
     frequency: 1,
   },
   {
@@ -44,7 +68,7 @@ export const links = [
   {
     name: 'tweetdeck.twitter',
     url: 'https://tweetdeck.twitter.com/',
-    category: 'errands',
+    category: 'daily',
     frequency: 1,
   },
   {
@@ -86,19 +110,19 @@ export const links = [
   {
     name: 'theverge',
     url: 'https://www.theverge.com/',
-    category: 'general',
+    category: 'daily',
     frequency: 1,
   },
   {
     name: 'nuzzel',
     url: 'https://nuzzel.com/',
-    category: 'general',
+    category: 'daily',
     frequency: 1,
   },
   {
     name: 'wired',
     url: 'https://www.wired.com/',
-    category: 'general',
+    category: 'daily',
     frequency: 1,
   },
   {
@@ -110,7 +134,7 @@ export const links = [
   {
     name: 'arxiv-sanity',
     url: 'http://www.arxiv-sanity.com/',
-    category: 'general',
+    category: 'daily',
     frequency: 7,
   },
   {
@@ -140,13 +164,13 @@ export const links = [
   {
     name: 'thegradient',
     url: 'https://thegradient.pub/rrF',
-    category: 'general',
+    category: 'daily',
     frequency: 7,
   },
   {
     name: 'reddit',
     url: 'https://www.reddit.com/r/MachineLearning/',
-    category: 'general',
+    category: 'daily',
     frequency: 7,
   },
   {
