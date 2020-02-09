@@ -36,6 +36,24 @@ export const links = [
     frequency: 1,
   },
   {
+    name: 'kaggle-blog',
+    url: 'https://medium.com/kaggle-blog',
+    category: 'ML/DL',
+    frequency: 1,
+  },
+  {
+    name: 'scientificamerican',
+    url: 'https://www.scientificamerican.com',
+    category: 'general',
+    frequency: 2,
+  },
+  {
+    name: 'crazyaboutstartups',
+    url: 'https://www.crazyaboutstartups.com/',
+    category: 'general',
+    frequency: 2,
+  },
+  {
     name: 'exploit-db',
     url: 'https://www.exploit-db.com/',
     category: 'opsec',
