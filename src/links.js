@@ -11,6 +11,13 @@ export const links = [
     category: 'general',
     frequency: 1,
   },
+  
+  {
+    name: 'skynet',
+    url: 'https://www.skynettoday.com/',
+    category: 'ML/DL',
+    frequency: 1,
+  },
   {
     name: 'nature',
     url: 'https://www.nature.com/',
