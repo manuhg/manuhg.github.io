@@ -288,5 +288,5 @@ export const links = [
     url: 'https://madewithml.com/',
     category: 'ML/DL',
     frequency: 7,
-  },
+  }
 ];
