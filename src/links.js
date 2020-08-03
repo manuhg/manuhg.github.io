@@ -282,4 +282,11 @@ export const links = [
     category: 'interesting',
     frequency: 7,
   },
+  
+  {
+    name: 'madewithml',
+    url: 'https://madewithml.com/',
+    category: 'ML/DL',
+    frequency: 7,
+  },
 ];
