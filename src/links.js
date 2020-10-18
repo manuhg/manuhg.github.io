@@ -9,9 +9,15 @@ export const links = [
     name: 'gizmodo',
     url: 'https://gizmodo.com/',
     category: 'general',
-    frequency: 1,
+    frequency: 2,
   },
   
+  {
+    name: 'inc',
+    url: 'https://www.inc.com/',
+    category: 'general',
+    frequency: 2,
+  },
   {
     name: 'skynet',
     url: 'https://www.skynettoday.com/',
