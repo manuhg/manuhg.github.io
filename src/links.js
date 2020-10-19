@@ -1,4 +1,22 @@
 export const links = [
+    {
+    name: 'openai',
+    url: 'https://openai.com/blog/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+    {
+    name: 'facebook blog',
+    url: 'https://about.fb.com/news/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+    { 
+    name: 'google ai blog',
+    url: 'https://www.blog.google/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
   {
     name: 'fortune',
     url: 'https://fortune.com/',
@@ -194,7 +212,7 @@ export const links = [
   },
   {
     name: 'thegradient',
-    url: 'https://thegradient.pub/rrF',
+    url: 'https://thegradient.pub',
     category: 'daily',
     frequency: 7,
   },
