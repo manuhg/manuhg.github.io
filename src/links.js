@@ -6,6 +6,13 @@ export const links = [
     frequency: 2,
   },
     {
+    name: 'decrypt',
+    url: 'https://decrypt.co/',
+    category: 'general',
+    frequency: 7,
+  },
+    
+    {
     name: 'facebook blog',
     url: 'https://about.fb.com/news/',
     category: 'ML/DL',
