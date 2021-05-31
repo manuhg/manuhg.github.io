@@ -246,6 +246,12 @@ export const links = [
     frequency: 7,
   },
   {
+    name: 'thedebrief',
+    url: 'https://thedebrief.org/',
+    category: 'science',
+    frequency: 7,
+  },
+  {
     name: 'github',
     url: 'https://github.com/',
     category: 'general',
