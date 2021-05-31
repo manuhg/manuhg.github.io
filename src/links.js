@@ -120,6 +120,12 @@ export const links = [
     frequency: 1,
   },
   {
+    name: 'digitaltrends',
+    url: 'https://www.digitaltrends.com/',
+    category: 'daily',
+    frequency: 1,
+  },
+  {
     name: 'news_ycombinator',
     url: 'https://news.ycombinator.com/',
     category: 'general',
