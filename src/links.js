@@ -19,14 +19,26 @@ export const links = [
   },
   {
     name: 'google ai blog',
-    url: 'https://www.blog.google/',
+    url: 'https://ai.googleblog.com/',
     category: 'ML/DL',
     frequency: 2,
   },
   {
+    name: 'google blog',
+    url: 'https://www.blog.google/',
+    category: 'general',
+    frequency: 2,
+  },
+  {
+    name: 'a junior vc',
+    url: 'https://ajuniorvc.com/',
+    category: 'biz',
+    frequency: 7,
+  },
+  {
     name: 'fortune',
     url: 'https://fortune.com/',
-    category: 'general',
+    category: 'biz',
     frequency: 7,
   },
   {
@@ -92,6 +104,12 @@ export const links = [
   {
     name: 'red-canary',
     url: 'https://redcanary.com/blog/',
+    category: 'opsec',
+    frequency: 7,
+  },
+  {
+    name: 'underthebreach',
+    url: 'https://underthebreach.medium.com/',
     category: 'opsec',
     frequency: 7,
   },
