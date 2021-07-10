@@ -6,6 +6,12 @@ export const links = [
     frequency: 2,
   },
   {
+    name: 'facebook ai blog',
+    url: 'https://ai.facebook.com/blog',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+  {
     name: 'decrypt',
     url: 'https://decrypt.co/',
     category: 'general',
@@ -364,6 +370,12 @@ export const links = [
     url: 'https://www.forbes.com',
     category: 'thought_provoking',
     frequency: 7,
+  },
+  {
+    name: 'slashdot',
+    url: 'https://slashdot.org/',
+    category: 'general',
+    frequency: 2,
   },
   {
     name: 'buzzfeed',
