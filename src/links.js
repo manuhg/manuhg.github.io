@@ -18,6 +18,12 @@ export const links = [
     frequency: 7,
   },
   {
+    name: 'fiftytwo',
+    url: 'https://fiftytwo.in/',
+    category: 'general',
+    frequency: 7,
+  },
+  {
     name: 'facebook blog',
     url: 'https://about.fb.com/news/',
     category: 'ML/DL',
@@ -84,6 +90,19 @@ export const links = [
     frequency: 1,
   },
   {
+    name: 'financial times tech',
+    url: 'https://www.ft.com/technology',
+    category: 'general',
+    frequency: 1,
+  },
+  {
+    name: 'stratecherry',
+    url: 'https://stratechery.com',
+    category: 'general',
+    frequency: 1,
+  },
+
+  {
     name: 'kaggle',
     url: 'https://www.kaggle.com/discussion',
     category: 'daily',
@@ -95,6 +114,38 @@ export const links = [
     category: 'ML/DL',
     frequency: 1,
   },
+  {
+    name: 'pytorch forums',
+    url: 'https://discuss.pytorch.org/',
+    category: 'ML/DL',
+    frequency: 1,
+  },
+  {
+    name: 'huggingface forums',
+    url: 'https://discuss.huggingface.co/',
+    category: 'ML/DL',
+    frequency: 1,
+  },
+  {
+    name: 'vijayavani',
+    url:
+      'https://epapervijayavani.in/EditionPage/EPpage.php?edn=Bengaluru&isid=VVAANINEW_BEN_20211107&Page=1',
+    category: 'kannada news',
+    frequency: 1,
+  },
+  {
+    name: 'kannada prabha',
+    url: 'https://kpepaper.asianetnews.com/3280849/Bengaluru/Bengaluru#page/1/1',
+    category: 'kannada news',
+    frequency: 1,
+  },
+  {
+    name: 'vishwavani',
+    url: 'https://epaper.vishwavani.news/',
+    category: 'kannada news',
+    frequency: 1,
+  },
+
   {
     name: 'scientificamerican',
     url: 'https://www.scientificamerican.com',
@@ -110,6 +161,12 @@ export const links = [
   {
     name: 'red-canary',
     url: 'https://redcanary.com/blog/',
+    category: 'opsec',
+    frequency: 7,
+  },
+  {
+    name: 'sophos',
+    url: 'https://nakedsecurity.sophos.com/',
     category: 'opsec',
     frequency: 7,
   },
@@ -336,6 +393,18 @@ export const links = [
     frequency: 7,
   },
   {
+    name: 'google trends',
+    url: 'https://trends.google.com/',
+    category: 'interesting',
+    frequency: 7,
+  },
+  {
+    name: "that's nonsense",
+    url: 'https://thatsnonsense.com',
+    category: 'interesting',
+    frequency: 7,
+  },
+  {
     name: 'iforcedabot',
     url: 'https://iforcedabot.com/',
     category: 'ML/DL',
@@ -387,6 +456,30 @@ export const links = [
     name: 'madewithml',
     url: 'https://madewithml.com/',
     category: 'ML/DL',
+    frequency: 7,
+  },
+  {
+    name: 'databricks blog',
+    url: 'https://databricks.com/blog',
+    category: 'work/career',
+    frequency: 7,
+  },
+  {
+    name: 'databricks engineering blog',
+    url: 'https://databricks.com/blog/category/engineering',
+    category: 'work/career',
+    frequency: 7,
+  },
+  {
+    name: 'azure blog',
+    url: 'https://azure.microsoft.com/en-in/blog/',
+    category: 'work/career',
+    frequency: 7,
+  },
+  {
+    name: 'azure announcements',
+    url: 'https://azure.microsoft.com/en-in/blog/topics/announcements/',
+    category: 'work/career',
     frequency: 7,
   },
 ];
