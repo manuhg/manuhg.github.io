@@ -221,7 +221,7 @@ export const links = [
   {
     name: 'thedailywtf',
     url: 'https://thedailywtf.com/',
-    category: 'daily',
+    category: 'thought_provoking',
     frequency: 1,
   },
   {
@@ -437,7 +437,7 @@ export const links = [
   {
     name: 'hbr',
     url: 'https://hbr.org/',
-    category: 'thought_provoking',
+    category: 'business',
     frequency: 7,
   },
   {
@@ -455,7 +455,7 @@ export const links = [
   {
     name: 'codeforces',
     url: 'http://codeforces.com/',
-    category: 'interesting',
+    category: 'coding_competitions',
     frequency: 7,
   },
   {
@@ -483,9 +483,9 @@ export const links = [
     frequency: 7,
   },
   {
-    name: 'code.google',
-    url: 'https://code.google.com/codejam/contest/3214486/dashboard',
-    category: 'interesting',
+    name: 'google codejam',
+    url: 'https://codingcompetitions.withgoogle.com/codejam',
+    category: 'coding_competitions',
     frequency: 7,
   },
   {
@@ -503,7 +503,7 @@ export const links = [
   {
     name: 'forbes',
     url: 'https://www.forbes.com',
-    category: 'thought_provoking',
+    category: 'business',
     frequency: 7,
   },
   {
@@ -515,7 +515,7 @@ export const links = [
   {
     name: 'buzzfeed',
     url: 'https://www.buzzfeed.com/',
-    category: 'interesting',
+    category: 'generic',
     frequency: 7,
   },
   {
