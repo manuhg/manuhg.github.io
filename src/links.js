@@ -36,10 +36,22 @@ export const links = [
     frequency: 2,
   },
   {
+    name: 'deepmind',
+    url: 'https://deepmind.com/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+  {
     name: 'google blog',
     url: 'https://www.blog.google/',
     category: 'general',
     frequency: 2,
+  },
+  {
+    name: 'movie of the night',
+    url: 'https://www.movieofthenight.com/',
+    category: 'movie recommendation',
+    frequency: 7,
   },
   {
     name: 'a junior vc',
@@ -86,6 +98,12 @@ export const links = [
   {
     name: 'app.getpocket',
     url: 'https://app.getpocket.com/',
+    category: 'general',
+    frequency: 1,
+  },
+  {
+    name: 'the morning context',
+    url: 'https://themorningcontext.com/',
     category: 'general',
     frequency: 1,
   },
@@ -201,6 +219,12 @@ export const links = [
     frequency: 1,
   },
   {
+    name: 'thedailywtf',
+    url: 'https://thedailywtf.com/',
+    category: 'daily',
+    frequency: 1,
+  },
+  {
     name: 'digitaltrends',
     url: 'https://www.digitaltrends.com/',
     category: 'daily',
@@ -209,25 +233,61 @@ export const links = [
   {
     name: 'news_ycombinator',
     url: 'https://news.ycombinator.com/',
-    category: 'general',
+    category: 'tech_news',
     frequency: 1,
   },
   {
-    name: 'bloombergquint',
-    url: 'https://www.bloombergquint.com/',
-    category: 'general',
+    name: 'hackerer_news',
+    url: 'https://hackerer.news/',
+    category: 'tech_news',
+    frequency: 1,
+  },
+  {
+    name: 'lemmy',
+    url: 'https://lemmy.ml/',
+    category: 'tech_news',
+    frequency: 1,
+  },
+  {
+    name: 'economist',
+    url: 'https://www.economist.com/',
+    category: 'financial',
+    frequency: 3,
+  },
+  {
+    name: 'bloomberg',
+    url: 'https://www.bloomberg.com/',
+    category: 'financial',
+    frequency: 3,
+  },
+  {
+    name: 'datacenterdynamics',
+    url: 'https://www.datacenterdynamics.com/en/',
+    category: 'tech_news',
+    frequency: 1,
+  },
+  {
+    name: 'lobsters',
+    url: 'https://lobste.rs/',
+    category: 'tech_news',
+    frequency: 3,
+  },
+  {
+    name: 'wall street journal',
+    url: 'https://www.wsj.com/',
+    category: 'financial',
     frequency: 3,
   },
   {
     name: 'financial times',
     url: 'https://www.ft.com/',
-    category: 'general',
+    category: 'financial',
     frequency: 3,
   },
   {
     name: 'economic times',
     url: 'https://economictimes.indiatimes.com/',
-    category: 'general',
+    category: 'financial',
     frequency: 3,
   },
   {
@@ -305,6 +365,12 @@ export const links = [
   {
     name: 'arxiv-sanity',
     url: 'http://www.arxiv-sanity.com/',
+    category: 'daily',
+    frequency: 7,
+  },
+  {
+    name: 'arxiv',
+    url: 'https://arxiv.org/',
     category: 'daily',
     frequency: 7,
   },
