@@ -9,14 +9,29 @@ class Tabopan extends Component {
   render = () => {
     const openTabs = this.openTabs;
     const categories = [...new Set(links.map(link => link.category))];
-    console.log(categories);
+
+    const frequencies = [...new Set(links.map(link => link.frequency))];
+
+    console.log(categories, frequencies);
+
     const categoriesed_links = categories.map(category => [
       category,
       links.filter(link => link.category === category),
     ]);
-    const categoriesed_links_sans_errands = categories
-      .filter(cat => cat !== 'errands')
-      .map(category => [category, links.filter(link => link.category === category)]);
+
+    const frequency_based_links = frequencies
+      .map(freq => [
+        freq, //String(freq).padStart(2,'0'),
+        links.filter(link => link.frequency === freq),
+      ])
+      .sort();
+
+    const links_sans_errands = links.filter(l => l.category !== 'comm/email');
+
+    const daily_sans_email_comm = links
+      .filter(l => l.category !== 'comm/email' && l.frequency === 1)
+      .map(l => [l.frequency, l]);
+
     console.log(categoriesed_links);
     return (
       <div className="App container">
@@ -25,27 +40,49 @@ class Tabopan extends Component {
             <h1>Tabopan</h1>
             <h2> open tabs to keep a tab on the world</h2>
             <div>
-              {categoriesed_links.map((category, i) => (
-                <Button key={i} onClick={() => openTabs(category[1])}>
-                  {category[0] + ' (' + category[1].length + ')'}
-                </Button>
-              ))}
+              <div>
+                <h3>Category wise</h3>
+              </div>
+              <div>
+                {categoriesed_links.map((category, i) => (
+                  <Button key={i} onClick={() => openTabs(category[1])}>
+                    {category[0] + ' (' + category[1].length + ')'}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div>
+                <h3>Reccomended Frequency wise</h3>
+              </div>
+              <div>
+                {frequency_based_links.map((freq, i) => (
+                  <Button key={i} onClick={() => openTabs(freq[1])}>
+                    {freq[0] + ' (' + freq[1].length + ')'}
+                  </Button>
+                ))}
+              </div>
             </div>
             <br />
-            <Button onClick={() => categoriesed_links.map(category => openTabs(category[1]))}>
+            <br />
+            <Button onClick={() => openTabs(links)}> All ({links.length})</Button> {'  '}
+            <Button onClick={() => links_sans_errands.map(category => openTabs(category[1]))}>
               {' '}
-              All
+              All sans email/comm ({links_sans_errands.length})
             </Button>
-            <Button
-              onClick={() => categoriesed_links_sans_errands.map(category => openTabs(category[1]))}
-            >
+            <br />
+            <br />
+            <br />
+            <Button onClick={() => daily_sans_email_comm.map(l => openTabs(l[1]))}>
               {' '}
-              All sans errands
+              Daily sans email/comm ({daily_sans_email_comm.length})
             </Button>
+            <br />
           </div>
         </div>
       </div>
     );
   };
 }
+
 export default Tabopan;
