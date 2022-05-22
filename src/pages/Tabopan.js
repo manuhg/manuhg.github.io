@@ -66,14 +66,14 @@ class Tabopan extends Component {
             <br />
             <br />
             <Button onClick={() => openTabs(links)}> All ({links.length})</Button> {'  '}
-            <Button onClick={() => links_sans_errands.map(category => openTabs(category[1]))}>
+            <Button onClick={() => openTabs(links_sans_errands)}>
               {' '}
               All sans email/comm ({links_sans_errands.length})
             </Button>
             <br />
             <br />
             <br />
-            <Button onClick={() => daily_sans_email_comm.map(l => openTabs(l[1]))}>
+            <Button onClick={() => openTabs(daily_sans_email_comm)}>
               {' '}
               Daily sans email/comm ({daily_sans_email_comm.length})
             </Button>
