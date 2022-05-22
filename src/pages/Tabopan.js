@@ -27,7 +27,7 @@ class Tabopan extends Component {
       ])
       .sort();
 
-    const links_sans_errands = links.filter(l => l.category !== 'comm/email');
+    // const links_sans_errands = links.filter(l => l.category !== 'comm/email');
 
     const daily_sans_email_comm = links.filter(
       l => l.category !== 'comm/email' && l.frequency === 1
