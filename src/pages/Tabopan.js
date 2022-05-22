@@ -4,6 +4,7 @@ import Button from 'antd/lib/button';
 
 class Tabopan extends Component {
   openTabs = tabs => {
+    console.log('tabs', tabs);
     tabs.map(link => window.open(link.url, '_blank'));
   };
   render = () => {
@@ -28,9 +29,9 @@ class Tabopan extends Component {
 
     const links_sans_errands = links.filter(l => l.category !== 'comm/email');
 
-    const daily_sans_email_comm = links
-      .filter(l => l.category !== 'comm/email' && l.frequency === 1)
-      .map(l => [l.frequency, l]);
+    const daily_sans_email_comm = links.filter(
+      l => l.category !== 'comm/email' && l.frequency === 1
+    );
 
     console.log(categoriesed_links);
     return (
@@ -53,7 +54,7 @@ class Tabopan extends Component {
             </div>
             <div>
               <div>
-                <h3>Reccomended Frequency wise</h3>
+                <h3>Recommended Frequency wise</h3>
               </div>
               <div>
                 {frequency_based_links.map((freq, i) => (
@@ -63,14 +64,14 @@ class Tabopan extends Component {
                 ))}
               </div>
             </div>
-            <br />
-            <br />
-            <Button onClick={() => openTabs(links)}> All ({links.length})</Button> {'  '}
-            <Button onClick={() => openTabs(links_sans_errands)}>
-              {' '}
-              All sans email/comm ({links_sans_errands.length})
-            </Button>
-            <br />
+            {/*<br />*/}
+            {/*<br />*/}
+            {/*<Button onClick={() => openTabs(links)}> All ({links.length})</Button> {'  '}*/}
+            {/*<Button onClick={() => openTabs(links_sans_errands)}>*/}
+            {/*  {' '}*/}
+            {/*  All sans email/comm ({links_sans_errands.length})*/}
+            {/*</Button>*/}
+            {/*<br />*/}
             <br />
             <br />
             <Button onClick={() => openTabs(daily_sans_email_comm)}>
