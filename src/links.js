@@ -410,15 +410,21 @@ export const links = [
     frequency: 1,
   },
   {
-    name: 'republicworld',
-    url: 'https://www.republicworld.com/',
-    category: 'general',
+    name: 'indiatoday',
+    url: 'https://www.indiatoday.in/',
+    category: 'news',
+    frequency: 1,
+  },
+  {
+    name: 'wion',
+    url: 'https://www.wionews.com/',
+    category: 'news',
     frequency: 1,
   },
   {
     name: 'south china morning post',
     url: 'https://www.scmp.com/asia',
-    category: 'general',
+    category: 'news',
     frequency: 1,
   },
   {
