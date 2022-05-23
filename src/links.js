@@ -410,6 +410,18 @@ export const links = [
     frequency: 1,
   },
   {
+    name: 'the hindu',
+    url: 'https://epaper.thehindu.com/',
+    category: 'news',
+    frequency: 1,
+  },
+  {
+    name: 'ieee spectrum',
+    url: 'https://spectrum.ieee.org/',
+    category: 'tech_news',
+    frequency: 3,
+  },
+  {
     name: 'indiatoday',
     url: 'https://www.indiatoday.in/',
     category: 'news',
