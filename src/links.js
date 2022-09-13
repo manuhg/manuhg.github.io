@@ -24,6 +24,12 @@ export const links = [
     frequency: 7,
   },
   {
+    name: 'pragati',
+    url: 'https://www.thinkpragati.com/',
+    category: 'general',
+    frequency: 7,
+  },
+  {
     name: 'facebook blog',
     url: 'https://about.fb.com/news/',
     category: 'ML/DL',
@@ -520,6 +526,12 @@ export const links = [
   {
     name: 'crazyaboutstartups',
     url: 'https://crazyaboutstartups.com',
+    category: 'biz',
+    frequency: 3,
+  },
+  {
+    name: 'entrackr',
+    url: 'https://entrackr.com/',
     category: 'biz',
     frequency: 3,
   },
