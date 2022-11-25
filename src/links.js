@@ -39,7 +39,7 @@ export const links = [
     name: 'google ai blog',
     url: 'https://ai.googleblog.com/',
     category: 'ML/DL',
-    frequency: 2,
+    frequency: 1,
   },
   {
     name: 'deepmind',
@@ -104,7 +104,7 @@ export const links = [
   {
     name: 'app.getpocket',
     url: 'https://app.getpocket.com/',
-    category: 'daily',
+    category: 'saved articles',
     frequency: 1,
   },
   {
@@ -129,7 +129,7 @@ export const links = [
   {
     name: 'kaggle',
     url: 'https://www.kaggle.com/discussion',
-    category: 'daily',
+    category: 'ML/DL',
     frequency: 1,
   },
   {
@@ -238,7 +238,7 @@ export const links = [
   {
     name: 'techcrunch',
     url: 'https://techcrunch.com/',
-    category: 'daily',
+    category: 'tech_news',
     frequency: 1,
   },
   {
@@ -250,7 +250,7 @@ export const links = [
   {
     name: 'digitaltrends',
     url: 'https://www.digitaltrends.com/',
-    category: 'daily',
+    category: 'tech_news',
     frequency: 1,
   },
   {
@@ -263,13 +263,13 @@ export const links = [
     name: 'hackerer_news',
     url: 'https://hackerer.news/',
     category: 'tech_news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'lemmy',
     url: 'https://lemmy.ml/',
     category: 'tech_news',
-    frequency: 1,
+    frequency: 7,
   },
   {
     name: 'economist',
@@ -317,19 +317,19 @@ export const links = [
     name: 'mit technologyreview',
     url: 'https://www.technologyreview.com/',
     category: 'tech_news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'vocabulary',
     url: 'https://www.vocabulary.com/',
-    category: 'learing',
+    category: 'learning',
     frequency: 1,
   },
   {
     name: 'tweetdeck.twitter',
     url: 'https://tweetdeck.twitter.com/',
-    category: 'daily',
-    frequency: 1,
+    category: 'social media',
+    frequency: 2,
   },
   {
     name: 'thereader.mitpress',
@@ -337,30 +337,7 @@ export const links = [
     category: 'general',
     frequency: 7,
   },
-  {
-    name: 'mail.google',
-    url: 'https://mail.google.com/mail/u/0/#inbox',
-    category: 'comm/email',
-    frequency: 1,
-  },
-  {
-    name: 'mail.google',
-    url: 'https://mail.google.com/mail/u/1/#inbox',
-    category: 'comm/email',
-    frequency: 1,
-  },
-  {
-    name: 'mail.google',
-    url: 'https://mail.google.com/mail/u/2/#inbox',
-    category: 'comm/email',
-    frequency: 1,
-  },
-  {
-    name: 'mail.google',
-    url: 'https://mail.google.com/mail/u/3/#inbox',
-    category: 'comm/email',
-    frequency: 1,
-  },
+
   {
     name: 'qz',
     url: 'https://qz.com/india/',
@@ -370,26 +347,26 @@ export const links = [
   {
     name: 'theverge',
     url: 'https://www.theverge.com/',
-    category: 'daily',
+    category: 'tech_news',
     frequency: 1,
   },
   // {
   //   name: 'nuzzel',
   //   url: 'https://nuzzel.com/',
-  //   category: 'daily',
+  //   category: 'news',
   //   frequency: 1,
   // },
   {
     name: 'wired',
     url: 'https://www.wired.com/',
-    category: 'daily',
+    category: 'tech_news',
     frequency: 1,
   },
   {
     name: 'theguardian',
     url: 'https://www.theguardian.com/international',
     category: 'news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'bbc',
@@ -419,7 +396,7 @@ export const links = [
     name: 'the hindu',
     url: 'https://epaper.thehindu.com/',
     category: 'news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'ieee spectrum',
@@ -473,13 +450,13 @@ export const links = [
     name: 'washingtonpost',
     url: 'https://www.washingtonpost.com/',
     category: 'news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'nytimes',
     url: 'https://www.nytimes.com/',
     category: 'news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'thedebrief',
@@ -491,7 +468,7 @@ export const links = [
     name: 'github',
     url: 'https://github.com/',
     category: 'general',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'thegradient',
@@ -502,8 +479,8 @@ export const links = [
   {
     name: 'reddit',
     url: 'https://www.reddit.com/r/MachineLearning/',
-    category: 'daily',
-    frequency: 1,
+    category: 'ML/DL',
+    frequency: 2,
   },
   {
     name: 'discordapp',
@@ -654,5 +631,30 @@ export const links = [
     url: 'https://azure.microsoft.com/en-in/blog/topics/announcements/',
     category: 'work/career',
     frequency: 7,
+  },
+
+  {
+    name: 'hackernews best comments',
+    url: 'https://news.ycombinator.com/bestcomments',
+    category: 'interesting',
+    frequency: 1,
+  },
+  {
+    name: 'market business news',
+    url: 'https://marketbusinessnews.com/',
+    category: 'news',
+    frequency: 1,
+  },
+  {
+    name: 'panda app - news agg',
+    url: 'https://app.usepanda.com/#/',
+    category: 'news',
+    frequency: 1,
+  },
+  {
+    name: 'twitch',
+    url: 'https://www.twitch.tv/directory',
+    category: 'entertainment',
+    frequency: 2,
   },
 ];
