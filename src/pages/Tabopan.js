@@ -29,9 +29,9 @@ class Tabopan extends Component {
 
     // const links_sans_errands = links.filter(l => l.category !== 'comm/email');
 
-    const daily_sans_email_comm = links.filter(
-      l => l.category !== 'comm/email' && l.frequency === 1
-    );
+    // const daily_sans_email_comm = links.filter(
+    //   l => l.category !== 'comm/email' && l.frequency === 1
+    // );
 
     console.log(categoriesed_links);
     return (
@@ -72,13 +72,13 @@ class Tabopan extends Component {
             {/*  All sans email/comm ({links_sans_errands.length})*/}
             {/*</Button>*/}
             {/*<br />*/}
-            <br />
-            <br />
-            <Button onClick={() => openTabs(daily_sans_email_comm)}>
-              {' '}
-              Daily sans email/comm ({daily_sans_email_comm.length})
-            </Button>
-            <br />
+            {/*<br />*/}
+            {/*<br />*/}
+            {/*<Button onClick={() => openTabs(daily_sans_email_comm)}>*/}
+            {/*  {' '}*/}
+            {/*  Daily sans email/comm ({daily_sans_email_comm.length})*/}
+            {/*</Button>*/}
+            {/*<br />*/}
           </div>
         </div>
       </div>
