@@ -6,6 +6,12 @@ export const links = [
     frequency: 2,
   },
   {
+    name: 'kdnuggets',
+    url: 'https://www.kdnuggets.com/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+  {
     name: 'facebook ai blog',
     url: 'https://ai.facebook.com/blog',
     category: 'ML/DL',
