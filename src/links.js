@@ -484,9 +484,15 @@ export const links = [
   },
   {
     name: 'reddit',
+    url: 'https://www.reddit.com/',
+    category: 'ML/DL',
+    frequency: 1,
+  },
+  {
+    name: 'reddit',
     url: 'https://www.reddit.com/r/MachineLearning/',
     category: 'ML/DL',
-    frequency: 2,
+    frequency: 1,
   },
   {
     name: 'discordapp',
@@ -655,7 +661,7 @@ export const links = [
     name: 'panda app - news agg',
     url: 'https://app.usepanda.com/#/',
     category: 'news',
-    frequency: 1,
+    frequency: 2,
   },
   {
     name: 'twitch',
