@@ -669,4 +669,16 @@ export const links = [
     category: 'entertainment',
     frequency: 2,
   },
+  {
+    name: 'petapixel',
+    url: 'https://petapixel.com/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+  {
+    name: '80LV',
+    url: 'https://80.lv/',
+    category: 'ML/DL',
+    frequency: 2,
+  },
 ];
