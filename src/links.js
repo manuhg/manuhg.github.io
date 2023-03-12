@@ -157,6 +157,12 @@ export const links = [
     frequency: 2,
   },
   {
+    name: 'huggingface blog',
+    url: 'https://huggingface.co/blog',
+    category: 'ML/DL',
+    frequency: 2,
+  },
+  {
     name: 'toi',
     url: 'https://epapers.timesgroup.com/',
     category: 'newspapers',
@@ -248,6 +254,12 @@ export const links = [
     frequency: 1,
   },
   {
+    name: 'thenextweb',
+    url: 'https://thenextweb.com/',
+    category: 'tech_news',
+    frequency: 1,
+  },
+  {
     name: 'thedailywtf',
     url: 'https://thedailywtf.com/',
     category: 'thought_provoking',
@@ -262,6 +274,12 @@ export const links = [
   {
     name: 'news_ycombinator',
     url: 'https://news.ycombinator.com/',
+    category: 'tech_news',
+    frequency: 1,
+  },
+  {
+    name: 'lobsters',
+    url: 'https://lobste.rs/',
     category: 'tech_news',
     frequency: 1,
   },
@@ -353,6 +371,12 @@ export const links = [
   {
     name: 'theverge',
     url: 'https://www.theverge.com/',
+    category: 'tech_news',
+    frequency: 1,
+  },
+  {
+    name: 'zdnet',
+    url: 'https://www.zdnet.com/',
     category: 'tech_news',
     frequency: 1,
   },
