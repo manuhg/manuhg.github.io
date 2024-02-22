@@ -70,7 +70,7 @@ class Home extends Component {
             <div className="text-center">
               <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
-                Geek | Machine Learning Enthusiast<br />
+                Geek | Software Engineer | Machine Learning & NLP Enthusiast<br />
                 I also sometimes intend to write some stuff{' '}
                 <a
                   href="https://blog.manuhegde.in/"
@@ -83,8 +83,7 @@ class Home extends Component {
               </div>
               <div>&nbsp;</div>
               <div style={{ marginBottom: '10px' }}>
-                <img src={location} style={{ height: '1.5em' }} alt="Bothell, WA, USA" /> Bothell,
-                WA, USA<br />
+                <img src={location} style={{ height: '1.5em' }} alt="WA, USA" /> WA, USA<br />
               </div>
               <div>
                 <a href="/resume">
