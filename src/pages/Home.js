@@ -24,11 +24,11 @@ class Home extends Component {
     // );
     const links = [
       ['https://github.com/manuhg', faGithub],
-      ['https://www.kaggle.com/manuhg', faKaggle],
+      // ['https://www.kaggle.com/manuhg', faKaggle],
       ['http://www.linkedin.com/in/manu-hegde', faLinkedin],
       ['https://twitter.com/manuhegdev', faTwitter],
       ['https://keybase.io/gk1000', faKeybase],
-      ['https://stackoverflow.com/users/1147882/manuhg', faStackOverflow],
+      // ['https://stackoverflow.com/users/1147882/manuhg', faStackOverflow],
       // ['mailto:me@manuhegde.in', faEnvelope],
     ];
     return (
@@ -71,14 +71,14 @@ class Home extends Component {
               <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
                 Geek | Software Engineer | Machine Learning & NLP Enthusiast<br />
-                I also sometimes intend to write some stuff{' '}
-                <a
-                  href="https://blog.manuhegde.in/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: 'underline', display: 'inline' }}
-                >
-                  here.
+                {/*I also sometimes intend to write some stuff{' '}*/}
+                {/*<a*/}
+                {/*  href="https://blog.manuhegde.in/"*/}
+                {/*  target="_blank"*/}
+                {/*  rel="noopener noreferrer"*/}
+                {/*  style={{ textDecoration: 'underline', display: 'inline' }}*/}
+                {/*>*/}
+                {/*  here.*/}
                 </a>{' '}
               </div>
               <div>&nbsp;</div>
