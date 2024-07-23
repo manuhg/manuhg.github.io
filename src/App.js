@@ -7,6 +7,7 @@ import Tabopan from 'pages/Tabopan';
 
 import 'css/loader.css';
 import 'css/App.css';
+
 class App extends Component {
   render() {
     return (
@@ -20,6 +21,7 @@ class App extends Component {
       </Router>
     );
   }
+
   // updateDimensions() {
   //   var w = window,
   //     d = document,
