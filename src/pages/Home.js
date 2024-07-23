@@ -49,13 +49,13 @@ class Home extends Component {
                   <FontAwesomeIcon icon={link[1]} size="2x" />&nbsp;
                 </a>
               ))}
-              <a target="_blank" rel="noopener noreferrer" href="https://dev.to/manuhg">
-                <img
-                  style={{ marginBottom: '10px', width: '25px' }}
-                  src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg"
-                  alt="Manu Hegde's DEV Profile"
-                />
-              </a>&nbsp;
+              {/*<a target="_blank" rel="noopener noreferrer" href="https://dev.to/manuhg">*/}
+              {/*  <img*/}
+              {/*    style={{ marginBottom: '10px', width: '25px' }}*/}
+              {/*    src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg"*/}
+              {/*    alt="Manu Hegde's DEV Profile"*/}
+              {/*  />*/}
+              {/*</a>&nbsp;*/}
               <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -79,7 +79,7 @@ class Home extends Component {
                 {/*  style={{ textDecoration: 'underline', display: 'inline' }}*/}
                 {/*>*/}
                 {/*  here.*/}
-                </a>{' '}
+                {/*</a>{' '}*/}
               </div>
               <div>&nbsp;</div>
               <div style={{ marginBottom: '10px' }}>
