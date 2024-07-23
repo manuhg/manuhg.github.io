@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGithub,
-  faKaggle,
+  // faKaggle,
   faLinkedin,
   faTwitter,
   faKeybase,
-  faStackOverflow,
+  // faStackOverflow,
 } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Button from 'antd/lib/button';
