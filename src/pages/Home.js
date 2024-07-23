@@ -70,7 +70,7 @@ class Home extends Component {
             <div className="text-center">
               <div style={{ fontSize: '1em', padding: '2px' }}>
                 <br />
-                Geek | Software Engineer | Machine Learning & NLP Enthusiast<br />
+                Comp Sci Student | Geek | Software Engineer | NLP Enthusiast<br />
                 {/*I also sometimes intend to write some stuff{' '}*/}
                 {/*<a*/}
                 {/*  href="https://blog.manuhegde.in/"*/}
