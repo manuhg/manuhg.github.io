@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Button from 'antd/lib/button';
-import dp from '2dp.jpg';
+import dp from '3dp.png';
 import location from 'location.png';
 
 class Home extends Component {
