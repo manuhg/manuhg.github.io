@@ -83,7 +83,7 @@ class Home extends Component {
               </div>
               <div>&nbsp;</div>
               <div style={{ marginBottom: '10px' }}>
-                <img src={location} style={{ height: '1.5em' }} alt="WA, USA" /> WA, USA<br />
+                <img src={location} style={{ height: '1.5em' }} alt="Seattle, USA" /> Seattle, USA<br />
               </div>
               <div>
                 <a href="/resume">
