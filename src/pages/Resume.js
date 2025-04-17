@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ResumeReactEmbed from 'pages/ResumeReactEmbed';
-import resume_doc from 'Resume-Manu_Hegde.pdf';
+import resume_doc from '../Resume-Manu_Hegde.pdf';
 
 class Resume extends Component {
   render() {

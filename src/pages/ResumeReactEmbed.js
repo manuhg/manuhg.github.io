@@ -3,7 +3,7 @@ import { Document, Page } from 'react-pdf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
-import resume_doc from 'Resume.pdf';
+import resume_doc from '../Resume-Manu_Hegde.pdf';
 
 class ResumeReactEmbed extends Component {
   constructor(props) {
