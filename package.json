@@ -12,7 +12,7 @@
     "antd": "^3.7.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.2",
-    "react-pdf": "^3.0.5",
+    "react-pdf": "^6.2.1",
     "react-router-dom": "^4.3.1"
   },
   "Lint-staged": {
@@ -41,7 +41,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.6",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^5.0.1",
     "source-map-explorer": "^1.5.0"
   }
 }
