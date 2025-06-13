@@ -1,6 +1,7 @@
 import React from 'react';
 import CareerItem from './CareerItem';
 import './CareerTimeline.css';
+import { TIMELINE_CONFIG } from '../constants/careerData';
 
 const CareerTimeline = ({ items }) => {
   // Convert date string to numeric format for easy comparison
@@ -17,11 +18,8 @@ const CareerTimeline = ({ items }) => {
       return endB - endA;
     });
 
-    // Fixed timeline range: July 2015 to July 2025
-    const minYear = 2015;
-    const minMonth = 7;
-    const maxYear = 2025;
-    const maxMonth = 7;
+    // Use timeline configuration from constants
+    const { minYear, minMonth, maxYear, maxMonth } = TIMELINE_CONFIG;
 
     // Calculate total months in timeline
     const totalMonths = (maxYear - minYear) * 12 + (maxMonth - minMonth);
@@ -33,7 +31,7 @@ const CareerTimeline = ({ items }) => {
 
     while (currentYear < maxYear || (currentYear === maxYear && currentMonth <= maxMonth)) {
       const monthsFromStart = (currentYear - minYear) * 12 + (currentMonth - minMonth);
-      const position = (monthsFromStart / totalMonths) * 100;
+      const position = 100 - (monthsFromStart / totalMonths) * 100;
 
       timelinePoints.push({
         year: currentYear,
@@ -65,7 +63,7 @@ const CareerTimeline = ({ items }) => {
 
       // Calculate position for this snapped point
       const monthsFromStart = (snapYear - minYear) * 12 + (snapMonth - minMonth);
-      return (monthsFromStart / totalMonths) * 100;
+      return 100 - (monthsFromStart / totalMonths) * 100;
     };
 
     // Helper function to snap to next 6-month point (ceil)
@@ -88,13 +86,13 @@ const CareerTimeline = ({ items }) => {
 
       // Calculate position for this snapped point
       const monthsFromStart = (snapYear - minYear) * 12 + (snapMonth - minMonth);
-      return (monthsFromStart / totalMonths) * 100;
+      return 100 - (monthsFromStart / totalMonths) * 100;
     };
 
     // Helper function to calculate exact position for any month
     const calculateExactPosition = (year, month) => {
       const monthsFromStart = (year - minYear) * 12 + (month - minMonth);
-      return (monthsFromStart / totalMonths) * 100;
+      return 100 - (monthsFromStart / totalMonths) * 100;
     };
 
     // Calculate position and height for each item
@@ -112,7 +110,7 @@ const CareerTimeline = ({ items }) => {
 
       return {
         ...item,
-        position: startPosition,
+        position: Math.min(startPosition, endPosition), // Earlier date (higher up)
         height: Math.abs(endPosition - startPosition),
       };
     });
@@ -129,7 +127,7 @@ const CareerTimeline = ({ items }) => {
     <div className="career-timeline-container">
       <div className="career-timeline">
         <div className="timeline-line" />
-        {/* Render timeline points every 6 months */}
+        {/* Render timeline points */}
         {timelinePoints.map((point, index) => (
           <div
             key={`point-${index}`}
@@ -139,8 +137,8 @@ const CareerTimeline = ({ items }) => {
               left: '50%',
               transform: 'translateX(-50%)',
               position: 'absolute',
-              width: '6px',
-              height: '6px',
+              width: '8px',
+              height: '8px',
               borderRadius: '50%',
               background: '#fff',
               border: '1px solid #0066cc',
@@ -148,6 +146,68 @@ const CareerTimeline = ({ items }) => {
             }}
           />
         ))}
+
+        {/* Render year labels for June points (first occurrence of each year) */}
+        {timelinePoints
+          .filter(point => point.month === TIMELINE_CONFIG.minMonth)
+          .map((point, index) => (
+            <div
+              key={`year-label-${index}`}
+              style={{
+                position: 'absolute',
+                top: `${point.position}%`,
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                fontSize: '12px',
+                color: '#666',
+                fontWeight: 'bold',
+                zIndex: 3,
+                backgroundColor: 'white',
+                padding: '2px 4px',
+                borderRadius: '2px',
+              }}
+            >
+              {point.year}
+            </div>
+          ))}
+
+        {/* Start timeline label */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '0%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: '12px',
+            color: '#0066cc',
+            fontWeight: 'bold',
+            zIndex: 3,
+            backgroundColor: 'white',
+            padding: '2px 4px',
+            borderRadius: '2px',
+          }}
+        >
+          {TIMELINE_CONFIG.minYear}-{String(TIMELINE_CONFIG.minMonth).padStart(2, '0')}
+        </div>
+
+        {/* End timeline label */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: '12px',
+            color: '#0066cc',
+            fontWeight: 'bold',
+            zIndex: 3,
+            backgroundColor: 'white',
+            padding: '2px 4px',
+            borderRadius: '2px',
+          }}
+        >
+          {TIMELINE_CONFIG.maxYear}-{String(TIMELINE_CONFIG.maxMonth).padStart(2, '0')}
+        </div>
 
         {/* Render career items */}
         {positionedItems.map((item, index) => <CareerItem key={index} {...item} />)}

@@ -13,6 +13,7 @@ import Button from 'antd/lib/button';
 import dp from '3dp.png';
 import location from 'location.png';
 import CareerTimeline from '../components/CareerTimeline';
+import { CAREER_ITEMS } from '../constants/careerData';
 
 class Home extends Component {
   render() {
@@ -88,45 +89,7 @@ class Home extends Component {
             <div className="p-4 h-100">
               <h2 className="mb-4">Career Timeline</h2>
               <div className="h-100">
-                <CareerTimeline
-                  items={[
-                    {
-                      start: '2023-09',
-                      end: '2025-05',
-                      title: 'Masters in Computer Science',
-                      subtitle: 'University of Washington',
-                      type: 'education',
-                    },
-                    {
-                      start: '2023-11',
-                      end: '2024-12',
-                      title: 'Graduate Research Assistant',
-                      subtitle: 'University of Washington',
-                      type: 'job',
-                    },
-                    {
-                      start: '2023-01',
-                      end: '2023-07',
-                      title: 'Senior Software Engineer',
-                      subtitle: 'Tekion Corp',
-                      type: 'job',
-                    },
-                    {
-                      start: '2019-07',
-                      end: '2022-12',
-                      title: 'Product Engineer',
-                      subtitle: 'Udaan (Hiveloop Technology Pvt Ltd)',
-                      type: 'job',
-                    },
-                    {
-                      start: '2015-08',
-                      end: '2019-06',
-                      title: 'Bachelors in Computer Science',
-                      subtitle: 'Visvesvaraya Technological University',
-                      type: 'education',
-                    },
-                  ]}
-                />
+                <CareerTimeline items={CAREER_ITEMS} />
               </div>
             </div>
           </div>
