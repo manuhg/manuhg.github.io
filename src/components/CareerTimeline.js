@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CareerItem from './CareerItem';
 import './CareerTimeline.css';
 
 const CareerTimeline = ({ items }) => {
+  // Convert date string to numeric format for easy comparison
   const dateToNumeric = dateStr => {
     const [year, month] = dateStr.split('-').map(num => parseInt(num));
-    return year * 100 + month; // Convert YYYY-MM to YYYYMM numeric format
+    return year * 100 + month;
   };
 
   const calculatePositions = () => {
@@ -14,29 +14,85 @@ const CareerTimeline = ({ items }) => {
     const sortedItems = [...items].sort((a, b) => {
       const endA = dateToNumeric(a.end);
       const endB = dateToNumeric(b.end);
-      return endB - endA; // Descending order (most recent first)
+      return endB - endA;
     });
 
-    // Get all dates and find min/max
-    const allDates = items.flatMap(item => [dateToNumeric(item.start), dateToNumeric(item.end)]);
+    // Fixed timeline range: July 2015 to July 2025
+    const minYear = 2015;
+    const minMonth = 7;
+    const maxYear = 2025;
+    const maxMonth = 7;
 
-    const minDate = Math.min(...allDates);
-    const maxDate = Math.max(...allDates);
-
-    const minYear = Math.floor(minDate / 100);
-    const minMonth = minDate % 100;
-    const maxYear = Math.floor(maxDate / 100);
-    const maxMonth = maxDate % 100;
-
-    // Calculate total months between min and max dates
+    // Calculate total months in timeline
     const totalMonths = (maxYear - minYear) * 12 + (maxMonth - minMonth);
 
-    // Calculate position and height for each item
-    return sortedItems.map(item => {
-      const start = new Date(item.start);
-      const end = new Date(item.end);
+    // Generate 6-month points from July 2015 to July 2025
+    const timelinePoints = [];
+    let currentYear = minYear;
+    let currentMonth = minMonth;
 
-      // Parse dates
+    while (currentYear < maxYear || (currentYear === maxYear && currentMonth <= maxMonth)) {
+      const monthsFromStart = (currentYear - minYear) * 12 + (currentMonth - minMonth);
+      const position = (monthsFromStart / totalMonths) * 100;
+
+      timelinePoints.push({
+        year: currentYear,
+        month: currentMonth,
+        position,
+      });
+
+      currentMonth += 6;
+      if (currentMonth > 12) {
+        currentYear++;
+        currentMonth = currentMonth - 12;
+      }
+    }
+
+    // Helper function to snap to previous 6-month point (floor)
+    const snapToPreviousPoint = (year, month) => {
+      let snapMonth, snapYear;
+
+      if (month <= 1) {
+        snapMonth = 7;
+        snapYear = year - 1;
+      } else if (month <= 7) {
+        snapMonth = 1;
+        snapYear = year;
+      } else {
+        snapMonth = 7;
+        snapYear = year;
+      }
+
+      // Calculate position for this snapped point
+      const monthsFromStart = (snapYear - minYear) * 12 + (snapMonth - minMonth);
+      return (monthsFromStart / totalMonths) * 100;
+    };
+
+    // Helper function to snap to next 6-month point (ceil)
+    const snapToNextPoint = (year, month) => {
+      let snapMonth, snapYear;
+
+      if (month < 1) {
+        snapMonth = 1;
+        snapYear = year;
+      } else if (month < 7) {
+        snapMonth = 7;
+        snapYear = year;
+      } else if (month <= 7) {
+        snapMonth = 7;
+        snapYear = year;
+      } else {
+        snapMonth = 1;
+        snapYear = year + 1;
+      }
+
+      // Calculate position for this snapped point
+      const monthsFromStart = (snapYear - minYear) * 12 + (snapMonth - minMonth);
+      return (monthsFromStart / totalMonths) * 100;
+    };
+
+    // Calculate position and height for each item
+    const positionedItems = sortedItems.map(item => {
       const startNum = dateToNumeric(item.start);
       const endNum = dateToNumeric(item.end);
       const startYear = Math.floor(startNum / 100);
@@ -44,47 +100,54 @@ const CareerTimeline = ({ items }) => {
       const endYear = Math.floor(endNum / 100);
       const endMonth = endNum % 100;
 
-      // Calculate months from END of timeline (to reverse the display)
-      const startMonths = (maxYear - startYear) * 12 + (maxMonth - startMonth);
-      const endMonths = (maxYear - endYear) * 12 + (maxMonth - endMonth);
-
-      // Calculate position from top (5% to 95% of container height)
-      const position = (startMonths / totalMonths) * 90 + 5;
-
-      // Calculate height based on duration in months
-      const durationMonths = startMonths - endMonths; // Reversed because we're counting from top
-      const height = (durationMonths / totalMonths) * 90;
+      // Snap start to previous point (floor) and end to next point (ceil)
+      const startPosition = snapToPreviousPoint(startYear, startMonth);
+      const endPosition = snapToNextPoint(endYear, endMonth);
 
       return {
         ...item,
-        position,
-        height,
+        position: startPosition,
+        height: Math.abs(endPosition - startPosition),
       };
     });
+
+    return {
+      items: positionedItems,
+      points: timelinePoints,
+    };
   };
 
-  const positionedItems = calculatePositions();
+  const { items: positionedItems, points: timelinePoints } = calculatePositions();
 
   return (
     <div className="career-timeline-container">
       <div className="career-timeline">
         <div className="timeline-line" />
+        {/* Render timeline points every 6 months */}
+        {timelinePoints.map((point, index) => (
+          <div
+            key={`point-${index}`}
+            className="timeline-point"
+            style={{
+              top: `${point.position}%`,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              position: 'absolute',
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: '#fff',
+              border: '1px solid #0066cc',
+              zIndex: 2,
+            }}
+          />
+        ))}
+
+        {/* Render career items */}
         {positionedItems.map((item, index) => <CareerItem key={index} {...item} />)}
       </div>
     </div>
   );
-};
-
-CareerTimeline.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      start: PropTypes.string.isRequired,
-      end: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      subtitle: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['education', 'job']).isRequired,
-    })
-  ).isRequired,
 };
 
 export default CareerTimeline;

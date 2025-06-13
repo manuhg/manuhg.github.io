@@ -13,7 +13,8 @@ const CareerItem = ({ start, end, title, subtitle, type, position, height }) => 
   };
 
   const formatDate = dateStr => {
-    const date = new Date(dateStr);
+    const [year, month] = dateStr.split('-').map(num => parseInt(num));
+    const date = new Date(year, month - 1); // Subtract 1 because JS months are 0-based
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
   };
 
