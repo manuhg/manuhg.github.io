@@ -1,0 +1,80 @@
+.career-item {
+  position: absolute;
+  width: 96%;
+  padding: 0 10px;
+  box-sizing: border-box;
+  transition: transform 0.2s ease;
+}
+
+.career-item:hover {
+  transform: translateY(-2px);
+  z-index: 10;
+}
+
+.career-item.left {
+  left: 0;
+  padding-right: 66%;
+}
+
+.career-item.right {
+  left: 2%;
+  padding-left: 56%;
+}
+
+.career-content {
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease;
+  width: 150%;
+}
+
+.career-item:hover .career-content {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.career-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  background: #0066cc;
+}
+
+.career-item.left .career-content::before {
+  right: -20px;
+}
+
+.career-item.right .career-content::before {
+  left: -20px;
+}
+
+.career-date {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+.career-duration {
+  color: #0066cc;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.career-title {
+  margin: 0 0 8px;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.career-subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 0.9em;
+}

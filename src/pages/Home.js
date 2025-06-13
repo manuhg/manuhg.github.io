@@ -12,6 +12,7 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Button from 'antd/lib/button';
 import dp from '3dp.png';
 import location from 'location.png';
+import CareerTimeline from '../components/CareerTimeline';
 
 class Home extends Component {
   render() {
@@ -32,63 +33,100 @@ class Home extends Component {
       // ['mailto:me@manuhegde.in', faEnvelope],
     ];
     return (
-      <div className="App container">
-        <div className="row">
-          <div className="col-12">
-            <img style={{ borderRadius: '50%', width: '150px' }} src={dp} alt="Manu Hegde" />
-            <h1>Manu Hegde</h1>
-            <div>
-              {links.map((link, i) => (
+      <div className="container-fluid px-0" style={{ width: '100%' }}>
+        <div className="row g-0">
+          <div className="col-md-2 d-flex align-items-center justify-content-center">
+            <div className="text-center p-4">
+              <img
+                style={{ borderRadius: '50%', width: '150px' }}
+                src={dp}
+                alt="Manu Hegde"
+                className="mb-3"
+              />
+              <h1 className="mb-3">Manu Hegde</h1>
+              <div className="mb-4">
+                {links.map((link, i) => (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="me-3"
+                    key={i}
+                    href={link[0]}
+                  >
+                    <FontAwesomeIcon icon={link[1]} size="2x" />
+                  </a>
+                ))}
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mr-auto"
-                  key={i}
-                  href={link[0]}
+                  className="me-3"
+                  href="mailto:me@manuhegde.in"
                 >
-                  <FontAwesomeIcon icon={link[1]} size="2x" />&nbsp;
+                  <FontAwesomeIcon icon={faEnvelope} size="2x" />
                 </a>
-              ))}
-              {/*<a target="_blank" rel="noopener noreferrer" href="https://dev.to/manuhg">*/}
-              {/*  <img*/}
-              {/*    style={{ marginBottom: '10px', width: '25px' }}*/}
-              {/*    src="https://d2fltix0v2e0sb.cloudfront.net/dev-badge.svg"*/}
-              {/*    alt="Manu Hegde's DEV Profile"*/}
-              {/*  />*/}
-              {/*</a>&nbsp;*/}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mr-auto"
-                href={'mailto:me@manuhegde.in'}
-              >
-                <FontAwesomeIcon icon={faEnvelope} size="2x" />&nbsp;
-              </a>
-            </div>
-          </div>
-          <div className="col-12">
-            <div className="text-center">
-              <div style={{ fontSize: '1em', padding: '2px' }}>
-                <br />
-                Geek | Software Engineer | NLP Tinkerer <br />
-                {/*I also sometimes intend to write some stuff{' '}*/}
-                {/*<a*/}
-                {/*  href="https://blog.manuhegde.in/"*/}
-                {/*  target="_blank"*/}
-                {/*  rel="noopener noreferrer"*/}
-                {/*  style={{ textDecoration: 'underline', display: 'inline' }}*/}
-                {/*>*/}
-                {/*  here.*/}
-                {/*</a>{' '}*/}
               </div>
-              <div>&nbsp;</div>
-              <div style={{ marginBottom: '10px' }}>
-                <img src={location} style={{ height: '1.5em' }} alt="Seattle, USA" /> Seattle, USA<br />
+              <div className="mb-3" style={{ fontSize: '1em' }}>
+                Geek | Software Engineer | NLP Tinkerer
+              </div>
+              <div className="mb-4">
+                <img
+                  src={location}
+                  style={{ height: '1.5em' }}
+                  alt="Seattle, USA"
+                  className="me-2"
+                />{' '}
+                Seattle, USA
               </div>
               <div>
                 <a href="/resume">
                   <Button>Resume</Button>
                 </a>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-10">
+            <div className="p-4 h-100">
+              <h2 className="mb-4">Career Timeline</h2>
+              <div className="h-100">
+                <CareerTimeline
+                  items={[
+                    {
+                      start: '2023-11',
+                      end: '2025-05',
+                      title: 'Masters in Computer Science',
+                      subtitle: 'University of Washington',
+                      type: 'education',
+                    },
+                    {
+                      start: '2023-10',
+                      end: '2024-12',
+                      title: 'Graduate Research Assistant',
+                      subtitle: 'University of Washington',
+                      type: 'job',
+                    },
+                    {
+                      start: '2023-01',
+                      end: '2023-07',
+                      title: 'Senior Software Engineer',
+                      subtitle: 'Tekion Corp',
+                      type: 'job',
+                    },
+                    {
+                      start: '2019-07',
+                      end: '2022-12',
+                      title: 'Product Engineer',
+                      subtitle: 'Udaan (Hiveloop Technology Pvt Ltd)',
+                      type: 'job',
+                    },
+                    {
+                      start: '2015-08',
+                      end: '2019-06',
+                      title: 'Bachelors in Computer Science',
+                      subtitle: 'Visvesvaraya Technological University',
+                      type: 'education',
+                    },
+                  ]}
+                />
               </div>
             </div>
           </div>
