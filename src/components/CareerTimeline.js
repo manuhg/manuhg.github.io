@@ -91,6 +91,12 @@ const CareerTimeline = ({ items }) => {
       return (monthsFromStart / totalMonths) * 100;
     };
 
+    // Helper function to calculate exact position for any month
+    const calculateExactPosition = (year, month) => {
+      const monthsFromStart = (year - minYear) * 12 + (month - minMonth);
+      return (monthsFromStart / totalMonths) * 100;
+    };
+
     // Calculate position and height for each item
     const positionedItems = sortedItems.map(item => {
       const startNum = dateToNumeric(item.start);
@@ -100,9 +106,9 @@ const CareerTimeline = ({ items }) => {
       const endYear = Math.floor(endNum / 100);
       const endMonth = endNum % 100;
 
-      // Snap start to previous point (floor) and end to next point (ceil)
-      const startPosition = snapToPreviousPoint(startYear, startMonth);
-      const endPosition = snapToNextPoint(endYear, endMonth);
+      // Use exact month positions for precise alignment
+      const startPosition = calculateExactPosition(startYear, startMonth);
+      const endPosition = calculateExactPosition(endYear, endMonth);
 
       return {
         ...item,

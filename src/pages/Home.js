@@ -91,14 +91,14 @@ class Home extends Component {
                 <CareerTimeline
                   items={[
                     {
-                      start: '2023-11',
+                      start: '2023-09',
                       end: '2025-05',
                       title: 'Masters in Computer Science',
                       subtitle: 'University of Washington',
                       type: 'education',
                     },
                     {
-                      start: '2023-10',
+                      start: '2023-11',
                       end: '2024-12',
                       title: 'Graduate Research Assistant',
                       subtitle: 'University of Washington',
