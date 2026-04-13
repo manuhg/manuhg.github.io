@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routine</title>
+<style>
+:root {
+  --bg:#f5f4f0;--bg2:#ffffff;--bg3:#eeede8;--bg4:#e4e3de;
+  --border:#dddcd6;--border2:#c8c7c0;
+  --text:#1a1a1e;--text2:#5a5a68;--text3:#9898a8;
+  --accent:#5a48d0;--accentbg:#eeeafc;--accentborder:#b0a8ee;
+  --H:#b04820;--Hbg:#fdf0ea;--Hb:#e8b898;
+  --M:#157048;--Mbg:#eaf7f0;--Mb:#98dcc0;
+  --water:#1a60a8;--waterbg:#e8f2fc;--waterb:#98c8f0;
+  --caff:#886010;--caffbg:#fdf5e0;--caffb:#e0c070;
+  --digital:#5048a0;--digitalbg:#eeeafc;--digitalb:#b8b0e8;
+  --mental:#108050;--mentalbg:#eaf7f2;--mentalb:#90d8b8;
+  --brk:#606068;--brkbg:#f0f0ee;--brkb:#c8c8c4;
+  --gut:#886018;--gutbg:#fdf5e0;--gutb:#e0c068;
+  --run:#1058a0;--runbg:#e8f0fc;--runb:#90b8e8;
+  --groom:#882858;--groombg:#fceef4;--groomb:#e8a8c8;
+  --chore:#407818;--chorebg:#eef8e0;--choreb:#b0d888;
+  --sprint:#403888;--sprintbg:#eeeafc;--sprintb:#b0a8e8;
+  --sun:#906018;--sunbg:#fdf5e0;--sunb:#e0b860;
+  --meal:#206830;--mealbg:#eaf7ec;--mealb:#98d8a8;
+  --cur:#1a1a1e;--curbg:#e8f2fc;--curborder:#1a60a8;
+  --nxt:#1a1a1e;--nxtbg:#eaf7f0;--nxtborder:#157048;
+  --r:8px;--rs:5px;
+}
+[data-theme="dark"] {
+  --bg:#0d0d0f;--bg2:#141416;--bg3:#1b1b1e;--bg4:#222226;
+  --border:#252528;--border2:#333338;
+  --text:#dddde6;--text2:#888898;--text3:#505060;
+  --accent:#6858e0;--accentbg:#181430;--accentborder:#3a3080;
+  --H:#b84e28;--Hbg:#1c0e08;--Hb:#4e2010;
+  --M:#1a7e56;--Mbg:#091a10;--Mb:#0c3e28;
+  --water:#2470b8;--waterbg:#091520;--waterb:#103050;
+  --caff:#906818;--caffbg:#1a1406;--caffb:#483408;
+  --digital:#6050a8;--digitalbg:#12102a;--digitalb:#302860;
+  --mental:#178058;--mentalbg:#081610;--mentalb:#0a3828;
+  --brk:#505058;--brkbg:#111114;--brkb:#28282e;
+  --gut:#906020;--gutbg:#181006;--gutb:#483008;
+  --run:#1560a0;--runbg:#080e1a;--runb:#0e2848;
+  --groom:#902860;--groombg:#1a0818;--groomb:#48102e;
+  --chore:#487820;--chorebg:#0e1808;--choreb:#224010;
+  --sprint:#483890;--sprintbg:#0e0c20;--sprintb:#241c48;
+  --sun:#a05818;--sunbg:#1a1006;--sunb:#502808;
+  --meal:#2e6838;--mealbg:#091210;--mealb:#153020;
+  --cur:#dddde6;--curbg:#091520;--curborder:#2470b8;
+  --nxt:#dddde6;--nxtbg:#091a10;--nxtborder:#1a7e56;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;min-height:100vh;transition:background 0.2s,color 0.2s}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;padding:9px 16px;flex-wrap:wrap}
+[data-theme="dark"] .nav{background:rgba(13,13,15,0.95);backdrop-filter:blur(8px)}
+.nav-brand{font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--text3);text-transform:uppercase;margin-right:5px}
+.ntab{padding:4px 12px;border-radius:var(--rs);border:1px solid var(--border);font-size:12px;cursor:pointer;background:transparent;color:var(--text2);transition:all 0.15s}
+.ntab:hover{border-color:var(--border2);color:var(--text)}
+.ntab.active{background:var(--accentbg);color:var(--accent);border-color:var(--accentborder);font-weight:500}
+.nsep{width:1px;height:16px;background:var(--border2);margin:0 2px}
+.dtab{padding:3px 10px;border-radius:var(--rs);border:1px solid var(--border);font-size:11px;cursor:pointer;background:transparent;color:var(--text3);transition:all 0.15s}
+.dtab:hover{color:var(--text2)}
+.dtab.active{background:var(--bg3);color:var(--text);border-color:var(--border2)}
+.badge{font-size:11px;color:var(--text3);background:var(--bg3);padding:3px 10px;border-radius:20px;border:1px solid var(--border);white-space:nowrap}
+.theme-btn{margin-left:auto;padding:4px 10px;border-radius:var(--rs);border:1px solid var(--border);font-size:12px;cursor:pointer;background:var(--bg3);color:var(--text2);transition:all 0.15s}
+.theme-btn:hover{border-color:var(--border2);color:var(--text)}
+
+/* VIEWS */
+.view{display:none;padding:18px 16px;max-width:1100px;margin:0 auto}
+.view.active{display:block}
+
+/* LEGEND */
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:9px 12px;background:var(--bg2);border-radius:var(--r);border:1px solid var(--border)}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* CURRENT TIME BAR */
+.now-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--curbg);border:1px solid var(--curborder);border-radius:var(--r);margin-bottom:14px;font-size:12px}
+.now-dot{width:8px;height:8px;border-radius:50%;background:var(--curborder);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.now-label{font-weight:500;color:var(--text)}
+.now-sep{color:var(--text3)}
+.now-next{color:var(--text2)}
+
+/* PHASES */
+.phase-wrap{margin-bottom:3px}
+.ph{display:flex;align-items:center;gap:8px;padding:5px 0 3px;cursor:pointer;user-select:none}
+.ph-arrow{font-size:9px;color:var(--text3);width:10px;transition:transform 0.18s;flex-shrink:0}
+.ph.shut .ph-arrow{transform:rotate(-90deg)}
+.ph-name{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3)}
+.ph-time{font-size:10px;color:var(--text3);background:var(--bg3);padding:1px 8px;border-radius:20px}
+.ph-steps{display:flex;flex-direction:column;gap:3px;padding-bottom:3px}
+.ph-steps.shut{display:none}
+
+/* STEPS */
+.step{display:flex;gap:9px;padding:8px 11px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);align-items:flex-start;transition:border-color 0.15s}
+.step:hover{border-color:var(--border2)}
+.step.is-current{border-color:var(--curborder) !important;background:var(--curbg);border-left-width:3px}
+.step.is-next{border-color:var(--nxtborder) !important;background:var(--nxtbg);border-left-width:3px}
+.step-marker{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;margin-top:3px;letter-spacing:0.04em}
+.marker-now{background:var(--curborder);color:#fff}
+.marker-next{background:var(--nxtborder);color:#fff}
+.sdot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.sbody{flex:1;min-width:0}
+.stitle{font-size:13px;font-weight:500;color:var(--text)}
+.sdetail{font-size:12px;color:var(--text2);margin-top:2px;line-height:1.5}
+.stags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.stag{font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;border:1px solid transparent}
+.sdur{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;margin-top:2px}
+
+.sc {border-left:2px solid var(--accent)}
+.sH {border-left:2px solid var(--H)}
+.sM {border-left:2px solid var(--M)}
+.sw {border-left:2px solid var(--water)}
+.sca{border-left:2px solid var(--caff)}
+.sd {border-left:2px solid var(--digital)}
+.sme{border-left:2px solid var(--mental)}
+.sbr{border-left:2px solid var(--brk)}
+.sml{border-left:2px solid var(--meal)}
+.sr {border-left:2px solid var(--run)}
+.sgr{border-left:2px solid var(--groom)}
+
+.tg {background:var(--gutbg);color:var(--gut);border-color:var(--gutb)}
+.ts {background:var(--sprintbg);color:var(--sprint);border-color:var(--sprintb)}
+.tw {background:var(--mentalbg);color:var(--mental);border-color:var(--mentalb)}
+.tdi{background:var(--digitalbg);color:var(--digital);border-color:var(--digitalb)}
+.tm {background:var(--mentalbg);color:var(--mental);border-color:var(--mentalb)}
+.tca{background:var(--caffbg);color:var(--caff);border-color:var(--caffb)}
+.tsu{background:var(--chorebg);color:var(--chore);border-color:var(--choreb)}
+.twa{background:var(--waterbg);color:var(--water);border-color:var(--waterb)}
+.tH {background:var(--Hbg);color:var(--H);border-color:var(--Hb)}
+.tM {background:var(--Mbg);color:var(--M);border-color:var(--Mb)}
+.tbr{background:var(--brkbg);color:var(--brk);border-color:var(--brkb)}
+.tr {background:var(--runbg);color:var(--run);border-color:var(--runb)}
+.tvo{background:var(--sprintbg);color:var(--sprint);border-color:var(--sprintb)}
+
+/* REMINDERS */
+.rem-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.rem-card{border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);padding:12px 14px}
+.rem-title{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.rem-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.4}
+.rem-item:last-child{border-bottom:none}
+.rem-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px}
+
+/* WEEK GRID */
+.wgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.wcard{border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);overflow:hidden}
+.wcard.today{border-color:var(--accent)}
+.whead{padding:7px 9px 5px;border-bottom:1px solid var(--border)}
+.wdname{font-size:12px;font-weight:600}
+.wdsub{font-size:10px;color:var(--text3);margin-top:1px}
+.wbody{padding:7px;display:flex;flex-direction:column;gap:3px}
+.wb{border-radius:var(--rs);padding:4px 7px;font-size:11px;font-weight:500;line-height:1.3;border:1px solid transparent}
+.wb .ws{font-size:10px;font-weight:400;opacity:0.7;margin-top:1px}
+.wbH   {background:var(--Hbg);color:var(--H);border-color:var(--Hb)}
+.wbM   {background:var(--Mbg);color:var(--M);border-color:var(--Mb)}
+.wboff {background:var(--waterbg);color:var(--water);border-color:var(--waterb)}
+.wbwfh {background:var(--digitalbg);color:var(--digital);border-color:var(--digitalb)}
+.wbgut {background:var(--gutbg);color:var(--gut);border-color:var(--gutb)}
+.wbrun {background:var(--runbg);color:var(--run);border-color:var(--runb)}
+.wbgro {background:var(--groombg);color:var(--groom);border-color:var(--groomb)}
+.wbcho {background:var(--chorebg);color:var(--chore);border-color:var(--choreb)}
+.wbsp  {background:var(--sprintbg);color:var(--sprint);border-color:var(--sprintb)}
+.wbrev {background:var(--mentalbg);color:var(--mental);border-color:var(--mentalb)}
+.wbsun {background:var(--sunbg);color:var(--sun);border-color:var(--sunb)}
+.wbchl {background:var(--brkbg);color:var(--brk);border-color:var(--brkb)}
+.wbmeal{background:var(--mealbg);color:var(--meal);border-color:var(--mealb)}
+.wbbiw {background:var(--groombg);color:var(--groom);border-color:var(--groomb)}
+.wbpod {background:var(--waterbg);color:var(--water);border-color:var(--waterb)}
+
+/* SPRINT */
+.bigrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bicard{border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);padding:11px 13px}
+.bititle{font-size:12px;font-weight:600;color:var(--text);margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.birow{display:flex;gap:8px;padding:4px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.birow:last-child{border-bottom:none}
+.biday{font-size:11px;font-weight:500;color:var(--text2);min-width:34px;flex-shrink:0;margin-top:1px}
+.bival{font-size:11px;color:var(--text2);line-height:1.4}
+.bib{display:inline-block;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-right:3px;vertical-align:middle}
+.biw2{background:var(--groombg);color:var(--groom);border:1px solid var(--groomb)}
+.biw1{background:var(--chorebg);color:var(--chore);border:1px solid var(--choreb)}
+.shead{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin:16px 0 7px}
+.flowcard{border-radius:var(--r);border:1px solid var(--runb);background:var(--runbg);padding:11px 13px;grid-column:1/-1}
+.flowtitle{font-size:12px;font-weight:600;color:var(--run);margin-bottom:7px}
+.flowrow{display:flex;gap:10px;padding:4px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.flowrow:last-child{border-bottom:none}
+.flowtime{font-size:11px;font-weight:500;color:var(--run);min-width:68px;flex-shrink:0}
+.flowval{font-size:11px;color:var(--text2);line-height:1.4}
+.stoggle{display:flex;gap:5px;margin-bottom:12px;align-items:center}
+.slabel{font-size:11px;color:var(--text3);margin-right:3px}
+
+@media(max-width:700px){.wgrid{grid-template-columns:repeat(3,1fr)}.bigrid{grid-template-columns:1fr}.rem-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.wgrid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-brand">Routine</span>
+  <button class="ntab active" onclick="showView('day')">Today</button>
+  <button class="ntab" onclick="showView('week')">Week</button>
+  <button class="ntab" onclick="showView('sprint')">Sprint</button>
+  <button class="ntab" onclick="showView('reminders')">Reminders</button>
+  <span class="nsep"></span>
+  <button class="dtab active" id="t-early" onclick="setDay('early')">Early</button>
+  <button class="dtab" id="t-late" onclick="setDay('late')">Late</button>
+  <span class="nsep"></span>
+  <button class="dtab active" id="t-min" onclick="setDetail('min')">Quick</button>
+  <button class="dtab" id="t-full" onclick="setDetail('full')">Regular</button>
+  <span class="badge" id="badge"></span>
+  <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">☾ Dark</button>
+</nav>
+
+<!-- DAY VIEW -->
+<div class="view active" id="view-day">
+  <div class="legend">
+    <div class="li"><div class="ld" style="background:var(--accent)"></div>core</div>
+    <div class="li"><div class="ld" style="background:var(--H)"></div>H</div>
+    <div class="li"><div class="ld" style="background:var(--M)"></div>M</div>
+    <div class="li"><div class="ld" style="background:var(--water)"></div>hydration</div>
+    <div class="li"><div class="ld" style="background:var(--caff)"></div>caffeine</div>
+    <div class="li"><div class="ld" style="background:var(--digital)"></div>digital</div>
+    <div class="li"><div class="ld" style="background:var(--mental)"></div>mental</div>
+    <div class="li"><div class="ld" style="background:var(--brk)"></div>break</div>
+    <div class="li"><div class="ld" style="background:var(--meal)"></div>meal</div>
+    <div class="li"><div class="ld" style="background:var(--run)"></div>run</div>
+  </div>
+  <div id="now-bar"></div>
+  <div id="day-list"></div>
+</div>
+
+<!-- WEEK VIEW -->
+<div class="view" id="view-week">
+  <div class="stoggle">
+    <span class="slabel">Sunday:</span>
+    <button class="dtab active" id="t-sout" onclick="setSun('out','week')">Outdoor</button>
+    <button class="dtab" id="t-sin" onclick="setSun('in','week')">Nerdy</button>
+  </div>
+  <div class="wgrid" id="week-grid"></div>
+</div>
+
+<!-- SPRINT VIEW -->
+<div class="view" id="view-sprint">
+  <div class="stoggle">
+    <span class="slabel">Sunday:</span>
+    <button class="dtab active" id="t-sout2" onclick="setSun('out','sprint')">Outdoor</button>
+    <button class="dtab" id="t-sin2" onclick="setSun('in','sprint')">Nerdy</button>
+  </div>
+  <div id="sprint-content"></div>
+</div>
+
+<!-- REMINDERS VIEW -->
+<div class="view" id="view-reminders">
+  <div id="rem-content"></div>
+</div>
+
+<script>
+// ── STATE ──
+let cDay='early', cDetail='min', cSunW='out', cSunS='out';
+let isDark = false;
+const now = new Date();
+const dow = now.getDay();
+const date = now.getDate();
+const spW = (Math.floor((date - 1) / 7) % 2) + 1;
+const dnames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const mnames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+document.getElementById('badge').textContent = dnames[dow]+' '+date+' '+mnames[now.getMonth()]+' · W'+spW;
+
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme', isDark?'dark':'light');
+  document.getElementById('theme-btn').textContent = isDark ? '☀ Light' : '☾ Dark';
+}
+
+// ── REMINDERS DATA ──
+const reminders = {
+  daily: [
+    'Brush teeth and freshen up with cold water in the morning — before leaving the bathroom.',
+    'Drink water — don\'t wait until thirsty. Sip consistently through the morning.',
+    'Look away from screen every 20 min — 20 feet away for 20 seconds (20-20-20 rule).',
+    'No comms until 12:50pm. Protect the morning mind.',
+    'Latte only 90 min after waking. Coffee hard stop at 3pm.',
+    'Stand up and move every 90 min. Set a reminder if needed.',
+    'Post-lunch walk is non-negotiable — blood sugar + Vitamin D.',
+    'Twitter gets 5–7 min at 2pm with a timer. Not more.',
+    'Footstool in the bathroom. No straining.',
+    'Water taper after 7pm. Last drink = warm water after brushing.',
+    'Grayscale + EOD playlist at 9pm. The day is over.',
+    'Handwrite tomorrow\'s 3 priorities at the desk — not in bed.',
+    'Dinner light. Heavy dinner = poor sleep + worse morning gut.',
+    'Running gear lives in the office bag. Never pack the morning of.',
+    'Posture — check it now. Shoulders back, screen at eye level, feet flat.',
+    'Meditate 5 min at the start and end of every work day. Non-negotiable.',
+  ],
+  weekly: [
+    'Monday: laundry + clean gadgets (keyboard, screens, desk).',
+    'Monday: quick pending email catchup + news scan.',
+    'Tuesday + Sunday evening: meal prep 1hr — batch cook lunches + boil 8–10 eggs.',
+    'Thursday: skincare · nail trim · beard / shave.',
+    'Wednesday or Thursday (WFH): body hair trim (bi-weekly, W2 only).',
+    'Thursday W2: room tidy + car tidy + pending emails clear.',
+    'Saturday morning: weekly review — what shipped, what slipped.',
+    'Saturday W2: sprint planning — 2-week goals + grocery plan, followed immediately by 3–5 min extempore video recording speaking to those goals. Open a meeting with yourself (Zoom/Meet/Teams), hit record, one take, no script.',
+    'Tuesday: sketch Sunday plan — outdoor: rough route/gear ideas. Nerdy: loose project or topic. Ideas need time to develop — Saturday is too late.',
+    'Thursday: refine Sunday plan — confirm details based on Tuesday sketch and family availability check.',
+    'Tuesday + Thursday: cross-timezone family catchup — schedule or confirm the call. Account for time difference when picking the slot.',
+    'Sunday W2: sprint retro — what worked, what to adjust.',
+    'Geopolitics: 2–3× per week max (Mon/Wed/Fri at 12:50pm only).',
+    'Stanford run: confirm Wednesday slot every week. Friday is bonus.',
+    'Gym split: Mon chest/shoulders · Tue back/biceps · Thu core/legs · Sat core/arms or legs.',
+  ],
+  longterm: {
+    fitness: [
+      'Get more muscular — visible abs (near 6-pack). Progressive overload, protein rotation, consistent H sessions.',
+      'Run 10 miles continuously — inspired by 506th PIR Currahee training, Band of Brothers.',
+      'Improve cardiovascular base — track resting heart rate monthly as a proxy metric.',
+    ],
+    nondigital: [
+      'Navigate without maps — learn terrain reading, compass use, spatial memory of familiar areas. Start with phone-free walks on known routes.',
+      'Ham radio — get licensed (Technician → General). Practical skill, resilient communication, good community.',
+      'Piano / keyboard — learn to play real songs. Build theory alongside. Consistent short sessions beat infrequent long ones.',
+    ],
+  },
+  values: [
+    'Fresh mind first. The most important work goes at the start of the day.',
+    'Systems over willpower. If something keeps not happening, fix the system.',
+    'Light dinner, heavy lunch. Energy follows food timing.',
+    'The body remembers what the mind forgets. Habits compound.',
+    'Consistency beats perfection. A reduced routine beats no routine.',
+    'The Stanford run is a gift to yourself. Protect the 4pm cutoff.',
+    'Phone away in the bathroom. Let the body do its thing.',
+    'Sleep is the performance enhancer. Protect the wind-down.',
+    'Singing in the car counts. Joy is part of the routine.',
+    'You don\'t know what you know until you say it out loud. The video recording is for you, not an audience.',
+    'Awareness of the problem is already half the solution.',
+    'The todo list only works if you look at it. Check it often enough to trust it.',
+    'Start every task with 10 min of scoping — real estimates beat ruminating beforehand. Then execute.',
+    'Posture. Check it now.',
+    'Have aggressive optimism — pessimism is easy to find on its own.',
+  ],
+};
+
+function renderReminders(){
+  const el=document.getElementById('rem-content');
+  function card(title, items, dotColor){
+    return `<div class="rem-card">
+      <div class="rem-title">${title}</div>
+      ${items.map(i=>`<div class="rem-item"><div class="rem-dot" style="background:${dotColor}"></div><span>${i}</span></div>`).join('')}
+    </div>`;
+  }
+  const lt = reminders.longterm;
+  el.innerHTML=`<div class="rem-grid">
+    ${card('Daily reminders', reminders.daily, 'var(--water)')}
+    <div>
+      ${card('Weekly reminders', reminders.weekly, 'var(--chore)')}
+      <div style="margin-top:10px">${card('Values & principles', reminders.values, 'var(--accent)')}</div>
+    </div>
+  </div>
+  <div class="shead" style="margin-top:22px;margin-bottom:8px">Long-term goals</div>
+  <div class="bigrid">
+    <div class="bicard">
+      <div class="bititle" style="color:var(--H)">Fitness</div>
+      ${lt.fitness.map(i=>`<div class="birow"><div class="rem-dot" style="background:var(--H);width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px"></div><span class="bival" style="margin-left:4px">${i}</span></div>`).join('')}
+    </div>
+    <div class="bicard">
+      <div class="bititle" style="color:var(--mental)">Non-digital skills</div>
+      ${lt.nondigital.map(i=>`<div class="birow"><div class="rem-dot" style="background:var(--mental);width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px"></div><span class="bival" style="margin-left:4px">${i}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ── PHASE + STEP TIMING MAP ──
+// Map phases to approximate hour ranges for current/next detection
+const phaseTimes = {
+  early:{
+    wake:[5,6],inbed:[5.1,6.4],kit:[6.25,6.35],floor:[6.33,6.42],bath1:[6.4,6.75],
+    gym:[6.75,8.25],post:[8.25,8.75],morn:[8.75,9],
+    w1:[9,10.5],b1:[10.5,10.75],w2:[10.75,12],
+    mid:[12,14.5],w3:[14.5,15.5],b2:[15.5,15.75],w4:[15.75,16],
+    eve:[16,20],din:[20,21.5],wind:[21,22],bed:[22,23.5],
+  },
+  late:{
+    wake:[7,7.5],inbed:[7.1,7.85],kit:[7.75,7.9],floor:[7.83,7.92],bath1:[7.9,8.25],
+    gym:[8.25,8.92],post:[8.92,9.15],morn:[9.1,9.5],
+    w1:[9.5,10.5],b1:[10.5,10.75],w2:[10.75,12],
+    mid:[12,14.5],w3:[14.5,16],b2:[16,16.25],w4:[16.25,18],
+    gymE:[18.5,20],din:[20,21.5],wind:[21,22],bed:[22,23.5],
+  }
+};
+
+function getCurrentPhase(){
+  const n = new Date();
+  const h = n.getHours() + n.getMinutes()/60;
+  const map = phaseTimes[cDay];
+  const phList = phases[cDay];
+  // iterate in phase order, not object key order
+  for(let i=0;i<phList.length;i++){
+    const id = phList[i].id;
+    const range = map[id];
+    if(!range) continue;
+    const [s,e] = range;
+    if(h>=s && h<e){
+      // find next phase that has a time mapping
+      let nxtPh=null;
+      for(let j=i+1;j<phList.length;j++){
+        if(map[phList[j].id]){ nxtPh=phList[j].id; break; }
+      }
+      return {curPh:id, nxtPh};
+    }
+  }
+  // before first phase or after last — find next upcoming
+  for(let i=0;i<phList.length;i++){
+    const id=phList[i].id;
+    const range=map[id];
+    if(!range) continue;
+    if(h<range[0]) return {curPh:null, nxtPh:id};
+  }
+  return {curPh:null, nxtPh:null};
+}
+
+// ── PHASE DEFINITIONS ──
+const phases={
+  early:[
+    {id:'wake',n:'Wake-up',t:'5–6am'},{id:'inbed',n:'In bed',t:'5–20 min'},
+    {id:'kit',n:'Kitchen pass-through',t:'~6:15am'},{id:'floor',n:'Floor',t:'~6:20am'},
+    {id:'bath1',n:'Bathroom — attempt 1',t:'~6:25am'},{id:'gym',n:'Gym — Group H',t:'~6:45am'},
+    {id:'post',n:'Post-gym',t:'~8:15am'},{id:'morn',n:'Morning wrap-up',t:'~8:45am'},
+    {id:'w1',n:'Deep work 1',t:'9–10:30am'},{id:'b1',n:'Break 1',t:'~10:30am'},
+    {id:'w2',n:'Deep work 2',t:'10:45am–12pm'},{id:'mid',n:'Midday',t:'12–2:30pm'},
+    {id:'w3',n:'Deep work 3',t:'2:30–3:30pm'},{id:'b2',n:'Break 2',t:'~3:30pm'},
+    {id:'w4',n:'Wrap-up',t:'3:45–4pm'},{id:'eve',n:'Evening — free',t:'4–8pm'},
+    {id:'din',n:'Dinner & walk',t:'8–9:30pm'},{id:'wind',n:'Wind-down',t:'9–10pm'},
+    {id:'bed',n:'In bed',t:'~10–10:30pm'},
+  ],
+  late:[
+    {id:'wake',n:'Wake-up',t:'7–7:30am'},{id:'inbed',n:'In bed',t:'7–20 min'},
+    {id:'kit',n:'Kitchen pass-through',t:'~7:45am'},{id:'floor',n:'Floor',t:'~7:50am'},
+    {id:'bath1',n:'Bathroom — attempt 1',t:'~7:55am'},{id:'gym',n:'Morning — Group M',t:'~8:20am'},
+    {id:'post',n:'Post-routine',t:'~8:55am'},{id:'morn',n:'Morning wrap-up',t:'~9:10am'},
+    {id:'w1',n:'Deep work 1',t:'9:30–10:30am'},{id:'b1',n:'Break 1',t:'~10:30am'},
+    {id:'w2',n:'Deep work 2',t:'10:45am–12pm'},{id:'mid',n:'Midday',t:'12–2:30pm'},
+    {id:'w3',n:'Deep work 3',t:'2:30–4pm'},{id:'b2',n:'Break 2',t:'~4pm'},
+    {id:'w4',n:'Wrap-up',t:'4:15–6pm'},{id:'gymE',n:'Gym — Group H',t:'6:30–8pm'},
+    {id:'din',n:'Dinner & walk',t:'8–9:30pm'},{id:'wind',n:'Wind-down',t:'9–10pm'},
+    {id:'bed',n:'In bed',t:'~10:30pm'},
+  ],
+};
+
+const dotC={core:'var(--accent)',H:'var(--H)',M:'var(--M)',water:'var(--water)',caff:'var(--caff)',digital:'var(--digital)',mental:'var(--mental)',brk:'var(--brk)',meal:'var(--meal)',run:'var(--run)',groom:'var(--groom)'};
+const stepCls={core:'sc',H:'sH',M:'sM',water:'sw',caff:'sca',digital:'sd',mental:'sme',brk:'sbr',meal:'sml',run:'sr',groom:'sgr'};
+const tagCls={gut:'tg',sleep:'ts',wind:'tw',digital:'tdi',mental:'tm',caff:'tca',sugar:'tsu',water:'twa',H:'tH',M:'tM',brk:'tbr',run:'tr',vocal:'tvo'};
+
+function S(ph,title,detail,dur,type,core,tags){return{ph,title,detail,dur,type,core,tags};}
+
+function getSteps(d){
+  const e=d==='early';
+  const steps=[
+    S('wake','Drink overnight cold water','Whatever remains in the bottle. Enough to trigger gastrocolic reflex — peaks in 10–20 min.','1 min','water',true,['gut','water']),
+    S('inbed','Rest / light doze','Eyes closed. Let the reflex build. A natural window — formalised.','10–15 min','core',true,[]),
+    S('inbed','Rough day plan — 3 priorities','Notepad or eyes closed. No phone. Cortisol low, mind clear.','2–3 min','mental',true,['mental']),
+    S('inbed','Diaphragmatic breathing','2 min. Inhale — belly rises, pelvic floor descends. Exhale — lifts gently. Retrains dyssynergia.','2 min','core',true,['gut']),
+    S('inbed','Supine spinal twist','Both sides, 30 s each. Mechanical colon massage.','1 min','core',true,['gut']),
+    S('inbed','Knee to chest (Apanasana)','30 s. Lower abdominal compression — stimulates bowel movement.','30 s','core',true,['gut']),
+    S('inbed','Happy baby pose','30 s. Opens pelvic outlet. Optional if not alone.','30 s','M',false,['gut']),
+    S('kit','Make lemon salt water · refill cold bottle','One kitchen pass-through on the way to the bathroom. Lemon + pinch of salt + cooled boiling water. Refill cold bottle. Never go back to bed after this.','2 min','water',true,['water']),
+    S('floor','Om chanting (10×)','Standing, grounded, voice warm from sleep. Clears throat, activates voice. Vagus nerve stimulation has a mild gut-calming effect.','1–2 min','mental',true,['mental']),
+    S('floor','Malasana — deep squat','45–60 s, breathe deep. Teaches pelvic floor what open and relaxed feels like. Single most important stretch for dyssynergia.','1 min','core',true,['gut']),
+    S('bath1','Bathroom attempt 1','Footstool under feet. Diaphragmatic breathing — no straining. Phone away; screen use delays the process. Brain game or piano theory only if urge is very slow.','5–10 min','core',true,['gut']),
+    S('bath1','Drink lemon salt water','Second gentle gut wave + electrolyte replenishment after overnight fast.','1 min','water',true,['gut','water']),
+    S('bath1','Brush teeth + cold water freshen up','Cold water on the face, proper brush. Wakes the senses, completes the bathroom block. Travel-friendly — works anywhere.','3–5 min','core',true,[]),
+  ];
+
+  if(e){
+    steps.push(
+      S('gym','Gym — Group H','Heavy strength + 20+ min intense cardio. Light snack or nothing before. Post-gym is the strongest gut trigger of the day — use it.','60–90 min','H',true,['H']),
+      S('gym','Sing on the drive home','Returning from gym — vocal practice, low-stakes, private stage. Fun.','commute','mental',false,['vocal']),
+      S('post','Bathroom attempt 2','Strongest gut trigger window. Do not skip.','—','core',true,['gut']),
+      S('post','Breakfast','2 boiled eggs + soaked almonds (10–15) + kiwi or banana + milk. Batch boil 8–10 eggs on meal prep days.','—','meal',true,['gut']),
+      S('post','Latte (90 min after wake)','~6:30–7am. Cortisol dropping — caffeine fills the gap. Not first thing.','—','caff',true,['caff']),
+      S('morn','Child\'s pose','1–2 min. Decompress spine, release pelvic floor tension from gym.','1–2 min','M',false,[]),
+      S('morn','Meditation','5 min. Already activated — genuine mental reset before work.','5 min','mental',true,['mental'])
+    );
+  } else {
+    steps.push(
+      S('gym','Group M — home fitness','Jumping jacks (50) → Surya Namaskar (4 rounds) → push-ups (12) → plank (1 min) → bicycle crunches (50) → leg raises.','25–30 min','M',true,['M']),
+      S('post','Bathroom attempt 2','Post-movement window. Natural urge likely — use it.','—','core',true,['gut']),
+      S('post','Breakfast','2 boiled eggs + soaked almonds (10–15) + kiwi or banana + milk.','—','meal',true,['gut']),
+      S('post','Latte (90 min after wake)','~9am. Cortisol dropping — fill the gap cleanly.','—','caff',true,['caff']),
+      S('morn','Meditation','5 min. Already activated — genuine reset before work.','5 min','mental',true,['mental'])
+    );
+  }
+
+  steps.push(
+    S('w1','Meditation — start of work','5 min. Sets intention before the first keystroke. Non-negotiable anchor between morning routine and deep work.','5 min','mental',true,['mental']),
+    S('w1','Deep work — no comms','Software/tech first. Fresh mind is the most valuable resource. No news, email, Twitter. Protect this block.','90 min','core',true,[]),
+    S('b1','Break 1 — move + brain game','Get up, walk. Brain game or piano theory with Claude. Clears cognitive load.','10–15 min','brk',true,['brk','mental']),
+    S('w2','Deep work continued','Second focused block. Hardest or most creative work. No comms.','75 min','core',true,[]),
+    S('mid','Lunch (12pm)','Consistent time. Fiber-rich. Rotate protein — lentils, chickpeas, paneer, tofu, cheese, eggs. Two kiwis as dessert.','—','meal',true,['gut']),
+    S('mid','Learn something while eating','7–10 min. Article or short video — science, tech. Passive intake, no pressure.','7–10 min','mental',true,['mental']),
+    S('mid','Post-lunch walk (12:15–12:45)','15–30 min outside. Blunts glucose spike. Best Vitamin D window. No phone.','15–30 min','core',true,['sugar']),
+    S('mid','Comms + inbox triage (12:50pm)','10 min max. Email, messages, YC/HN scan. One daily comms window — everything waits here.','10 min','digital',true,['digital']),
+    S('mid','Geopolitics / non-tech news','2–3× per week only (Mon/Wed/Fri). Same 12:50pm slot. Never first thing or before bed.','5 min','digital',false,['digital']),
+    S('mid','Coffee + Twitter (2pm)','5–7 min with a timer. Time-boxed daily release eliminates the binge-purge cycle.','30 min','caff',true,['caff','digital']),
+    S('w3','Deep work 3','Caffeine curve carries through. Most demanding tasks.',e?'60 min':'90 min','core',true,[]),
+    S('b2','Break 2 — move + EOD signal','Get up, walk, stretch. EOD playlist can start here on heavy days.','10–15 min','brk',true,['brk','wind']),
+    S('w4','Wrap-up + handoff notes','Shallow work, replies, admin. Handwrite tomorrow\'s 3 priorities at the desk — not in bed.',e?'15–20 min':'30–45 min','core',true,[]),
+    S('w4','Meditation — end of work','5 min. Sits at the boundary between work and the rest of the day. Clears the cognitive residue before stepping into personal time.','5 min','mental',true,['mental']),
+  );
+
+  if(!e){
+    steps.push(
+      S('gymE','Gym — Group H','Heavy strength + intense cardio. Burns off cognitive stress load. Finish by 8pm.','60–90 min','H',true,['H']),
+      S('gymE','Sing on the drive home','Vocal practice on the commute back. Fun and consistent.','commute','mental',false,['vocal']),
+      S('gymE','Magnesium glycinate','200–300 mg post-gym. Muscle recovery + sleep quality + softer morning stool.','—','M',false,['sleep','gut']),
+    );
+  } else {
+    steps.push(
+      S('eve','Free evening','Free evening.','—','core',true,[]),
+      S('eve','Tesla podcast — drive home (Palo Alto/Stanford → Sunnyvale)','Brain done with heavy work. Infotainment podcast on the commute home. PA to Stanford is too short — podcast starts on the leg home.','commute','mental',false,['mental']),
+      S('eve','Magnesium glycinate','200–300 mg before 8pm. Sleep quality + softer morning stool.','—','M',false,['sleep','gut']),
+      S('eve','Light stretching + pelvic floor release','5–8 min. Supine twist → child\'s pose → reclined butterfly.','5–8 min','M',false,['gut','wind']),
+    );
+  }
+
+  steps.push(
+    S('din','Dinner + lassi (by 8:30pm)','Light dinner: 2–3 boiled eggs + fruit + salted cashews + optional walnuts (2–4) + lassi. Keep dinner light — heavy dinner disrupts sleep and worsens morning gut.','—','meal',true,['gut']),
+    S('din','Post-dinner walk (9pm)','30 min. Blood sugar + gut motility. On Stanford run days: 15 min.','30 min','core',true,['sugar','gut']),
+    S('wind','Grayscale + EOD playlist (9pm)','All devices go grayscale. Calm music starts. Non-negotiable wind-down trigger.','—','digital',true,['digital','wind']),
+    S('wind','Brush teeth + warm water (last drink)','Screens-off signal. Warm water is the final drink — nothing after. Protects nighttime sleep.','2 min','water',true,['water']),
+    S('wind','4-7-8 breathwork','4–5 min. Inhale 4s → hold 7s → exhale 8s. Parasympathetic activation.','4–5 min','M',false,['sleep','wind']),
+    S('wind','Family calls','Before breathwork if calls tend to run long.','—','core',true,[]),
+    S('wind','Handwrite tomorrow\'s tasks','3–5 min. 3 priorities, at the desk. Offloads working memory. Physical writing only.','3–5 min','core',true,['mental']),
+    S('bed','Get in bed','Consistent time. Circadian rhythm responds to regularity.','—','core',true,['sleep']),
+    S('bed','Read — physical book only','10–20 min. Light fiction or non-fiction. Not geopolitics. If activating, swap it.','10–20 min','core',true,['sleep','wind']),
+    S('bed','Body scan','60–90 s. Feet to head, release tension consciously. Replaces mental chatter.','1–2 min','M',false,['sleep']),
+    S('bed','Sleep','Lights out. Consistent time.','—','core',true,['sleep']),
+  );
+  return steps;
+}
+
+// ── RENDER DAY ──
+function renderDay(){
+  const list=document.getElementById('day-list');
+  list.innerHTML='';
+  const steps=getSteps(cDay);
+  const phList=phases[cDay];
+  const {curPh,nxtPh}=getCurrentPhase();
+  let lastPh=null;
+  let firstCurDone=false, firstNxtDone=false;
+
+  // Use phase order from phList to guarantee correct sequence
+  const phOrder=phList.map(p=>p.id);
+  const grouped={};
+  phOrder.forEach(id=>{ grouped[id]=[]; });
+  steps.forEach(s=>{
+    if(cDetail==='min'&&!s.core) return;
+    if(grouped[s.ph]!==undefined) grouped[s.ph].push(s);
+  });
+
+  phOrder.forEach(phId=>{
+    const phSteps=grouped[phId];
+    if(!phSteps||phSteps.length===0) return;
+
+    const ph=phList.find(p=>p.id===phId);
+    if(!ph) return;
+
+    const wrap=document.createElement('div');
+    wrap.className='phase-wrap';
+
+    const hd=document.createElement('div');
+    hd.className='ph';
+    hd.innerHTML=`<span class="ph-arrow">▾</span><span class="ph-name">${ph.n}</span><span class="ph-time">${ph.t}</span>`;
+    hd.onclick=function(){this.classList.toggle('shut');this.nextSibling.classList.toggle('shut');};
+
+    const stDiv=document.createElement('div');
+    stDiv.className='ph-steps';
+
+    phSteps.forEach(s=>{
+      const isCur=(phId===curPh)&&!firstCurDone;
+      const isNxt=(phId===nxtPh)&&!firstNxtDone&&!isCur;
+      if(isCur) firstCurDone=true;
+      if(isNxt) firstNxtDone=true;
+
+      const dot=dotC[s.type]||dotC.core;
+      const cls=stepCls[s.type]||'sc';
+      const tagsHtml=(s.tags||[]).map(t=>`<span class="stag ${tagCls[t]||''}">${t}</span>`).join('');
+      const div=document.createElement('div');
+      let extraCls='', marker='';
+      if(isCur){extraCls=' is-current';marker='<span class="step-marker marker-now">NOW</span>';}
+      else if(isNxt){extraCls=' is-next';marker='<span class="step-marker marker-next">NEXT</span>';}
+      div.className=`step ${cls}${extraCls}`;
+      div.innerHTML=`${marker}<div class="sdot" style="background:${dot}"></div>
+        <div class="sbody"><div class="stitle">${s.title}</div>
+        <div class="sdetail">${s.detail}</div>
+        ${tagsHtml?`<div class="stags">${tagsHtml}</div>`:''}
+        </div>${s.dur&&s.dur!=='—'?`<div class="sdur">${s.dur}</div>`:''}`;
+      stDiv.appendChild(div);
+
+      if(isCur) setTimeout(()=>div.scrollIntoView({behavior:'smooth',block:'center'}),400);
+    });
+
+    wrap.appendChild(hd);
+    wrap.appendChild(stDiv);
+    list.appendChild(wrap);
+
+    const dv=document.createElement('div');
+    dv.style.cssText='height:1px;background:var(--border);margin:2px 0 4px';
+    list.appendChild(dv);
+  });
+
+  // Now bar
+  const nb=document.getElementById('now-bar');
+  const curPhObj=phList.find(p=>p.id===curPh);
+  const nxtPhObj=phList.find(p=>p.id===nxtPh);
+  if(curPhObj||nxtPhObj){
+    nb.innerHTML=`<span class="now-dot"></span>
+      <span class="now-label">${curPhObj?curPhObj.n:'—'}</span>
+      ${nxtPhObj?`<span class="now-sep">→</span><span class="now-next">Next: ${nxtPhObj.n}</span>`:''}`;
+    nb.style.display='flex';
+  } else {
+    nb.style.display='none';
+  }
+}
+
+// ── WEEK ──
+const wdayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const wtypes=['Office','WFH','Office','WFH','Office','—','—'];
+const wcolors=['var(--water)','var(--digital)','var(--water)','var(--digital)','var(--water)','var(--text2)','var(--text2)'];
+
+function weekBlocks(di,sun,w2){
+  switch(di){
+    case 0:return[
+      {t:'Group M',s:'Morning routine',c:'wbM'},
+      {t:'Office — Palo Alto',s:'Focused work',c:'wboff'},
+      {t:'Tesla podcast',s:'Drive home → Sunnyvale',c:'wbpod'},
+      {t:'Group H',s:'Chest + shoulders',c:'wbH'},
+      {t:'Post-dinner walk',s:'Blood sugar + gut',c:'wbgut'},
+      ...(w2?[{t:'Weekly chores',s:'Laundry · gadgets · news',c:'wbcho'}]:[]),
+    ];
+    case 1:return[
+      {t:'Group H',s:'Back + biceps',c:'wbH'},
+      {t:'WFH',s:'Disciplined anchor',c:'wbwfh'},
+      {t:'Group M — evening',s:'Light movement',c:'wbM'},
+      {t:'Meal prep (1hr)',s:'Batch cook + boil eggs',c:'wbmeal'},
+      {t:'Family availability check',s:'Cross-timezone — coordinate weekend',c:'wbrev'},
+      {t:sun==='out'?'Sketch Sunday hike plan':'Sketch nerdy Sunday plan',s:sun==='out'?'Route ideas · gear check · timing':'Project or topic — rough idea only',c:'wbsp'},
+      {t:'Post-dinner walk',s:'Blood sugar + gut',c:'wbgut'},
+    ];
+    case 2:return[
+      {t:'Group M',s:'Morning routine',c:'wbM'},
+      {t:'Office — Palo Alto',s:'Hard stop 4pm',c:'wboff'},
+      {t:'Tesla podcast',s:'Drive home → Sunnyvale',c:'wbpod'},
+      {t:'Stanford run ⚡',s:'Dish trail or Inner Loop',c:'wbrun'},
+      {t:'Post-dinner walk',s:'15 min — Stanford run day',c:'wbgut'},
+      ...(w2?[{t:'Body hair trim',s:'Bi-weekly W2',c:'wbbiw'}]:[]),
+    ];
+    case 3:return[
+      {t:'Group H',s:'Core + legs',c:'wbH'},
+      {t:'WFH',s:'Deep work day',c:'wbwfh'},
+      {t:'Grooming',s:'Skin · nails · beard',c:'wbgro'},
+      {t:'Group M — evening',s:'Light movement',c:'wbM'},
+      {t:'Family availability check',s:'Cross-timezone — confirm weekend plan',c:'wbrev'},
+      {t:sun==='out'?'Refine Sunday hike plan':'Refine nerdy Sunday plan',s:sun==='out'?'Confirm route · pack list · start time':'Lock in project or topic',c:'wbsp'},
+      {t:'Post-dinner walk',s:'Blood sugar + gut',c:'wbgut'},
+      ...(w2?[{t:'Bi-weekly chores',s:'Room · car · emails',c:'wbbiw'}]:[]),
+    ];
+    case 4:return[
+      {t:'Group M',s:'Morning routine',c:'wbM'},
+      {t:'Office — Palo Alto',s:'Hard stop 4pm',c:'wboff'},
+      {t:'Tesla podcast',s:'Drive home → Sunnyvale',c:'wbpod'},
+      {t:'Stanford run',s:'Bonus — if energy allows',c:'wbrun'},
+      {t:'Optional Group H',s:'Skip if ran',c:'wbH'},
+      {t:'Post-dinner walk',s:'15 min if Stanford run done',c:'wbgut'},
+    ];
+    case 5:return[
+      {t:'Weekly review',s:'Saturday morning',c:'wbrev'},
+      {t:'Group H',s:sun==='out'?'Core + arms (hike tomorrow)':'Core + legs',c:'wbH'},
+      {t:'Group M — evening',s:'Light movement',c:'wbM'},
+      {t:'Meal prep (1hr)',s:'Batch cook + boil eggs',c:'wbmeal'},
+      {t:'Post-dinner walk',s:'Blood sugar + gut',c:'wbgut'},
+      ...(w2?[{t:'Sprint planning',s:'Goals + grocery plan',c:'wbsp'},{t:'Video recording',s:'Extempore — speak to goals',c:'wbrev'}]:[]),
+    ];
+    case 6:return sun==='out'?[
+      {t:'Hike — morning',s:'Natural movement',c:'wbsun'},
+      {t:'Swim / full-day',s:'After returning or all day',c:'wbsun'},
+      {t:'No gym',s:'Full recovery',c:'wbchl'},
+      {t:'Hydrate + light food',s:'Prep for Monday',c:'wbgut'},
+      ...(w2?[{t:'Sprint retro',s:'What worked / what to adjust',c:'wbsp'}]:[]),
+    ]:[
+      {t:'Rest + nerdy',s:'Tech · projects · friends',c:'wbchl'},
+      {t:'Optional walk',s:'Keep moving gently',c:'wbgut'},
+      {t:'No gym',s:'Full recovery',c:'wbchl'},
+      ...(w2?[{t:'Sprint retro',s:'What worked / what to adjust',c:'wbsp'}]:[]),
+    ];
+    default:return[];
+  }
+}
+
+function renderWeek(){
+  const grid=document.getElementById('week-grid');
+  grid.innerHTML='';
+  const todayIdx=(dow===0?6:dow-1);
+  wdayNames.forEach((dn,i)=>{
+    const card=document.createElement('div');
+    card.className='wcard'+(i===todayIdx?' today':'');
+    const bs=weekBlocks(i,cSunW,spW===2);
+    card.innerHTML=`<div class="whead"><div class="wdname" style="color:${wcolors[i]}">${dn}</div><div class="wdsub">${wtypes[i]}</div></div>
+      <div class="wbody">${bs.map(b=>`<div class="wb ${b.c}">${b.t}<div class="ws">${b.s}</div></div>`).join('')}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ── SPRINT ──
+function renderSprint(){
+  const el=document.getElementById('sprint-content');
+  const w2=spW===2;
+  const sun=cSunS;
+  const gymSplit=[
+    {d:'Mon',v:'Chest + shoulders — H evening'},
+    {d:'Tue',v:'Back + biceps — H morning'},
+    {d:'Wed',v:'Stanford run / walk — active recovery'},
+    {d:'Thu',v:'Core + legs — H morning'},
+    {d:'Fri',v:'Stanford run (bonus) + optional H'},
+    {d:'Sat',v:sun==='out'?'Core + arms — H (legs rest for hike)':'Core + legs — H morning'},
+    {d:'Sat W2',v:'Weekly review → sprint planning (goals + grocery) → video recording (extempore, 3–5 min, one take) → gym'},
+    {d:'Sun',v:'No gym — hike / swim / full rest'},
+  ];
+  const meals=[
+    {d:'Daily',v:'Breakfast: 2 boiled eggs + soaked almonds + kiwi/banana + milk'},
+    {d:'Daily',v:'Lunch (12pm): meal-prepped, fiber-rich, rotate protein'},
+    {d:'Daily',v:'Dinner (8:30pm): 2–3 boiled eggs + fruit + cashews + optional walnuts + lassi'},
+    {d:'Sun+Tue',v:'Meal prep 1hr — batch cook lunches + boil 8–10 eggs'},
+    {d:'Nuts',v:'Morning: soaked almonds · Evening: salted cashews · Optional: walnuts'},
+  ];
+  const hydration=[
+    {d:'On wake',v:'Cold water (overnight bottle) — gastrocolic trigger'},
+    {d:'Morning',v:'Lemon + salt water — after bathroom attempt 1'},
+    {d:'Morning',v:'Milk — with breakfast'},
+    {d:'All day',v:'Water freely until 7pm then stop'},
+    {d:'90min+',v:'Latte — 90 min after waking, not first thing'},
+    {d:'2–2:30pm',v:'Afternoon coffee — hard stop 3pm'},
+    {d:'Bedtime',v:'Warm water after brushing — final drink'},
+  ];
+  const habits=[
+    {d:'Daily',v:'Om (10×) · diaphragmatic breathing · malasana · footstool bathroom'},
+    {d:'Daily',v:'Comms only at 12:50pm · Twitter 5–7 min at 2pm with timer'},
+    {d:'Daily',v:'Learning while eating lunch · brain game / piano at breaks'},
+    {d:'Daily',v:'Grayscale + EOD playlist at 9pm · handwrite tasks at desk'},
+    {d:'Wed+Fri',v:'Gear in office bag permanently — never pack the morning of'},
+    {d:'Vocal',v:'Sing on every gym commute · Tesla podcast on drive home to Sunnyvale'},
+  ];
+  const chores=w2?[
+    {d:'Mon',v:'Weekly chores (laundry, gadgets, news)'},
+    {d:'Wed',v:'Body hair trimming routine'},
+    {d:'Thu',v:'Room tidy + car tidy + pending emails clear'},
+    {d:'Sat',v:'Sprint planning — 2-week goals + grocery plan'},
+    {d:'Sat',v:'Video recording — speak to goals extempore, 3–5 min, one take. Open a meeting with yourself (Zoom/Meet/Teams) and hit record. No setup, no audience, no editing.'},
+    {d:'Sun',v:'Sprint retro — what worked, what to adjust'},
+  ]:[
+    {d:'Mon',v:'Laundry + clean gadgets (keyboard, screens, desk)'},
+    {d:'Mon',v:'Quick email catchup + news scan'},
+    {d:'Thu',v:'Skincare · nail trim · beard/shave'},
+    {d:'Sat',v:'Weekly review — what shipped, what slipped'},
+  ];
+  const stanford=[
+    {t:'4:00pm',v:'Hard stop — close laptop. Non-negotiable. Treat like a meeting.'},
+    {t:'4:00–4:20',v:'Wrap notes, change into gear. Shoes + shorts live in bag permanently.'},
+    {t:'4:30pm',v:'Drive to Stanford (~5 min from PA office). Park on Campus Drive. Skip podcast — drive is too short.'},
+    {t:'4:35–5:15',v:'Dish Trail (30–40 min walk) OR Inner Loop (<15 min run). Pick by energy.'},
+    {t:'5:15–5:45',v:'Drive home to Sunnyvale — podcast on. Shower.'},
+    {t:'6–8pm',v:'Free evening — family, hobbies, decompress.'},
+    {t:'8:30pm',v:'Light dinner. Post-dinner walk 15 min — Stanford run day.'},
+  ];
+  function card(title,rows,badge){
+    return `<div class="bicard"><div class="bititle">${title}${badge?` <span class="bib ${badge.c}">${badge.t}</span>`:''}</div>
+      ${rows.map(r=>`<div class="birow"><span class="biday">${r.d}</span><span class="bival">${r.v}</span></div>`).join('')}</div>`;
+  }
+  el.innerHTML=`
+    <div class="shead">Sprint W${spW} · ${now.toLocaleString('default',{month:'long'})} ${now.getFullYear()}</div>
+    <div class="bigrid">
+      ${card('Gym split',gymSplit)}
+      ${card('Meal system',meals)}
+      ${card('Hydration anchors',hydration)}
+      ${card('Habit anchors',habits)}
+      ${card(w2?'Chores — W2':'Chores — W1 (every week)',chores,w2?{c:'biw2',t:'bi-weekly'}:{c:'biw1',t:'weekly'})}
+      <div class="bicard"><div class="bititle">Progression targets</div>
+        <div class="birow"><span class="biday">Gym</span><span class="bival">+1 rep or +2.5 kg every 2 weeks per exercise. Log each H session.</span></div>
+        <div class="birow"><span class="biday">Gut</span><span class="bival">≤2 multi-attempt mornings/week within 4 weeks. No improvement → pelvic floor physio.</span></div>
+        <div class="birow"><span class="biday">Run</span><span class="bival">1 confirmed Wed Stanford run + 1 bonus Fri per sprint. Log route + duration.</span></div>
+        <div class="birow"><span class="biday">Vocal</span><span class="bival">Sing on every gym commute. Piano theory at ≥3 breaks/week.</span></div>
+      </div>
+      <div class="flowcard">
+        <div class="flowtitle">Wednesday — Stanford run exact flow</div>
+        ${stanford.map(r=>`<div class="flowrow"><span class="flowtime">${r.t}</span><span class="flowval">${r.v}</span></div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ── CONTROLS ──
+function showView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('.ntab').forEach((t,i)=>t.classList.toggle('active',['day','week','sprint','reminders'][i]===v));
+  if(v==='week') renderWeek();
+  if(v==='sprint') renderSprint();
+  if(v==='reminders') renderReminders();
+}
+function setDay(d){
+  cDay=d;
+  document.getElementById('t-early').classList.toggle('active',d==='early');
+  document.getElementById('t-late').classList.toggle('active',d==='late');
+  renderDay();
+}
+function setDetail(d){
+  cDetail=d;
+  document.getElementById('t-min').classList.toggle('active',d==='min');
+  document.getElementById('t-full').classList.toggle('active',d==='full');
+  renderDay();
+}
+function setSun(v,view){
+  if(view==='week'){
+    cSunW=v;
+    document.getElementById('t-sout').classList.toggle('active',v==='out');
+    document.getElementById('t-sin').classList.toggle('active',v==='in');
+    renderWeek();
+  } else {
+    cSunS=v;
+    document.getElementById('t-sout2').classList.toggle('active',v==='out');
+    document.getElementById('t-sin2').classList.toggle('active',v==='in');
+    renderSprint();
+  }
+}
+
+// ── INIT ──
+const autoEarly=[1,3].includes(dow===0?6:dow-1);
+if(autoEarly){cDay='early';document.getElementById('t-early').classList.add('active');document.getElementById('t-late').classList.remove('active');}
+renderDay();
+// refresh NOW/NEXT every 60 seconds
+setInterval(()=>{ if(document.getElementById('view-day').classList.contains('active')) renderDay(); }, 60000);
+</script>
+</body>
+</html>
