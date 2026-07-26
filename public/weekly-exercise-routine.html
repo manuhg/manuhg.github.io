@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>document.documentElement.className='js';</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Exercise Routine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0d10;
+    --panel:#15171c;
+    --panel-2:#1c1f26;
+    --ink:#f2f1ec;
+    --muted:#8b8f9a;
+    --accent:#d8fe5a;
+    --accent-dim:#9bb83f;
+    --push:#ff7a4d;
+    --pull:#5ac8fe;
+    --line:#262a33;
+    --bb:#ffb84d;
+    --db:#7ee0a0;
+    --mc:#b89aff;
+    --cb:#5ac8fe;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Archivo',sans-serif;
+    line-height:1.55;
+    padding:clamp(16px,4vw,56px);
+    background-image:radial-gradient(circle at 15% -10%,rgba(216,254,90,.07),transparent 40%),radial-gradient(circle at 90% 5%,rgba(90,200,254,.06),transparent 45%);
+  }
+  .wrap{max-width:980px;margin:0 auto}
+  header{margin-bottom:28px}
+  .kicker{
+    font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--accent-dim);font-weight:700;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:800;font-size:clamp(2.4rem,7vw,4.4rem);
+    line-height:.95;letter-spacing:-.02em;
+  }
+  h1 em{font-style:normal;color:var(--accent)}
+  .sub{color:var(--muted);margin-top:18px;max-width:620px;font-size:1.02rem}
+
+  .toggle{
+    display:inline-flex;background:var(--panel);border:1px solid var(--line);
+    border-radius:100px;padding:5px;margin:28px 0 10px;gap:4px;flex-wrap:wrap;
+  }
+  .toggle button{
+    font-family:'Archivo',sans-serif;font-size:.86rem;font-weight:700;
+    background:none;border:none;color:var(--muted);cursor:pointer;
+    padding:9px 20px;border-radius:100px;transition:all .2s ease;letter-spacing:.02em;
+  }
+  .toggle button.on{background:var(--accent);color:#0c0d10}
+  .toggle button:not(.on):hover{color:var(--ink)}
+  .modeline{color:var(--muted);font-size:.88rem;margin-bottom:22px}
+  .modeline b{color:var(--ink)}
+
+  /* ---- tier visibility ---- */
+  /* Standard-tier items = plain .item (shown in standard + full) */
+  /* Full-only items = .item.full-only (shown in full only) */
+  /* All hiding is gated behind html.js — with JS OFF, everything shows (for PDF/print export). */
+  html.js body.tier-standard .item.full-only{display:none}
+  /* full tier: everything shows */
+  /* durations show per tier (only when JS is on) */
+  html.js .dur{display:none}
+  html.js body.tier-standard .dur.d-standard{display:block}
+  html.js body.tier-full .dur.d-full{display:block}
+  /* With JS off, the toggle can't work — hide it and show a print banner instead */
+  .toggle,.modeline{display:none}
+  html.js .toggle,html.js .modeline{display:flex}
+  html.js .modeline{display:block}
+  .nojs-banner{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px;margin:24px 0 10px;font-size:.9rem;color:var(--muted);
+  }
+  .nojs-banner b{color:var(--accent)}
+  html.js .nojs-banner{display:none}
+  /* tier chips shown inline on each item when JS is off, so you know which tier it belongs to */
+  .tierchip{
+    display:none;font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:2px 7px;border-radius:5px;margin-left:8px;vertical-align:middle;
+  }
+  html:not(.js) .item:not(.full-only) > .row .ex .tierchip.c-std{display:inline-block;background:rgba(90,200,254,.14);color:var(--pull)}
+  html:not(.js) .item.full-only > .row .ex .tierchip.c-full{display:inline-block;background:rgba(184,154,255,.14);color:var(--mc)}
+  .day7 .tierchip{display:none !important}
+  .ssnote{font-size:.74rem;color:var(--accent-dim);font-weight:600;margin-top:3px}
+  .ssnote::before{content:"\21C4 ";color:var(--accent);font-weight:700}
+
+  .principles{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .pill{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:100px;padding:8px 16px;font-size:.82rem;color:var(--ink);
+  }
+  .pill b{color:var(--accent)}
+  .hint{
+    color:var(--muted);font-size:.84rem;margin-top:18px;
+    border-left:2px solid var(--accent-dim);padding-left:12px;
+  }
+  .hint b{color:var(--ink)}
+
+  .grid{display:grid;gap:18px;margin-top:20px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  .day{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:24px;position:relative;overflow:hidden;
+  }
+  .day::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%}
+  .day.push::before{background:var(--push)}
+  .day.pull::before{background:var(--pull)}
+  .day.lower::before{background:var(--accent)}
+  .day.day7::before{background:#b89aff}
+  .day7-intro{color:var(--muted);font-size:.86rem;margin-top:14px;border-left:2px solid #b89aff;padding-left:12px}
+  .day7-intro b{color:#c9b3ff}
+  .dnum{font-family:'Bricolage Grotesque';font-weight:800;font-size:.8rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+  .dtitle{font-family:'Bricolage Grotesque';font-weight:600;font-size:1.5rem;margin:4px 0 4px;letter-spacing:-.01em}
+  .tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700}
+  .push .tag{color:var(--push)}.pull .tag{color:var(--pull)}.lower .tag{color:var(--accent-dim)}
+  .day7 .tag{color:#b89aff}
+  @media(min-width:760px){.day.day7{grid-column:1 / -1}}
+
+  .exlist{list-style:none;margin-top:16px}
+  .item{border-top:1px solid var(--line)}
+  .item:first-child{border-top:none}
+  .row{
+    display:flex;justify-content:space-between;gap:12px;padding:11px 0;
+    font-size:.95rem;cursor:pointer;align-items:baseline;
+  }
+  .row:hover .ex{color:var(--accent)}
+  .exwrap{display:flex;flex-direction:column;gap:2px}
+  .musc{font-size:.72rem;color:var(--muted);letter-spacing:.02em;font-weight:400}
+  .musc b{color:var(--accent-dim);font-weight:700}
+  .ex{font-weight:500;transition:color .15s ease}
+  .item.extra .ex::before{content:"+ ";color:var(--accent-dim);font-weight:700}
+  html.js .ex::after{content:" \25BE";color:var(--muted);font-size:.7rem}
+  html.js .item.open .ex::after{content:" \25B4"}
+  .sets{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.86rem}
+  .opts{padding:2px 0 16px 0}
+  html.js .opts{display:none}
+  html.js .item.open .opts{display:block}
+  .form{
+    background:#14161b;border:1px solid var(--line);border-left:3px solid var(--push);
+    border-radius:10px;padding:12px 14px;margin:2px 0 14px 0;
+  }
+  .form-h{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--push);margin-bottom:8px}
+  .form ul{list-style:none;margin:0 0 10px 0;padding:0}
+  .form li{font-size:.85rem;color:var(--ink);padding:3px 0 3px 16px;position:relative;line-height:1.45}
+  .form li::before{content:"\2713";position:absolute;left:0;color:var(--accent-dim);font-weight:700;font-size:.8rem}
+  .form li.avoid::before{content:"\2717";color:var(--push)}
+  .form li.avoid{color:var(--muted)}
+  .vidlink{
+    display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700;
+    color:#0c0d10;background:var(--accent);text-decoration:none;
+    padding:6px 12px;border-radius:7px;
+  }
+  .vidlink::before{content:"\25B6";font-size:.7rem}
+  .vidlink:hover{filter:brightness(1.08)}
+  .form-note{font-size:.74rem;color:var(--muted);margin-top:8px;font-style:italic}
+  .opt{display:flex;gap:12px;align-items:center;font-size:.9rem;color:var(--muted);padding:9px 0}
+  .opt .txt{flex:1}
+  .pic{
+    width:88px;height:88px;flex-shrink:0;
+    background:#191c22;border:1px solid var(--line);border-radius:11px;
+  }
+  .pic.wide{width:150px;height:88px}
+  @media(max-width:520px){
+    .opt{align-items:flex-start}
+    .pic{width:76px;height:76px}
+    .pic.wide{width:120px;height:70px}
+  }
+  .badge{
+    font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:2px 6px;border-radius:4px;flex-shrink:0;min-width:34px;text-align:center;
+  }
+  .b-bb{background:rgba(255,184,77,.15);color:var(--bb)}
+  .b-db{background:rgba(126,224,160,.15);color:var(--db)}
+  .b-mc{background:rgba(184,154,255,.15);color:var(--mc)}
+  .b-cb{background:rgba(90,200,254,.15);color:var(--cb)}
+  .b-bw{background:rgba(242,241,236,.1);color:var(--ink)}
+  .opt em{font-style:normal;color:var(--ink)}
+
+  .note{color:var(--muted);font-size:.8rem;margin-top:14px;font-style:italic}
+  .dur{font-size:.74rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:12px;font-weight:700}
+  .dur.leg-exc{color:var(--accent-dim);text-transform:none;letter-spacing:.02em;font-style:italic}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .legend .badge{font-size:.66rem;padding:4px 9px;min-width:auto}
+
+  .cardio{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:16px;
+    padding:22px;margin-top:24px;
+  }
+  .cardio-h{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.05rem;
+    color:var(--pull);letter-spacing:-.01em;margin-bottom:16px;
+  }
+  .cardio-grid{display:grid;gap:14px}
+  @media(min-width:680px){.cardio-grid{grid-template-columns:1fr 1fr 1fr}}
+  .cardio-item{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px;
+    border-top:3px solid var(--pull);
+  }
+  .cardio-item.run{border-top-color:var(--push)}
+  .ci-t{font-weight:700;font-size:.96rem;color:var(--ink);margin-bottom:3px}
+  .ci-when{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;margin-bottom:9px}
+  .cardio-item.run .ci-when{color:var(--push)}
+  .ci-d{font-size:.85rem;color:var(--muted);line-height:1.5}
+  .ci-d b{color:var(--ink)}
+  .cardio-rule{
+    font-size:.82rem;color:var(--muted);margin-top:16px;
+    border-left:2px solid var(--pull);padding-left:12px;font-style:italic;
+  }
+
+  .rules{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:18px;
+    padding:28px;margin-top:32px;
+  }
+  .rules h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.4rem;margin-bottom:16px}
+  .rules ul{list-style:none}
+  .rules li{border-top:1px solid var(--line);padding:13px 0;color:var(--ink);font-size:.94rem}
+  .rules li:first-child{border-top:none}
+  .rules li b{color:var(--accent)}
+  footer{color:var(--muted);font-size:.8rem;margin-top:36px;text-align:center;letter-spacing:.04em}
+  .hidden{display:none}
+
+  /* ---- print / PDF ---- */
+  @media print{
+    /* force-show all tiers even if JS set a narrower one */
+    html.js .item, html.js .item.full-only{display:block !important}
+    html.js .opts{display:block !important}
+    html.js .dur{display:block !important}
+    html.js .toggle{display:none !important}
+    .tierchip{display:inline-block !important}
+    html.js .item:not(.full-only) .tierchip.c-full{display:none !important}
+    html.js .item.full-only .tierchip.c-std{display:none !important}
+    .day7 .tierchip{display:none !important}
+    body{background:#fff !important;color:#111 !important;background-image:none !important}
+    .day,.rules{break-inside:avoid;page-break-inside:avoid}
+    .item{break-inside:avoid;page-break-inside:avoid}
+    .grid{display:block}
+    .day{margin-bottom:14px}
+  }
+</style>
+</head>
+<body class="tier-standard">
+
+<!-- ======= MOVEMENT DIAGRAM LIBRARY (schematic side views; lime = weight/bar, grey arrow = movement) ======= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+
+<symbol id="s-bench" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="12" y1="47" x2="46" y2="47"/><line x1="17" y1="47" x2="17" y2="56"/><line x1="41" y1="47" x2="41" y2="56"/></g>
+  <circle fill="#dfe2e9" cx="12" cy="42" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="42" x2="34" y2="42"/><polyline points="34,42 43,50 43,57"/><line x1="25" y1="42" x2="25" y2="28"/></g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="13" y1="28" x2="39" y2="28"/><circle fill="#d8fe5a" cx="13" cy="28" r="3"/><circle fill="#d8fe5a" cx="39" cy="28" r="3"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="38" x2="54" y2="24"/><polyline points="50,28 54,24 58,28"/></g>
+</symbol>
+
+<symbol id="s-dbbench" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="12" y1="47" x2="46" y2="47"/><line x1="17" y1="47" x2="17" y2="56"/><line x1="41" y1="47" x2="41" y2="56"/></g>
+  <circle fill="#dfe2e9" cx="12" cy="42" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="42" x2="34" y2="42"/><polyline points="34,42 43,50 43,57"/><line x1="21" y1="42" x2="21" y2="29"/><line x1="30" y1="42" x2="30" y2="29"/></g>
+  <g stroke="#d8fe5a" stroke-width="3" stroke-linecap="round"><line x1="17" y1="29" x2="25" y2="29"/><line x1="26" y1="29" x2="34" y2="29"/></g>
+  <g fill="#d8fe5a"><circle cx="17" cy="29" r="2.2"/><circle cx="25" cy="29" r="2.2"/><circle cx="26" cy="29" r="2.2"/><circle cx="34" cy="29" r="2.2"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="38" x2="54" y2="24"/><polyline points="50,28 54,24 58,28"/></g>
+</symbol>
+
+<symbol id="s-smith" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="13" y1="12" x2="13" y2="46"/><line x1="39" y1="12" x2="39" y2="46"/><line x1="12" y1="47" x2="46" y2="47"/><line x1="17" y1="47" x2="17" y2="56"/><line x1="41" y1="47" x2="41" y2="56"/></g>
+  <circle fill="#dfe2e9" cx="12" cy="42" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="42" x2="34" y2="42"/><polyline points="34,42 43,50 43,57"/><line x1="25" y1="42" x2="25" y2="28"/></g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="13" y1="28" x2="39" y2="28"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="38" x2="54" y2="24"/><polyline points="50,28 54,24 58,28"/></g>
+</symbol>
+
+<symbol id="s-pushup" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="8" y1="58" x2="56" y2="58"/>
+  <circle fill="#dfe2e9" cx="49" cy="39" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="52" x2="44" y2="42"/><line x1="40" y1="43" x2="43" y2="56"/><line x1="15" y1="52" x2="12" y2="57"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="34" x2="27" y2="24"/><polyline points="23,28 27,24 31,28"/></g>
+</symbol>
+
+<symbol id="s-mpress" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="18" y1="28" x2="18" y2="54"/><line x1="14" y1="44" x2="26" y2="44"/></g>
+  <circle fill="#dfe2e9" cx="26" cy="22" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="26" y1="26" x2="26" y2="44"/><line x1="26" y1="44" x2="36" y2="44"/><line x1="36" y1="44" x2="36" y2="56"/><line x1="26" y1="32" x2="42" y2="32"/></g>
+  <circle fill="#d8fe5a" cx="44" cy="32" r="3"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="47" y1="32" x2="57" y2="32"/><polyline points="53,28 57,32 53,36"/></g>
+</symbol>
+
+<symbol id="s-pecdeck" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="32" cy="16" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="32" y1="20" x2="32" y2="40"/><line x1="32" y1="40" x2="40" y2="44"/><line x1="40" y1="44" x2="40" y2="56"/><line x1="32" y1="26" x2="16" y2="22"/><line x1="32" y1="26" x2="48" y2="22"/></g>
+  <g fill="#d8fe5a"><circle cx="16" cy="22" r="2.8"/><circle cx="48" cy="22" r="2.8"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="15" x2="25" y2="12"/><polyline points="21,10 25,12 23,16"/><line x1="47" y1="15" x2="39" y2="12"/><polyline points="43,10 39,12 41,16"/></g>
+</symbol>
+
+<symbol id="s-dbfly" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="12" y1="47" x2="46" y2="47"/><line x1="17" y1="47" x2="17" y2="56"/><line x1="41" y1="47" x2="41" y2="56"/></g>
+  <circle fill="#dfe2e9" cx="12" cy="42" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="42" x2="34" y2="42"/><polyline points="34,42 43,50 43,57"/><line x1="24" y1="42" x2="12" y2="30"/><line x1="24" y1="42" x2="36" y2="30"/></g>
+  <g fill="#d8fe5a"><circle cx="12" cy="30" r="2.8"/><circle cx="36" cy="30" r="2.8"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="24" x2="21" y2="20"/><polyline points="17,18 21,20 19,24"/><line x1="34" y1="24" x2="27" y2="20"/><polyline points="31,18 27,20 29,24"/></g>
+</symbol>
+
+<symbol id="s-crossover" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="8" y1="6" x2="19" y2="15"/><line x1="56" y1="6" x2="45" y2="15"/></g>
+  <circle fill="#dfe2e9" cx="32" cy="12" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="32" y1="16" x2="32" y2="36"/><line x1="32" y1="36" x2="26" y2="56"/><line x1="32" y1="36" x2="38" y2="56"/><line x1="32" y1="20" x2="18" y2="16"/><line x1="32" y1="20" x2="46" y2="16"/></g>
+  <g fill="#d8fe5a"><circle cx="18" cy="16" r="2.6"/><circle cx="46" cy="16" r="2.6"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="23" x2="27" y2="29"/><polyline points="27,24 27,29 22,29"/><line x1="44" y1="23" x2="37" y2="29"/><polyline points="37,24 37,29 42,29"/></g>
+</symbol>
+
+<symbol id="s-ohpseat" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="25" y1="24" x2="25" y2="48"/>
+  <circle fill="#dfe2e9" cx="30" cy="16" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="20" x2="30" y2="42"/><line x1="30" y1="42" x2="40" y2="42"/><line x1="40" y1="42" x2="40" y2="56"/><line x1="27" y1="22" x2="24" y2="10"/><line x1="33" y1="22" x2="36" y2="10"/></g>
+  <g fill="#d8fe5a"><circle cx="24" cy="10" r="2.8"/><circle cx="36" cy="10" r="2.8"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="52" y1="22" x2="52" y2="10"/><polyline points="48,14 52,10 56,14"/></g>
+</symbol>
+
+<symbol id="s-ohpstand" viewBox="0 0 64 64">
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="20" y1="8" x2="44" y2="8"/>
+  <g fill="#d8fe5a"><circle cx="20" cy="8" r="2.6"/><circle cx="44" cy="8" r="2.6"/></g>
+  <circle fill="#dfe2e9" cx="32" cy="16" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="27" y1="20" x2="23" y2="8"/><line x1="37" y1="20" x2="41" y2="8"/><line x1="32" y1="20" x2="32" y2="40"/><line x1="32" y1="40" x2="27" y2="57"/><line x1="32" y1="40" x2="37" y2="57"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="20" x2="54" y2="8"/><polyline points="50,12 54,8 58,12"/></g>
+</symbol>
+
+<symbol id="s-landmine" viewBox="0 0 64 64">
+  <circle fill="#d8fe5a" cx="10" cy="56" r="2.6"/>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="10" y1="56" x2="46" y2="18"/>
+  <circle fill="#dfe2e9" cx="30" cy="20" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="24" x2="30" y2="44"/><line x1="30" y1="44" x2="26" y2="57"/><line x1="30" y1="44" x2="34" y2="57"/><line x1="30" y1="28" x2="42" y2="21"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="47" y1="15" x2="53" y2="9"/><polyline points="48,8 53,9 53,14"/></g>
+</symbol>
+
+<symbol id="s-latraise" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="32" cy="12" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="32" y1="16" x2="32" y2="40"/><line x1="32" y1="40" x2="26" y2="57"/><line x1="32" y1="40" x2="38" y2="57"/><line x1="32" y1="22" x2="14" y2="20"/><line x1="32" y1="22" x2="50" y2="20"/></g>
+  <g fill="#d8fe5a"><circle cx="14" cy="20" r="2.8"/><circle cx="50" cy="20" r="2.8"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="15" x2="17" y2="8"/><polyline points="13,10 17,8 19,12"/><line x1="50" y1="15" x2="47" y2="8"/><polyline points="51,10 47,8 45,12"/></g>
+</symbol>
+
+<symbol id="s-bentfly" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="45" cy="26" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="40" x2="42" y2="28"/><line x1="20" y1="40" x2="20" y2="56"/><line x1="32" y1="34" x2="24" y2="46"/><line x1="32" y1="34" x2="40" y2="46"/></g>
+  <g fill="#d8fe5a"><circle cx="24" cy="46" r="2.8"/><circle cx="40" cy="46" r="2.8"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="43" x2="14" y2="37"/><polyline points="14,42 14,37 19,37"/><line x1="43" y1="43" x2="50" y2="37"/><polyline points="50,42 50,37 45,37"/></g>
+</symbol>
+
+<symbol id="s-facepull" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="56" y1="18" x2="40" y2="22"/>
+  <circle fill="#dfe2e9" cx="22" cy="16" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="20" x2="22" y2="42"/><line x1="22" y1="42" x2="18" y2="57"/><line x1="22" y1="42" x2="26" y2="57"/><line x1="22" y1="24" x2="38" y2="22"/></g>
+  <g fill="#d8fe5a"><circle cx="38" cy="20" r="2.2"/><circle cx="38" cy="24" r="2.2"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="38" y1="30" x2="28" y2="30"/><polyline points="32,26 28,30 32,34"/></g>
+</symbol>
+
+<symbol id="s-shrug" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="32" cy="12" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="32" y1="16" x2="32" y2="40"/><line x1="32" y1="40" x2="27" y2="57"/><line x1="32" y1="40" x2="37" y2="57"/><line x1="27" y1="20" x2="27" y2="38"/><line x1="37" y1="20" x2="37" y2="38"/></g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="20" y1="38" x2="44" y2="38"/>
+  <g fill="#d8fe5a"><circle cx="20" cy="38" r="2.6"/><circle cx="44" cy="38" r="2.6"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="21" x2="16" y2="13"/><polyline points="13,16 16,13 19,16"/><line x1="48" y1="21" x2="48" y2="13"/><polyline points="45,16 48,13 51,16"/></g>
+</symbol>
+
+<symbol id="s-pushdown" viewBox="0 0 116 64">
+  <!-- start: elbows in, forearms up at bar -->
+  <g opacity="0.5">
+    <line stroke="#4a505e" stroke-width="2.4" stroke-linecap="round" x1="30" y1="4" x2="30" y2="22"/>
+    <circle fill="#dfe2e9" cx="18" cy="14" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="17" x2="18" y2="44"/><line x1="18" y1="44" x2="14" y2="57"/><line x1="18" y1="44" x2="22" y2="57"/><line x1="18" y1="26" x2="26" y2="30"/><line x1="26" y1="30" x2="28" y2="22"/></g>
+    <line stroke="#d8fe5a" stroke-width="2.8" stroke-linecap="round" x1="23" y1="22" x2="37" y2="22"/>
+  </g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="52" y1="30" x2="52" y2="46"/><polyline points="48,42 52,46 56,42"/></g>
+  <!-- end: forearms pressed down, arms straight -->
+  <g>
+    <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="82" y1="4" x2="82" y2="24"/>
+    <circle fill="#dfe2e9" cx="70" cy="14" r="3.4"/>
+    <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="70" y1="18" x2="70" y2="44"/><line x1="70" y1="44" x2="66" y2="57"/><line x1="70" y1="44" x2="74" y2="57"/><line x1="70" y1="24" x2="78" y2="28"/><line x1="78" y1="28" x2="82" y2="40"/></g>
+    <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="76" y1="40" x2="90" y2="40"/>
+  </g>
+</symbol>
+
+<symbol id="s-kickback" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="45" cy="24" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="38" x2="42" y2="26"/><line x1="20" y1="38" x2="20" y2="56"/><line x1="34" y1="30" x2="38" y2="38"/><line x1="38" y1="38" x2="52" y2="34"/></g>
+  <circle fill="#d8fe5a" cx="52" cy="34" r="2.8"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="29" x2="57" y2="25"/><polyline points="53,22 57,25 55,29"/></g>
+</symbol>
+
+<symbol id="s-dip" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="8" y1="40" x2="22" y2="40"/><line x1="10" y1="40" x2="10" y2="50"/><line x1="20" y1="40" x2="20" y2="50"/></g>
+  <circle fill="#dfe2e9" cx="28" cy="22" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="28" y1="26" x2="32" y2="42"/><line x1="28" y1="28" x2="22" y2="40"/><line x1="32" y1="42" x2="50" y2="52"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="42" y1="42" x2="42" y2="30"/><polyline points="38,34 42,30 46,34"/></g>
+</symbol>
+
+<symbol id="s-ohext" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="30" cy="16" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="20" x2="30" y2="42"/><line x1="30" y1="42" x2="26" y2="57"/><line x1="30" y1="42" x2="34" y2="57"/><line x1="30" y1="22" x2="28" y2="11"/><line x1="28" y1="11" x2="38" y2="6"/></g>
+  <circle fill="#d8fe5a" cx="38" cy="6" r="2.8"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="43" y1="13" x2="49" y2="7"/><polyline points="44,6 49,7 49,12"/></g>
+</symbol>
+
+<symbol id="s-skull" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="12" y1="47" x2="46" y2="47"/><line x1="17" y1="47" x2="17" y2="56"/><line x1="41" y1="47" x2="41" y2="56"/></g>
+  <circle fill="#dfe2e9" cx="12" cy="42" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="42" x2="34" y2="42"/><polyline points="34,42 43,50 43,57"/><line x1="25" y1="42" x2="25" y2="28"/><line x1="25" y1="28" x2="14" y2="22"/></g>
+  <circle fill="#d8fe5a" cx="14" cy="22" r="3"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="16" x2="28" y2="14"/><polyline points="24,11 28,14 25,17"/></g>
+</symbol>
+
+<symbol id="s-squat" viewBox="0 0 116 64">
+  <!-- start: standing tall, bar on back -->
+  <g opacity="0.42">
+    <circle fill="#dfe2e9" cx="24" cy="12" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="15" x2="24" y2="38"/><line x1="24" y1="38" x2="24" y2="56"/></g>
+    <line stroke="#d8fe5a" stroke-width="2.8" stroke-linecap="round" x1="13" y1="18" x2="35" y2="18"/>
+    <g fill="#d8fe5a"><circle cx="13" cy="18" r="2.6"/><circle cx="35" cy="18" r="2.6"/></g>
+  </g>
+  <!-- arrow down -->
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="24" x2="54" y2="40"/><polyline points="50,36 54,40 58,36"/></g>
+  <!-- end: bottom of squat, hips down, knees bent -->
+  <g>
+    <circle fill="#dfe2e9" cx="92" cy="20" r="3.4"/>
+    <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="80" y1="26" x2="104" y2="26"/>
+    <g fill="#d8fe5a"><circle cx="80" cy="26" r="3"/><circle cx="104" cy="26" r="3"/></g>
+    <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="92" y1="24" x2="88" y2="40"/><line x1="88" y1="40" x2="100" y2="42"/><line x1="100" y1="42" x2="100" y2="56"/></g>
+  </g>
+</symbol>
+
+<symbol id="s-goblet" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="30" cy="18" r="3.4"/>
+  <circle fill="#d8fe5a" cx="35" cy="28" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="31" y1="22" x2="27" y2="38"/><line x1="27" y1="38" x2="39" y2="40"/><line x1="39" y1="40" x2="39" y2="56"/><line x1="30" y1="24" x2="35" y2="28"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="52" y1="42" x2="52" y2="28"/><polyline points="48,32 52,28 56,32"/></g>
+</symbol>
+
+<symbol id="s-hack" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="12" y1="54" x2="42" y2="14"/>
+  <circle fill="#dfe2e9" cx="40" cy="18" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="36" y1="22" x2="26" y2="38"/><line x1="26" y1="38" x2="36" y2="42"/><line x1="36" y1="42" x2="36" y2="56"/></g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="33" y1="17" x2="42" y2="25"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="46" y1="18" x2="52" y2="10"/><polyline points="47,9 52,10 52,15"/></g>
+</symbol>
+
+<symbol id="s-split" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="8" y1="46" x2="20" y2="46"/><line x1="10" y1="46" x2="10" y2="56"/><line x1="18" y1="46" x2="18" y2="56"/></g>
+  <circle fill="#dfe2e9" cx="32" cy="16" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="32" y1="20" x2="32" y2="38"/><line x1="32" y1="38" x2="42" y2="42"/><line x1="42" y1="42" x2="42" y2="56"/><line x1="32" y1="38" x2="18" y2="45"/></g>
+  <g fill="#d8fe5a"><circle cx="26" cy="34" r="2.6"/><circle cx="38" cy="34" r="2.6"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="52" y1="40" x2="52" y2="28"/><polyline points="48,32 52,28 56,32"/></g>
+</symbol>
+
+<symbol id="s-lunge" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="8" y1="58" x2="56" y2="58"/>
+  <circle fill="#dfe2e9" cx="30" cy="14" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="18" x2="30" y2="38"/><line x1="30" y1="38" x2="40" y2="42"/><line x1="40" y1="42" x2="40" y2="56"/><line x1="30" y1="38" x2="14" y2="56"/></g>
+  <g fill="#d8fe5a"><circle cx="24" cy="32" r="2.6"/><circle cx="36" cy="32" r="2.6"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="36" x2="50" y2="24"/><polyline points="46,28 50,24 54,28"/></g>
+</symbol>
+
+<symbol id="s-stepup" viewBox="0 0 64 64">
+  <polyline stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" points="34,58 34,42 54,42 54,58"/>
+  <circle fill="#dfe2e9" cx="30" cy="12" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="16" x2="30" y2="36"/><line x1="30" y1="36" x2="38" y2="42"/><line x1="30" y1="36" x2="22" y2="58"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="46" y1="36" x2="46" y2="26"/><polyline points="42,30 46,26 50,30"/></g>
+</symbol>
+
+<symbol id="s-legpress" viewBox="0 0 116 64">
+  <!-- start: knees bent, sled low -->
+  <g opacity="0.5">
+    <line stroke="#4a505e" stroke-width="2.4" stroke-linecap="round" x1="6" y1="52" x2="16" y2="34"/>
+    <circle fill="#dfe2e9" cx="11" cy="31" r="3"/>
+    <g stroke="#dfe2e9" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="13" y1="35" x2="22" y2="42"/><line x1="22" y1="42" x2="30" y2="34"/><line x1="30" y1="34" x2="38" y2="40"/></g>
+    <line stroke="#d8fe5a" stroke-width="2.8" stroke-linecap="round" x1="40" y1="26" x2="47" y2="44"/>
+  </g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="34" x2="64" y2="30"/><polyline points="60,27 64,30 62,34"/></g>
+  <!-- end: legs extended, sled pushed up/away -->
+  <g>
+    <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="66" y1="54" x2="76" y2="36"/>
+    <circle fill="#dfe2e9" cx="71" cy="33" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="73" y1="37" x2="86" y2="40"/><line x1="86" y1="40" x2="100" y2="36"/></g>
+    <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="102" y1="24" x2="108" y2="46"/>
+  </g>
+</symbol>
+
+<symbol id="s-legext" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="18" y1="26" x2="18" y2="48"/>
+  <circle fill="#dfe2e9" cx="25" cy="18" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="25" y1="22" x2="25" y2="42"/><line x1="25" y1="42" x2="37" y2="42"/><line x1="37" y1="42" x2="50" y2="34"/></g>
+  <circle fill="#d8fe5a" cx="50" cy="34" r="2.8"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="28" x2="54" y2="21"/><polyline points="50,22 54,21 55,26"/></g>
+</symbol>
+
+<symbol id="s-legcurl" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="12" y1="44" x2="44" y2="44"/><line x1="16" y1="44" x2="16" y2="54"/><line x1="40" y1="44" x2="40" y2="54"/></g>
+  <circle fill="#dfe2e9" cx="11" cy="38" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="15" y1="40" x2="38" y2="40"/><line x1="38" y1="40" x2="48" y2="30"/></g>
+  <circle fill="#d8fe5a" cx="48" cy="30" r="2.8"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="25" x2="43" y2="19"/><polyline points="48,17 43,19 45,24"/></g>
+</symbol>
+
+<symbol id="s-nordic" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="8" y1="58" x2="56" y2="58"/>
+  <line stroke="#4a505e" stroke-width="4" stroke-linecap="round" x1="10" y1="55" x2="18" y2="55"/>
+  <circle fill="#dfe2e9" cx="46" cy="22" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="55" x2="30" y2="55"/><line x1="30" y1="55" x2="44" y2="26"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="30" x2="54" y2="38"/><polyline points="55,33 54,38 49,38"/></g>
+</symbol>
+
+<symbol id="s-calf" viewBox="0 0 116 64">
+  <!-- start: heels down, flat -->
+  <g opacity="0.5">
+    <line stroke="#4a505e" stroke-width="2.4" stroke-linecap="round" x1="18" y1="54" x2="34" y2="54"/>
+    <circle fill="#dfe2e9" cx="26" cy="16" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="26" y1="19" x2="26" y2="40"/><line x1="26" y1="40" x2="26" y2="53"/><line x1="22" y1="54" x2="32" y2="54"/></g>
+  </g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="40" x2="54" y2="24"/><polyline points="50,28 54,24 58,28"/></g>
+  <!-- end: up on toes, heels raised -->
+  <g>
+    <polyline stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" points="78,50 94,50 94,56"/>
+    <circle fill="#dfe2e9" cx="86" cy="10" r="3.4"/>
+    <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="86" y1="14" x2="86" y2="36"/><line x1="86" y1="36" x2="86" y2="47"/><line x1="81" y1="51" x2="91" y2="47"/></g>
+  </g>
+</symbol>
+
+<symbol id="s-deadlift" viewBox="0 0 116 64">
+  <!-- start: bar on floor, hinged over -->
+  <g opacity="0.5">
+    <circle fill="#dfe2e9" cx="34" cy="18" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="34" x2="31" y2="20"/><line x1="14" y1="34" x2="18" y2="54"/><line x1="26" y1="24" x2="28" y2="48"/></g>
+    <line stroke="#d8fe5a" stroke-width="2.8" stroke-linecap="round" x1="8" y1="52" x2="30" y2="52"/>
+    <g fill="#d8fe5a"><circle cx="8" cy="52" r="3.4"/><circle cx="30" cy="52" r="3.4"/></g>
+  </g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="52" y1="40" x2="52" y2="24"/><polyline points="48,28 52,24 56,28"/></g>
+  <!-- end: standing lockout, bar at hips -->
+  <g>
+    <circle fill="#dfe2e9" cx="88" cy="12" r="3.4"/>
+    <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="88" y1="15" x2="88" y2="40"/><line x1="88" y1="40" x2="88" y2="56"/></g>
+    <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="76" y1="40" x2="100" y2="40"/>
+    <g fill="#d8fe5a"><circle cx="76" cy="40" r="4"/><circle cx="100" cy="40" r="4"/></g>
+  </g>
+</symbol>
+
+<symbol id="s-rdl" viewBox="0 0 116 64">
+  <!-- start: standing, bar at hips, legs near-straight -->
+  <g opacity="0.5">
+    <circle fill="#dfe2e9" cx="24" cy="12" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="15" x2="24" y2="38"/><line x1="24" y1="38" x2="26" y2="56"/></g>
+    <line stroke="#d8fe5a" stroke-width="2.8" stroke-linecap="round" x1="13" y1="38" x2="35" y2="38"/>
+    <g fill="#d8fe5a"><circle cx="13" cy="38" r="2.8"/><circle cx="35" cy="38" r="2.8"/></g>
+  </g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="26" x2="60" y2="34"/><polyline points="55,34 60,34 60,29"/></g>
+  <!-- end: hinged forward, bar mid-shin, back flat, slight knee bend -->
+  <g>
+    <circle fill="#dfe2e9" cx="99" cy="20" r="3.2"/>
+    <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="76" y1="32" x2="96" y2="22"/><line x1="76" y1="32" x2="78" y2="56"/><line x1="90" y1="25" x2="93" y2="44"/></g>
+    <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="84" y1="44" x2="102" y2="44"/>
+    <g fill="#d8fe5a"><circle cx="84" cy="44" r="3.2"/><circle cx="102" cy="44" r="3.2"/></g>
+  </g>
+</symbol>
+
+<symbol id="s-slrdl" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="47" cy="20" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="32" x2="44" y2="22"/><line x1="24" y1="32" x2="26" y2="56"/><line x1="24" y1="32" x2="8" y2="26"/><line x1="38" y1="25" x2="41" y2="42"/></g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="34" y1="42" x2="48" y2="42"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="57" y1="38" x2="57" y2="28"/><polyline points="53,32 57,28 61,32"/></g>
+</symbol>
+
+<symbol id="s-hipthrust" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="6" y1="34" x2="18" y2="34"/><line x1="8" y1="34" x2="8" y2="42"/><line x1="16" y1="34" x2="16" y2="42"/></g>
+  <circle fill="#dfe2e9" cx="12" cy="28" r="3"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="32" x2="34" y2="30"/><line x1="34" y1="30" x2="44" y2="40"/><line x1="44" y1="40" x2="44" y2="56"/></g>
+  <circle fill="#d8fe5a" cx="30" cy="26" r="4"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="26" y1="20" x2="26" y2="12"/><polyline points="22,15 26,12 30,15"/></g>
+</symbol>
+
+<symbol id="s-hyperext" viewBox="0 0 64 64">
+  <polyline stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" points="28,40 44,40 44,52"/>
+  <circle fill="#dfe2e9" cx="13" cy="27" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="42" x2="43" y2="39"/><line x1="30" y1="42" x2="16" y2="30"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="16" y2="13"/><polyline points="11,14 16,13 17,18"/></g>
+</symbol>
+
+<symbol id="s-pullup" viewBox="0 0 64 64">
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="14" y1="10" x2="50" y2="10"/>
+  <circle fill="#dfe2e9" cx="32" cy="19" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="25" y1="10" x2="29" y2="22"/><line x1="39" y1="10" x2="35" y2="22"/><line x1="32" y1="23" x2="32" y2="40"/><line x1="32" y1="40" x2="27" y2="50"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="55" y1="28" x2="55" y2="16"/><polyline points="51,20 55,16 59,20"/></g>
+</symbol>
+
+<symbol id="s-pulldown" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="36" y1="4" x2="36" y2="10"/>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="22" y1="12" x2="50" y2="12"/>
+  <circle fill="#dfe2e9" cx="33" cy="22" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="30" y1="26" x2="26" y2="12"/><line x1="37" y1="26" x2="45" y2="12"/><line x1="33" y1="26" x2="33" y2="42"/><line x1="33" y1="42" x2="43" y2="42"/><line x1="43" y1="42" x2="43" y2="55"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="55" y1="16" x2="55" y2="28"/><polyline points="51,24 55,28 59,24"/></g>
+</symbol>
+
+<symbol id="s-bbrow" viewBox="0 0 64 64">
+  <circle fill="#dfe2e9" cx="45" cy="22" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="34" x2="42" y2="24"/><line x1="22" y1="34" x2="24" y2="56"/><line x1="34" y1="27" x2="36" y2="42"/></g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="27" y1="42" x2="46" y2="42"/>
+  <g fill="#d8fe5a"><circle cx="27" cy="42" r="3.2"/><circle cx="46" cy="42" r="3.2"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="54" y1="40" x2="54" y2="30"/><polyline points="50,34 54,30 58,34"/></g>
+</symbol>
+
+<symbol id="s-dbrow" viewBox="0 0 64 64">
+  <g stroke="#4a505e" stroke-width="2.5" fill="none" stroke-linecap="round"><line x1="10" y1="44" x2="34" y2="44"/><line x1="14" y1="44" x2="14" y2="54"/><line x1="30" y1="44" x2="30" y2="54"/></g>
+  <circle fill="#dfe2e9" cx="43" cy="26" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="30" x2="40" y2="28"/><line x1="18" y1="30" x2="16" y2="44"/><line x1="32" y1="29" x2="33" y2="42"/></g>
+  <circle fill="#d8fe5a" cx="33" cy="44" r="3"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="42" y1="42" x2="42" y2="33"/><polyline points="38,37 42,33 46,37"/></g>
+</symbol>
+
+<symbol id="s-seatedrow" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="44" y1="36" x2="44" y2="50"/>
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="42" y1="27" x2="56" y2="27"/>
+  <circle fill="#dfe2e9" cx="24" cy="16" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="20" x2="24" y2="42"/><line x1="24" y1="42" x2="42" y2="44"/><line x1="24" y1="25" x2="38" y2="27"/></g>
+  <circle fill="#d8fe5a" cx="40" cy="27" r="2.8"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="42" y1="33" x2="30" y2="33"/><polyline points="34,29 30,33 34,37"/></g>
+</symbol>
+
+<symbol id="s-preacher" viewBox="0 0 64 64">
+  <!-- preacher: seated, upper arm rests on angled pad, forearm curls up -->
+  <!-- pad -->
+  <line stroke="#4a505e" stroke-width="3" stroke-linecap="round" x1="30" y1="30" x2="46" y2="42"/>
+  <!-- head -->
+  <circle fill="#dfe2e9" cx="20" cy="14" r="4"/>
+  <!-- torso (short, seated) + leg down -->
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="20" y1="18" x2="22" y2="38"/>
+    <line x1="22" y1="38" x2="34" y2="40"/><line x1="34" y1="40" x2="34" y2="56"/>
+  </g>
+  <!-- upper arm resting along the pad, then forearm curled up to shoulder -->
+  <g stroke="#dfe2e9" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="22" y1="22" x2="42" y2="38"/>
+    <line x1="42" y1="38" x2="30" y2="26"/>
+  </g>
+  <!-- weight at hand -->
+  <circle fill="#d8fe5a" cx="30" cy="26" r="3.4"/>
+  <!-- curl-up arrow -->
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M44 40 Q40 30 32 27"/><polyline points="35,25 32,27 33,31"/></g>
+</symbol>
+
+<symbol id="s-inclinecurl" viewBox="0 0 64 64">
+  <!-- incline bench (backrest angled) -->
+  <line stroke="#4a505e" stroke-width="3" stroke-linecap="round" x1="14" y1="52" x2="38" y2="18"/>
+  <line stroke="#4a505e" stroke-width="3" stroke-linecap="round" x1="14" y1="52" x2="30" y2="52"/>
+  <!-- head resting near top of backrest -->
+  <circle fill="#dfe2e9" cx="38" cy="16" r="4"/>
+  <!-- torso reclined along the backrest, then legs out -->
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="36" y1="19" x2="22" y2="40"/>
+    <line x1="22" y1="40" x2="40" y2="46"/>
+  </g>
+  <!-- upper arm hangs straight down from shoulder, forearm curls up -->
+  <g stroke="#dfe2e9" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="30" y1="28" x2="30" y2="44"/>
+    <line x1="30" y1="44" x2="38" y2="34"/>
+  </g>
+  <circle fill="#d8fe5a" cx="38" cy="34" r="3.4"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M30 46 Q34 40 38 37"/><polyline points="35,36 38,37 38,41"/></g>
+</symbol>
+
+<symbol id="s-curl" viewBox="0 0 64 64">
+  <!-- standing curl: upright body, upper arm at side, forearm curls up -->
+  <circle fill="#dfe2e9" cx="26" cy="12" r="4"/>
+  <!-- torso + two legs -->
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="26" y1="16" x2="26" y2="40"/>
+    <line x1="26" y1="40" x2="22" y2="57"/><line x1="26" y1="40" x2="30" y2="57"/>
+  </g>
+  <!-- upper arm hangs from shoulder, forearm curled up toward shoulder -->
+  <g stroke="#dfe2e9" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="26" y1="22" x2="30" y2="38"/>
+    <line x1="30" y1="38" x2="34" y2="24"/>
+  </g>
+  <circle fill="#d8fe5a" cx="34" cy="24" r="3.4"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M32 39 Q35 30 34 26"/><polyline points="37,27 34,26 33,30"/></g>
+</symbol>
+
+<symbol id="s-conccurl" viewBox="0 0 64 64">
+  <!-- seated bench line -->
+  <line stroke="#4a505e" stroke-width="3" stroke-linecap="round" x1="10" y1="52" x2="30" y2="52"/>
+  <!-- head, hunched forward over the working arm -->
+  <circle fill="#dfe2e9" cx="24" cy="14" r="4"/>
+  <!-- torso leaning forward, thigh horizontal, shin down -->
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="24" y1="18" x2="30" y2="34"/>
+    <line x1="30" y1="34" x2="46" y2="38"/>
+    <line x1="46" y1="38" x2="46" y2="54"/>
+  </g>
+  <!-- working arm: upper arm braced against inner thigh, forearm curls up -->
+  <g stroke="#dfe2e9" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="34" y1="36" x2="38" y2="48"/>
+    <line x1="38" y1="48" x2="34" y2="34"/>
+  </g>
+  <circle fill="#d8fe5a" cx="34" cy="34" r="3.4"/>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M40 48 Q36 40 34 36"/><polyline points="37,35 34,36 34,40"/></g>
+</symbol>
+
+<symbol id="s-crunch" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="12" y1="46" x2="48" y2="42"/>
+  <circle fill="#dfe2e9" cx="23" cy="30" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="38" y1="42" x2="26" y2="33"/><polyline points="38,42 46,34 50,42"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="24" x2="29" y2="21"/><polyline points="25,18 29,21 26,24"/></g>
+</symbol>
+
+<symbol id="s-hangraise" viewBox="0 0 64 64">
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="18" y1="8" x2="46" y2="8"/>
+  <circle fill="#dfe2e9" cx="32" cy="16" r="3"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="26" y1="8" x2="30" y2="19"/><line x1="38" y1="8" x2="34" y2="19"/><line x1="32" y1="20" x2="32" y2="36"/><line x1="32" y1="36" x2="48" y2="32"/></g>
+  <g stroke="#8b8f9a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="28" x2="53" y2="21"/><polyline points="49,22 53,21 55,26"/></g>
+</symbol>
+
+<symbol id="s-plank" viewBox="0 0 64 64">
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="8" y1="58" x2="56" y2="58"/>
+  <circle fill="#dfe2e9" cx="49" cy="37" r="3.2"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="45" x2="45" y2="38"/><line x1="42" y1="40" x2="44" y2="54"/><line x1="16" y1="45" x2="13" y2="56"/></g>
+  <circle fill="#d8fe5a" cx="30" cy="38" r="3.4"/>
+</symbol>
+
+<symbol id="s-suryanamaskar" viewBox="0 0 64 64">
+  <!-- prayer/mountain pose: standing, hands together at chest -->
+  <circle fill="#dfe2e9" cx="32" cy="12" r="4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="32" y1="16" x2="32" y2="40"/>
+    <line x1="32" y1="40" x2="28" y2="57"/><line x1="32" y1="40" x2="36" y2="57"/>
+    <line x1="32" y1="24" x2="30" y2="32"/><line x1="32" y1="24" x2="34" y2="32"/>
+  </g>
+  <path d="M28 32 L32 28 L36 32" fill="none" stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+
+<symbol id="s-chair" viewBox="0 0 64 64">
+  <!-- chair pose (utkatasana): knees bent, arms up, torso leaning -->
+  <circle fill="#dfe2e9" cx="24" cy="14" r="3.6"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="24" y1="18" x2="30" y2="36"/>
+    <line x1="30" y1="36" x2="44" y2="38"/><line x1="44" y1="38" x2="44" y2="56"/>
+    <line x1="24" y1="18" x2="14" y2="6"/>
+  </g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="24" y1="18" x2="14" y2="6"/>
+</symbol>
+
+<symbol id="s-warrior" viewBox="0 0 64 64">
+  <!-- warrior II: wide legs, arms out horizontal, front knee bent -->
+  <circle fill="#dfe2e9" cx="30" cy="16" r="3.6"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="30" y1="20" x2="30" y2="38"/>
+    <line x1="30" y1="38" x2="16" y2="56"/>
+    <line x1="30" y1="38" x2="46" y2="46"/><line x1="46" y1="46" x2="52" y2="56"/>
+  </g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="14" y1="26" x2="48" y2="26"/>
+</symbol>
+
+<symbol id="s-tree" viewBox="0 0 64 64">
+  <!-- tree pose (vrksasana): one leg, foot to inner thigh, hands up -->
+  <circle fill="#dfe2e9" cx="32" cy="12" r="3.6"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="32" y1="16" x2="32" y2="40"/>
+    <line x1="32" y1="40" x2="32" y2="57"/>
+    <line x1="32" y1="42" x2="24" y2="34"/><line x1="24" y1="34" x2="30" y2="30"/>
+  </g>
+  <g stroke="#d8fe5a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="32" y1="18" x2="27" y2="6"/><line x1="32" y1="18" x2="37" y2="6"/></g>
+</symbol>
+
+<symbol id="s-sideplank" viewBox="0 0 64 64">
+  <!-- side plank: diagonal body on one arm, top arm up -->
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="8" y1="56" x2="56" y2="56"/>
+  <circle fill="#dfe2e9" cx="14" cy="24" r="3.4"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="16" y1="27" x2="50" y2="50"/>
+    <line x1="16" y1="27" x2="14" y2="50"/>
+  </g>
+  <line stroke="#d8fe5a" stroke-width="3" stroke-linecap="round" x1="18" y1="24" x2="24" y2="6"/>
+</symbol>
+
+<symbol id="s-bridge" viewBox="0 0 64 64">
+  <!-- bridge (setu bandha): hips lifted, shoulders + feet down -->
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="8" y1="52" x2="56" y2="52"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="14" y1="50" x2="24" y2="46"/>
+    <line x1="24" y1="46" x2="36" y2="30"/>
+    <line x1="36" y1="30" x2="46" y2="46"/>
+    <line x1="46" y1="46" x2="46" y2="50"/>
+  </g>
+  <circle fill="#dfe2e9" cx="12" cy="48" r="3.4"/>
+  <path d="M24 46 Q36 26 46 46" fill="none" stroke="#d8fe5a" stroke-width="2.4" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="s-deadhang" viewBox="0 0 64 64">
+  <!-- dead hang: bar up top, body hanging straight -->
+  <line stroke="#4a505e" stroke-width="3" stroke-linecap="round" x1="14" y1="8" x2="50" y2="8"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="32" y1="10" x2="32" y2="18"/>
+    <line x1="32" y1="22" x2="32" y2="46"/>
+    <line x1="32" y1="46" x2="28" y2="58"/><line x1="32" y1="46" x2="36" y2="58"/>
+  </g>
+  <circle fill="#dfe2e9" cx="32" cy="20" r="3.4"/>
+  <g fill="#d8fe5a"><circle cx="26" cy="9" r="2.6"/><circle cx="38" cy="9" r="2.6"/></g>
+</symbol>
+
+<symbol id="s-downdog" viewBox="0 0 64 64">
+  <!-- downward dog: inverted V, hands and feet down, hips up -->
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="6" y1="56" x2="58" y2="56"/>
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="54" x2="32" y2="20"/>
+    <line x1="32" y1="20" x2="52" y2="54"/>
+  </g>
+  <circle fill="#dfe2e9" cx="18" cy="46" r="3"/>
+  <path d="M12 54 L32 20 L52 54" fill="none" stroke="#d8fe5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+</symbol>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Upper / Lower &middot; 6 Days &middot; Recovery-First</div>
+    <h1>Weekly<br><em>Exercise</em> Routine</h1>
+    <p class="sub">Six days a week without the soreness that forces a skip day. Each muscle twice weekly at moderate volume &mdash; enough to grow, light enough to recover by the next session. Two modes: Quick when time is short, Full when you have the room.</p>
+
+    <div class="toggle">
+      <button id="btnStandard" class="on" onclick="setMode('standard')">Standard</button>
+      <button id="btnFull" onclick="setMode('full')">Full</button>
+    </div>
+    <div class="modeline" id="modeline"><b>Standard &middot; ~45 min:</b> compound + 3&ndash;4 isolations. Your everyday session and the default. Each muscle twice a week.</div>
+    <div class="nojs-banner">Showing <b>every exercise across all three tiers</b> &mdash; ideal for printing or saving as PDF. Each exercise is chipped <b>Quick</b>, <b>Standard</b>, or <b>Full</b> so you can see which tier it belongs to. (Open this file in a browser for the interactive Quick / Standard / Full toggle and tap-to-expand swap options.)</div>
+
+    <div class="principles">
+      <span class="pill">Compounds: <b>1&ndash;3 reps in reserve</b></span>
+      <span class="pill">Failure only on last isolation set</span>
+      <span class="pill">Squat &amp; deadlift never back-to-back</span>
+      <span class="pill"><b>Warm up</b> before every compound</span>
+    </div>
+
+    <p class="hint"><b>Tap any exercise</b> to see swap options with movement diagrams &mdash; body position, equipment in <span style="color:var(--accent)">lime</span>, grey arrow shows the working direction. Machine taken? Grab dumbbells or a barbell and keep moving.</p>
+
+    <div class="legend">
+      <span class="badge b-bb">BB Barbell</span>
+      <span class="badge b-db">DB Dumbbell</span>
+      <span class="badge b-mc">MC Machine</span>
+      <span class="badge b-cb">CB Cable</span>
+      <span class="badge b-bw">BW Bodyweight</span>
+    </div>
+
+    <div class="cardio">
+      <div class="cardio-h">Cardio &amp; Walking</div>
+      <div class="cardio-grid">
+        <div class="cardio-item">
+          <div class="ci-t">Daytime walking breaks</div>
+          <div class="ci-when">Every day &middot; whenever</div>
+          <div class="ci-d">Break up sitting with a few minutes of walking through the day. Low-intensity, restorative, zero interference with lifting &mdash; one of the highest-value habits here. The walk to the gym can double as your general warm-up.</div>
+        </div>
+        <div class="cardio-item">
+          <div class="ci-t">After-dinner walk</div>
+          <div class="ci-when">Every day &middot; evening</div>
+          <div class="ci-d">10&ndash;20 min easy. Blunts the post-meal blood-sugar spike and is gentle enough not to disturb sleep. Keep it relaxed &mdash; this is recovery, not training.</div>
+        </div>
+        <div class="cardio-item run">
+          <div class="ci-t">Weekly run</div>
+          <div class="ci-when">Day 7 &middot; morning</div>
+          <div class="ci-d">Once a week (2&times; is the ceiling, not a target). Sits on the yoga day because there's no lifting to blunt. <b>Run first, then the stability holds as your cooldown.</b> If it ever leaves you flat for Day 1, ease the intensity.</div>
+        </div>
+      </div>
+      <div class="cardio-rule">Rule of thumb: keep hard cardio and lifting hours apart so they don't cannibalise each other. Easy walking has no interference &mdash; do it anytime, including right after a lift. Never run hard right before lifting; if same session is unavoidable, lift first.</div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ============ DAY 1 ============ -->
+    <div class="day push">
+      <div class="dnum">Day 1</div>
+      <div class="dtitle">Upper</div>
+      <div class="tag">Push Focus</div>
+      <ul class="exlist">
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Bench Press (Horizontal Press)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; front delts, triceps</span></span><span class="sets">3 &times; 6&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Shoulder blades pulled back and down, slight arch, feet planted</li><li>Lower the bar to mid-chest with control; elbows ~45°, not flared</li><li>Drive up and slightly back over the shoulders; keep wrists stacked</li><li class="avoid">Don't bounce off the chest or let elbows flare to 90°</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=bench+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-bench"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Flat Barbell Bench Press</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbbench"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Flat Dumbbell Bench Press</em> &mdash; rack taken, grab dumbbells</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-mpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Seated Chest Press Machine</em> (Hammer Strength / Life Fitness)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-smith"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Bench Press</em> &mdash; fixed path, no spotter needed</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pushup"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Weighted Push-Up</em> (plate on back) &mdash; everything occupied</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Chest Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; front delts</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight bend in the elbows, hold it fixed the whole set</li><li>Open until you feel a chest stretch; don't overstretch the shoulder</li><li>Squeeze the chest to bring the arms together, hands don't need to touch</li><li class="avoid">Don't turn it into a press by bending the elbows</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=chest+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck / Chest Fly Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Flat or Incline Dumbbell Fly</em> &mdash; just need a bench</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Cable Crossover<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; inner/lower chest</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, soft elbows, one foot staggered for balance</li><li>Lead with the pinkies and cross the hands slightly at the end</li><li>Control the stretch on the way back</li><li class="avoid">Don't shrug or let the shoulders roll forward</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=cable+crossover+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-crossover"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>High-to-Low Cable Crossover</em> &mdash; lower chest</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crossover"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Low-to-High Cable Crossover</em> &mdash; upper chest</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crossover"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Mid Cable Crossover</em> &mdash; rotate angles weekly</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbbench"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Squeeze Press</em> &mdash; cables busy</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Overhead / Shoulder Press<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Shoulders</b> &middot; triceps, upper chest</span></span><span class="sets">2 &times; 8&ndash;10</span></div>
+          <div class="ssnote">Pairs with Lateral Raise — same dumbbells, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Brace the core, ribs down; grip just outside shoulders</li><li>Press up and slightly back so the bar/dumbbells finish over the crown</li><li class="avoid">Don't lean back and turn it into an incline press</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=shoulder+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Seated Dumbbell Shoulder Press</em> &mdash; your default, low stabilizer fatigue</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Shoulder Press Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpstand"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Standing Barbell Overhead Press</em> &mdash; the strength version</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Seated Smith Machine Press</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Arnold Press</em> &mdash; go lighter</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-landmine"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Landmine Press</em> &mdash; if straight overhead bugs your shoulder</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Lateral Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Side delts</b> &middot; traps</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
+          <div class="ssnote">Pairs with Overhead Press — same dumbbells, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, tiny bend in the elbow, lead with the elbows</li><li>Raise to shoulder height — no higher — pinky slightly up</li><li>Lower slowly; control beats momentum here</li><li class="avoid">Don't swing or use the traps to heave the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lateral+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Standing Dumbbell Lateral Raise</em> &mdash; 15&ndash;25 lb is plenty</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Single-Arm Cable Lateral Raise</em> &mdash; constant tension, best version</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lateral Raise Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Leaning Lateral Raise</em> &mdash; hold a rack, lean away</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Rear delts</b> &middot; traps, rhomboids</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it in toward the hips — that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em> (face the pad)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cross-Body Cable Reverse Fly</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Shrug (Traps)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Traps</b> &middot; upper back</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Straight up toward the ears, not rolling forward or back</li><li>Pause and squeeze at the top for a second</li><li class="avoid">Don't roll the shoulders — it adds nothing and stresses the joint</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=shrug+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Shrug</em> &mdash; easiest to grab</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Barbell Shrug</em> (front or behind-the-back)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Shrug</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Trap Bar Shrug / Shrug Machine</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Medial Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; medial head</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Elbows pinned to your sides, upper arms stay still</li><li>Extend fully and squeeze; control back to ~90°</li><li class="avoid">Don't let the elbows drift forward or lean over the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+pushdown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Rope Triceps Pushdown</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Straight-Bar / V-Bar Pushdown</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-kickback"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Triceps Kickback</em> &mdash; cables busy</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dip"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Bench Dip</em></span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar, slow flow; light dumbbell press; push-ups; then a couple of ramp-up sets on the bar before your working weight.</p>
+      <div class="dur d-standard">Standard: ~45 min</div>
+      <div class="dur d-full">Full: ~75 min</div>
+    </div>
+
+    <!-- ============ DAY 2 ============ -->
+    <div class="day lower">
+      <div class="dnum">Day 2</div>
+      <div class="dtitle">Lower</div>
+      <div class="tag">Quad Focus</div>
+      <ul class="exlist">
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Squat (Back Squat)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b> &middot; glutes, lower back, core</span></span><span class="sets">3 &times; 6&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Bar on the upper back, brace hard, feet ~shoulder width</li><li>Sit down and back; knees track over the toes</li><li>Depth to at least parallel while the back stays neutral</li><li class="avoid">Don't let the knees cave in or the heels lift</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=squat+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Barbell Back Squat</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Front Squat</em> (bar on front delts) &mdash; more quad, less lower back</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hack"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Hack Squat Machine</em> &mdash; rack occupied</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Squat</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-goblet"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Goblet Squat</em> &mdash; one dumbbell, anywhere</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-split"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bulgarian Split Squat</em> (rear foot on bench) &mdash; brutal, needs no rack</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Leg Press<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b> &middot; glutes, hamstrings</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
+          <div class="ssnote">Pairs with Leg Extension — adjacent machines, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Feet mid-platform, push through the heels</li><li>Lower until knees ~90° without the lower back rounding off the pad</li><li class="avoid">Don't lock the knees hard or let them cave inward</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>45&deg; Leg Press</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Horizontal / Seated Leg Press</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hack"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Hack Squat</em> &mdash; if you squatted with a barbell</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-lunge"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Walking Lunge</em> &mdash; everything taken</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-stepup"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Step-Up</em> (onto box or bench)</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Leg Extension<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b></span></span><span class="sets">2 &times; 12&ndash;15</span></div>
+          <div class="ssnote">Pairs with Leg Press — adjacent machines, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Knees aligned with the pivot, back against the pad</li><li>Extend fully, squeeze the quads at the top</li><li class="avoid">Don't swing or use momentum — control the negative</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+extension+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-legext"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Leg Extension Machine</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Sissy Squat</em> (bodyweight or holding a plate)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-lunge"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Reverse Lunge</em> &mdash; quad-biased substitute</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Hamstring Curl<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Hamstrings</b> &middot; calves</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hips flat on the pad, controlled tempo</li><li>Curl fully and squeeze; slow on the way back</li><li class="avoid">Don't lift the hips to cheat the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lying or Seated Leg Curl Machine</em> &mdash; either is fine</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-rdl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Romanian Deadlift</em> &mdash; machine taken</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-nordic"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Nordic Hamstring Curl</em> / slider curl</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Calf Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Calves</b></span></span><span class="sets">2 &times; 10&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Full stretch at the bottom, all the way up onto the toes</li><li>Pause at the top and bottom, no bouncing</li><li class="avoid">Don't use a tiny bouncy range — slow and full is the point</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=calf+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Standing or Seated Calf Raise Machine</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Calf Raise</em> on a plate or step</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Calf Raise</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Leg Press Calf Press</em> &mdash; you're already there</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Overhead Triceps Extension (Long Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; long head</span></span><span class="sets">3 &times; 8&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Upper arms stay by the ears, elbows pointing up</li><li>Deep stretch at the bottom — that's where the long head grows</li><li>Extend fully overhead; only the forearms move</li><li class="avoid">Don't let the elbows flare wide</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=overhead+tricep+extension+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohext"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Overhead Cable Rope Extension</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-skull"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Skull Crusher</em> (EZ bar, lying)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohext"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Overhead Dumbbell Extension</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bench"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Close-Grip Bench Press</em> &mdash; the compound option</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Medial Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; medial head</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Elbows pinned to your sides, upper arms stay still</li><li>Extend fully and squeeze; control back to ~90°</li><li class="avoid">Don't let the elbows drift forward or lean over the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+pushdown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Rope Pushdown</em> &mdash; right after overhead, same station</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Straight-Bar Pushdown</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-kickback"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Kickback</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Kickback (Short Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; short head</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hinge over, upper arm parallel to the floor and fixed</li><li>Extend fully back and squeeze; slow return</li><li class="avoid">Don't swing the upper arm to fling the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+kickback+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-kickback"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cable Rope Kickback</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-kickback"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Kickback</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Reverse-Grip Pushdown</em></span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Warm up (legs need the longest, 20&ndash;30 min): 3&ndash;5 rounds Surya Namaskar with a held deep-squat (Malasana); body-weight squats; then ramp-up sets on the bar. Don't skip the ramp sets.</p>
+      <div class="dur d-standard">Standard: ~45 min</div>
+      <div class="dur d-full">Full: ~90 min</div>
+    </div>
+
+    <!-- ============ DAY 3 ============ -->
+    <div class="day pull">
+      <div class="dnum">Day 3</div>
+      <div class="dtitle">Upper</div>
+      <div class="tag">Pull Focus</div>
+      <ul class="exlist">
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Deadlift (Conventional)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Posterior chain</b> &middot; glutes, hams, back, traps, grip</span></span><span class="sets">3 &times; 6&ndash;8</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Bar over mid-foot, shins near the bar, neutral flat back</li><li>Brace, take the slack out, push the floor away</li><li>Bar stays close to the body; lock out with glutes, don't lean back</li><li class="avoid">Don't round the lower back or jerk it off the floor</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=deadlift+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-deadlift"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Conventional Barbell Deadlift</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-deadlift"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Trap Bar (Hex Bar) Deadlift</em> &mdash; easier on the lower back</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-deadlift"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Sumo Deadlift</em> (wide stance)</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-rdl"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Rack Pull</em> (bar at knee height) &mdash; shorter range, less back stress</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-deadlift"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Deadlift</em> &mdash; platform busy</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Vertical Pull (Pull-Up / Pulldown)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Lats</b> &middot; biceps, rear delts</span></span><span class="sets">3 &times; 6&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Start with shoulder blades depressed (pull them down first)</li><li>Lead with the elbows down and back; bring the bar to upper chest</li><li>Control the stretch at the top, don't just drop</li><li class="avoid">Don't shrug up or use momentum to swing</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lat+pulldown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-pullup"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Pull-Up</em> &mdash; wide, neutral, or weighted</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pulldown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Lat Pulldown</em> &mdash; rotate wide/close grip each session</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pullup"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Assisted Pull-Up Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pulldown"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Hammer Strength Iso-Lateral Pulldown</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pulldown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Straight-Arm Pulldown</em> &mdash; lat isolation</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Barbell Row (Bent-Over Row)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Mid-back</b> &middot; lats, biceps, rear delts</span></span><span class="sets">3 &times; 8&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hinge to ~45°, flat back, brace the core</li><li>Pull to the lower ribs/belly, elbows drive back</li><li>Squeeze the shoulder blades; control down</li><li class="avoid">Don't heave with the lower back or stand up on each rep</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=barbell+row+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-bbrow"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Row</em> &mdash; start here, learn to control the weight down</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bbrow"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Bent-Over Barbell Row</em> &mdash; the end goal</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bbrow"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Pendlay Row / Reverse-Grip Row</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbrow"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Dumbbell Row</em> (knee on bench)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bbrow"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>T-Bar Row / Landmine Row</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Seated / Horizontal Row<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Mid-back</b> &middot; lats, biceps</span></span><span class="sets">2 &times; 8&ndash;12</span></div>
+          <div class="ssnote">Pairs with Preacher Curl — cable station + EZ bar beside it</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Tall chest, slight lean, pull to the stomach</li><li>Drive the elbows back and squeeze the mid-back</li><li class="avoid">Don't round forward or yank with the lower back</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=seated+cable+row+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-seatedrow"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Row</em> &mdash; rotate narrow/wide grip</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-seatedrow"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Chest-Supported Row Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bbrow"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>T-Bar Row</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbrow"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Chest-Supported Dumbbell Row</em> (prone on incline bench)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbrow"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Dumbbell Row</em> &mdash; always available</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Rear delts</b> &middot; traps, rhomboids</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it in toward the hips — that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Preacher Curl (Elbow Forward)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Biceps</b> &middot; short head emphasis</span></span><span class="sets">2 &times; 8&ndash;12</span></div>
+          <div class="ssnote">Pairs with Row — cable station + EZ bar beside it</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Back of the upper arm flat on the pad the whole set</li><li>Full stretch at the bottom, squeeze at the top</li><li>Elbows forward on the pad emphasises the short (inner) head</li><li class="avoid">Don't half-rep or bounce out of the bottom stretch</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=preacher+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>EZ-Bar Preacher Curl</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Preacher Curl Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Dumbbell Preacher Curl</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>High Cable Curl / Spider Curl</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Incline Curl (Elbow Back)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Biceps</b> &middot; long head emphasis</span></span><span class="sets">3 &times; 8&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Lie back on an incline bench, arms hang straight down</li><li>Elbows stay back behind the torso — this stretches the long (outer) head</li><li>Curl without letting the elbows drift forward</li><li class="avoid">Don't swing the shoulders up to start the rep</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=incline+dumbbell+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-inclinecurl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Incline Dumbbell Curl</em> (lying back on incline bench) &mdash; the default</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-inclinecurl"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Behind-the-Body Cable Curl</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Drag Curl</em> &mdash; bench taken</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Concentration Curl<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Biceps</b> &middot; peak / mind-muscle</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Seated, elbow braced against the inner thigh</li><li>Curl slowly, twist the pinky up, hard squeeze at the top</li><li>Great for building the mind-muscle connection</li><li class="avoid">Don't move the elbow off the thigh</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=concentration+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-conccurl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Seated Concentration Curl</em> (elbow braced on thigh) &mdash; teaches the contraction; drop it once connected</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Single-Arm Cable Curl</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Hammer Curl</em> (neutral grip) &mdash; brachialis, adds arm thickness</span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar, slow flow; hyperextensions; light pulldowns; then ramp-up sets. Always warm the lower back before deadlifting.</p>
+      <div class="dur d-standard">Standard: ~45 min</div>
+      <div class="dur d-full">Full: ~90 min</div>
+    </div>
+
+    <!-- ============ DAY 4 ============ -->
+    <div class="day lower">
+      <div class="dnum">Day 4</div>
+      <div class="dtitle">Lower</div>
+      <div class="tag">Posterior Focus</div>
+      <ul class="exlist">
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Romanian Deadlift (Hip Hinge)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Hamstrings</b> &middot; glutes, lower back</span></span><span class="sets">3 &times; 8&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Soft knees, push the hips back, bar drags down the thighs</li><li>Lower until you feel the hamstring stretch (~mid-shin), flat back</li><li>Drive the hips forward to stand; squeeze the glutes</li><li class="avoid">Don't turn it into a squat or round the back</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=romanian+deadlift+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-rdl"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Barbell Romanian Deadlift (RDL)</em> &mdash; the default</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-rdl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Romanian Deadlift</em> &mdash; rack busy, works just as well</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-rdl"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine RDL</em> &mdash; fixed path</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lying Leg Curl</em> &mdash; lower back tired? swap here</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-slrdl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Leg Romanian Deadlift</em> &mdash; lighter, balance work</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Hip Thrust (Glutes / Hamstrings)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Glutes</b> &middot; hamstrings</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
+          <div class="ssnote">Pairs with Abs — same bench, no move, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Upper back on the bench, chin tucked, feet flat</li><li>Drive through the heels, full hip extension, squeeze glutes at top</li><li class="avoid">Don't hyperextend the lower back — ribs stay down</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=hip+thrust+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-hipthrust"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Barbell Hip Thrust</em> (shoulders on bench) &mdash; the default</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hipthrust"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Hip Thrust Machine / Glute Drive</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Seated or Lying Leg Curl</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hipthrust"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Hip Thrust</em> &mdash; bench + one dumbbell</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hyperext"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Back Extension / Hyperextension</em> &mdash; doubles as warm-up</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Leg Press<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b> &middot; glutes, hamstrings</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Feet mid-platform, push through the heels</li><li>Lower until knees ~90° without the lower back rounding off the pad</li><li class="avoid">Don't lock the knees hard or let them cave inward</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>45&deg; Leg Press</em> &mdash; feet high on platform for more glutes/hams</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-lunge"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Walking Lunge</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-split"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bulgarian Split Squat</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Calf Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Calves</b></span></span><span class="sets">2 &times; 10&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Full stretch at the bottom, all the way up onto the toes</li><li>Pause at the top and bottom, no bouncing</li><li class="avoid">Don't use a tiny bouncy range — slow and full is the point</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=calf+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Seated Calf Raise</em> &mdash; soleus</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Standing Calf Raise</em> &mdash; gastrocnemius</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Calf Raise</em> on a step</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Calf Raise</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Abs (Crunch)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Abs</b> &middot; core</span></span><span class="sets">2 &times; 12&ndash;20</span></div>
+          <div class="ssnote">Pairs with Hip Thrust — same bench, no move, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Curl the ribcage toward the pelvis, not just lifting the neck</li><li>Slow and controlled, exhale at the top</li><li class="avoid">Don't yank on the neck or use momentum</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=ab+crunch+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Decline Bench Crunch</em> &mdash; your go-to</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Weighted Crunch Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Kneeling Cable Crunch</em> (rope behind head)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hangraise"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Hanging Leg Raise</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-plank"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Weighted Plank</em> &mdash; plate on the back</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Weighted Plank<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Core</b> &middot; abs, obliques</span></span><span class="sets">3 &times; 45&ndash;60s</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Straight line head to heels, brace the abs and glutes</li><li>Ribs down, don't let the hips sag or pike up</li><li>Add the plate on the upper back once form is solid</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=plank+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-plank"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Plank with Plate on Back</em> &mdash; 10&ndash;20 kg, add over time</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-plank"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Long-Lever Plank</em> (arms further forward) &mdash; harder without weight</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-plank"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Side Plank</em> &mdash; obliques</span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar with a held bridge (Setu Bandha); body-weight hip hinges; then ramp-up sets. RDL is a compound &mdash; lower back tired? Swap for leg curls.</p>
+      <div class="dur d-standard">Standard: ~45 min</div>
+      <div class="dur d-full">Full: ~75 min</div>
+    </div>
+
+    <!-- ============ DAY 5 ============ -->
+    <div class="day push">
+      <div class="dnum">Day 5</div>
+      <div class="dtitle">Upper</div>
+      <div class="tag">Push Focus &middot; Variation</div>
+      <ul class="exlist">
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Incline / Decline Bench Press<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; front delts, triceps</span></span><span class="sets">3 &times; 6&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Incline ~30° for upper chest; blades retracted, feet planted</li><li>Lower to the upper chest, elbows ~45°</li><li class="avoid">Don't set the incline too steep — it turns into a shoulder press</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=incline+bench+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-bench"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Incline Barbell Bench Press</em> &mdash; rotate incline &rarr; decline &rarr; flat weekly</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbbench"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Incline Dumbbell Press</em> &mdash; bigger range of motion</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-mpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Incline Chest Press Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-smith"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Incline Press</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pushup"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Decline Push-Up</em> (feet elevated)</span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Chest Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; front delts</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight bend in the elbows, hold it fixed the whole set</li><li>Open until you feel a chest stretch; don't overstretch the shoulder</li><li>Squeeze the chest to bring the arms together, hands don't need to touch</li><li class="avoid">Don't turn it into a press by bending the elbows</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=chest+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Fly</em> &mdash; swap vs. whatever you did Day 1</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Cable Crossover<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; inner/lower chest</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, soft elbows, one foot staggered for balance</li><li>Lead with the pinkies and cross the hands slightly at the end</li><li>Control the stretch on the way back</li><li class="avoid">Don't shrug or let the shoulders roll forward</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=cable+crossover+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-crossover"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cable Crossover</em> &mdash; vary the angle from Day 1</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck</em> &mdash; cables occupied</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbbench"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Squeeze Press</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Overhead / Shoulder Press<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Shoulders</b> &middot; triceps, upper chest</span></span><span class="sets">2 &times; 8&ndash;10</span></div>
+          <div class="ssnote">Pairs with Lateral Raise — same dumbbells, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Brace the core, ribs down; grip just outside shoulders</li><li>Press up and slightly back so the bar/dumbbells finish over the crown</li><li class="avoid">Don't lean back and turn it into an incline press</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=shoulder+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Seated Dumbbell Shoulder Press</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Shoulder Press Machine</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpstand"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Standing Barbell Overhead Press</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohpseat"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Arnold Press</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Lateral Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Side delts</b> &middot; traps</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
+          <div class="ssnote">Pairs with Overhead Press — same dumbbells, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, tiny bend in the elbow, lead with the elbows</li><li>Raise to shoulder height — no higher — pinky slightly up</li><li>Lower slowly; control beats momentum here</li><li class="avoid">Don't swing or use the traps to heave the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lateral+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Standing Dumbbell Lateral Raise</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cable Lateral Raise</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lateral Raise Machine</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Rear delts</b> &middot; traps, rhomboids</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it in toward the hips — that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Shrug (Traps)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Traps</b> &middot; upper back</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Straight up toward the ears, not rolling forward or back</li><li>Pause and squeeze at the top for a second</li><li class="avoid">Don't roll the shoulders — it adds nothing and stresses the joint</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=shrug+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Shrug</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Barbell / Smith Machine Shrug</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-shrug"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cable Shrug</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Overhead Triceps Extension (Long Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; long head</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Upper arms stay by the ears, elbows pointing up</li><li>Deep stretch at the bottom — that's where the long head grows</li><li>Extend fully overhead; only the forearms move</li><li class="avoid">Don't let the elbows flare wide</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=overhead+tricep+extension+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohext"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Overhead Cable Rope Extension</em> &mdash; then drop to pushdowns, same station</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-skull"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Skull Crusher</em> (EZ bar)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohext"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Overhead Dumbbell Extension</em></span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar, slow flow; light dumbbell press; push-ups; then ramp-up sets. Rotate the bench angle each week: flat; incline; decline.</p>
+      <div class="dur d-standard">Standard: ~45 min</div>
+      <div class="dur d-full">Full: ~75 min</div>
+    </div>
+
+    <!-- ============ DAY 6 ============ -->
+    <div class="day lower">
+      <div class="dnum">Day 6</div>
+      <div class="dtitle">Lower</div>
+      <div class="tag">Quad Focus &middot; Variation</div>
+      <ul class="exlist">
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Front / Hack Squat<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b> &middot; glutes, core</span></span><span class="sets">3 &times; 8&ndash;10</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>More upright torso than a back squat; knees travel forward</li><li>Controlled descent, drive through the mid-foot</li><li class="avoid">Don't let the heels lift or the lower back round</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=hack+squat+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-hack"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Hack Squat Machine</em> &mdash; alternate with front squat weekly</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Front Squat</em> (bar on front delts)</span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Squat</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-goblet"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Goblet Squat</em> &mdash; everything taken</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-split"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bulgarian Split Squat</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Leg Press<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b> &middot; glutes, hamstrings</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
+          <div class="ssnote">Pairs with Leg Extension — adjacent machines, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Feet mid-platform, push through the heels</li><li>Lower until knees ~90° without the lower back rounding off the pad</li><li class="avoid">Don't lock the knees hard or let them cave inward</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>45&deg; Leg Press</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Horizontal Leg Press</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-lunge"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Walking Lunge / Step-Up</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Leg Extension<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads</b></span></span><span class="sets">2 &times; 12&ndash;15</span></div>
+          <div class="ssnote">Pairs with Leg Press — adjacent machines, superset to save time</div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Knees aligned with the pivot, back against the pad</li><li>Extend fully, squeeze the quads at the top</li><li class="avoid">Don't swing or use momentum — control the negative</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+extension+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-legext"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Leg Extension Machine</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-squat"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Sissy Squat</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-lunge"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Reverse Lunge</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Hamstring Curl<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Hamstrings</b> &middot; calves</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hips flat on the pad, controlled tempo</li><li>Curl fully and squeeze; slow on the way back</li><li class="avoid">Don't lift the hips to cheat the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Seated or Lying Leg Curl Machine</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-rdl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Romanian Deadlift</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-nordic"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Nordic Hamstring Curl</em></span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Calf Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Calves</b></span></span><span class="sets">2 &times; 10&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Full stretch at the bottom, all the way up onto the toes</li><li>Pause at the top and bottom, no bouncing</li><li class="avoid">Don't use a tiny bouncy range — slow and full is the point</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=calf+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Standing / Seated Calf Raise Machine</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-calf"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Calf Raise</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-legpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Leg Press Calf Press</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Medial Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; medial head</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Elbows pinned to your sides, upper arms stay still</li><li>Extend fully and squeeze; control back to ~90°</li><li class="avoid">Don't let the elbows drift forward or lean over the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+pushdown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Rope Pushdown</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>V-Bar Pushdown</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dip"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Bench Dip</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Skull Crusher (Long Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; long head</span></span><span class="sets">3 &times; 8&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Upper arms slightly back past vertical, elbows tucked</li><li>Lower to the forehead/behind the head for a stretch</li><li>Extend without moving the upper arms</li><li class="avoid">Don't flare the elbows out</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=skull+crusher+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-skull"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>EZ-Bar Skull Crusher</em> (lying triceps extension)</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohext"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Overhead Cable Rope Extension</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-ohext"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Overhead Dumbbell Extension</em></span></div>
+          </div>
+        </li>
+
+        <li class="item full-only extra">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Kickback (Short Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; short head</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hinge over, upper arm parallel to the floor and fixed</li><li>Extend fully back and squeeze; slow return</li><li class="avoid">Don't swing the upper arm to fling the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+kickback+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-kickback"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cable Rope Kickback</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-kickback"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Kickback</em></span></div>
+            <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Reverse-Grip Pushdown</em></span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Warm up (legs, 20&ndash;30 min): 3&ndash;5 rounds Surya Namaskar with a held chair pose (Utkatasana); body-weight squats; then ramp-up sets. Day 7 is the stability &amp; yoga session below.</p>
+      <div class="dur d-standard">Standard: ~45 min</div>
+      <div class="dur d-full">Full: ~75 min</div>
+    </div>
+
+    <!-- ============ DAY 7 ============ -->
+    <div class="day day7">
+      <div class="dnum">Day 7</div>
+      <div class="dtitle">Stability &amp; Yoga</div>
+      <div class="tag">Active Recovery &middot; Tendons &amp; Joints</div>
+      <p class="day7-intro">Not a rest replacement that wears you down &mdash; a low-fatigue session for tendon health, joint stability, and full-body mobility. Every position is <b>held</b>, not flowed, since sustained tension is what remodels tendons. Hold each 30&ndash;45s, breathe, 2&ndash;3 rounds. ~20 min total. Do it any time; evening is ideal.</p>
+      <ul class="exlist">
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Surya Namaskar (Sun Salutation)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Full body</b> &middot; mobility + warm-up</span></span><span class="sets">3&ndash;5 rounds</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Move with the breath; flow smoothly through the sequence</li><li>Hold the positions you want to load (plank, down dog) for tension</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=surya+namaskar+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-suryanamaskar"/></svg><span class="txt"><em>Flowing rounds</em> &mdash; open with these to warm every joint, then move into the held poses below</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-downdog"/></svg><span class="txt"><em>Hold Downward Dog</em> 30&ndash;45s within the flow &mdash; hamstrings, calves, shoulders</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Chair Pose (Utkatasana)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Quads &amp; knee tendons</b> &middot; the key knee hold</span></span><span class="sets">30&ndash;45s &times; 2&ndash;3</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Sit the hips back like into a chair, weight in the heels</li><li>Arms up, ribs down, spine long; hold and breathe</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=chair+pose+utkatasana+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-chair"/></svg><span class="txt"><em>Chair pose</em> &mdash; sit back like into a chair, weight in heels. This is the knee-tendon isometric your squats want</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-goblet"/></svg><span class="txt"><em>Wall sit</em> &mdash; same job, back flat on a wall, easier to hold longer</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Warrior II (Virabhadrasana II)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Hips &amp; knees</b> &middot; lateral stability</span></span><span class="sets">30&ndash;45s each side</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Wide stance, front knee bent over the ankle, back foot flat</li><li>Arms level, gaze over the front hand; sink the hips</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=warrior+2+pose+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-warrior"/></svg><span class="txt"><em>Warrior II</em> &mdash; wide stance, front knee bent over ankle, arms level. Fills the sideways-plane gap your lifts miss</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-split"/></svg><span class="txt"><em>Static lunge hold</em> &mdash; simpler version if the wide stance is tight</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Tree Pose (Vrksasana)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Ankles &amp; hips</b> &middot; single-leg balance</span></span><span class="sets">30&ndash;45s each side</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Foot to the inner calf or thigh (avoid the knee)</li><li>Fix your gaze on one point, stand tall, breathe</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tree+pose+yoga+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-tree"/></svg><span class="txt"><em>Tree pose</em> &mdash; one foot to inner calf or thigh, hands up. Builds the ankle/hip control that protects the knee</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Plank + Side Plank<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Core &amp; shoulders</b> &middot; anti-rotation</span></span><span class="sets">30&ndash;45s each</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Front plank: straight line, brace hard</li><li>Side plank: stack the hips, lift them high, both sides</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=side+plank+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-plank"/></svg><span class="txt"><em>Front plank</em> &mdash; straight line, brace hard</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-sideplank"/></svg><span class="txt"><em>Side plank</em> &mdash; both sides. Anti-rotation core + shoulder stability</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Bridge Hold (Setu Bandha)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Glutes &amp; posterior chain</b> &middot; hip opener</span></span><span class="sets">30&ndash;45s &times; 2&ndash;3</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Feet flat, drive the hips up, squeeze the glutes</li><li>Open the chest; keep the ribs down</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=glute+bridge+hold+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-bridge"/></svg><span class="txt"><em>Bridge hold</em> &mdash; hips lifted, squeeze glutes. Opens hip flexors and loads the posterior chain gently</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-hipthrust"/></svg><span class="txt"><em>Single-leg bridge</em> &mdash; harder, one foot down, more glute and stability demand</span></div>
+          </div>
+        </li>
+
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Dead Hang<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Grip &amp; shoulders</b> &middot; spinal decompression</span></span><span class="sets">20&ndash;40s &times; 2</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Relaxed full hang, let the shoulders and spine lengthen</li><li>Grip firm; breathe; build up the time gradually</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=dead+hang+benefits+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-deadhang"/></svg><span class="txt"><em>Dead hang</em> from a bar &mdash; relax and let the spine lengthen. Builds grip and decompresses shoulders after a week of pressing and pulling</span></div>
+          </div>
+        </li>
+
+      </ul>
+      <p class="note">Optional add-ons: deep-squat hold (Malasana) for ankle/hip mobility; Copenhagen adductor hold for groin stability. Keep it easy &mdash; this day should leave you fresher, not tired.</p>
+      <div class="dur d-standard">All tiers: ~20 min</div>
+      <div class="dur d-full">All tiers: ~20 min</div>
+    </div>
+
+  </div>
+
+  <div class="rules">
+    <h2>The non-negotiables</h2>
+    <ul>
+      <li><b>Warm up before every compound.</b> 15 min upper, 20&ndash;30 min legs. Hyperextensions + light pulldowns before deadlift; body-weight squats before squatting.</li>
+      <li><b>Never train compounds to failure.</b> 1&ndash;3 reps in reserve. Biggest single factor in not being too sore tomorrow &mdash; and in not getting hurt.</li>
+      <li><b>Failure only on the last set of isolations.</b> Sparingly early on.</li>
+      <li><b>Pick a swap, don't wait.</b> The movement pattern is what matters. Machine occupied &rarr; dumbbell or barbell version, same slot, keep the clock moving.</li>
+      <li><b>Same exercises for 2&ndash;3 months.</b> Rotate grips and angles, not movements. That's how you see progression.</li>
+      <li><b>Auto-regulate, don't skip.</b> Sore on its day? Drop a set or lighten it. Showing up beats the perfect session.</li>
+      <li><b>Rest 2 min on compounds, 30&ndash;60s on isolations.</b> Supersetting the isolations at one station is how Quick fits into 30 min without cutting rest per muscle.</li>
+      <li><b>Form over weight.</b> Leave the ego at the door &mdash; a small tweak in form can drop the weight 50%, and that's fine. Diagrams here are schematic; check YouTube (Squat University, Jeet Selal, Flying Beast) for full form breakdowns.</li>
+      <li><b>Protein 120&ndash;140g/day. Sleep uninterrupted, no alarm if you can.</b> Recovery is built outside the gym.</li>
+      <li><b>Cardio in the morning, separate from lifting.</b> Running 2x/week max. Never skip lifting for cardio.</li>
+      <li><b>Omega-3 + vitamin D</b> for joints. Log at least weekly to track progression.</li>
+    </ul>
+  </div>
+
+  <footer>Six days in, never too wrecked to show up. &mdash; Weekly Exercise Routine</footer>
+</div>
+
+<script>
+  function tog(el){ el.parentElement.classList.toggle('open'); }
+  function setMode(mode){
+    document.body.className = 'tier-' + mode;
+    document.getElementById('btnStandard').classList.toggle('on', mode==='standard');
+    document.getElementById('btnFull').classList.toggle('on', mode==='full');
+    var lines = {
+      standard: '<b>Standard &middot; ~30&ndash;45 min:</b> compound + 3&ndash;4 isolations. Your everyday session and the default &mdash; move at a good pace with tight rests and it lands near 30. Each muscle twice a week.',
+      full: '<b>Full &middot; 75&ndash;90 min:</b> the complete version &mdash; every accessory, extra heads, rear delts, shrugs, deadlift on pull day. When you have the time and energy.'
+    };
+    document.getElementById('modeline').innerHTML = lines[mode];
+  }
+</script>
+</body>
+</html>
