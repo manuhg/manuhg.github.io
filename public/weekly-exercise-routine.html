@@ -826,14 +826,14 @@
   <header>
     <div class="kicker">Upper / Lower &middot; 6 Days &middot; Recovery-First</div>
     <h1>Weekly<br><em>Exercise</em> Routine</h1>
-    <p class="sub">Six days a week without the soreness that forces a skip day. Each muscle twice weekly at moderate volume &mdash; enough to grow, light enough to recover by the next session. Two modes: Quick when time is short, Full when you have the room.</p>
+    <p class="sub">Six days a week without the soreness that forces a skip day. Each muscle twice weekly at moderate volume &mdash; enough to grow, light enough to recover by the next session. Two modes: Standard for your everyday session, Full when you have the room.</p>
 
     <div class="toggle">
       <button id="btnStandard" class="on" onclick="setMode('standard')">Standard</button>
       <button id="btnFull" onclick="setMode('full')">Full</button>
     </div>
     <div class="modeline" id="modeline"><b>Standard &middot; ~45 min:</b> compound + 3&ndash;4 isolations. Your everyday session and the default. Each muscle twice a week.</div>
-    <div class="nojs-banner">Showing <b>every exercise across all three tiers</b> &mdash; ideal for printing or saving as PDF. Each exercise is chipped <b>Quick</b>, <b>Standard</b>, or <b>Full</b> so you can see which tier it belongs to. (Open this file in a browser for the interactive Quick / Standard / Full toggle and tap-to-expand swap options.)</div>
+    <div class="nojs-banner">Showing <b>every exercise across both tiers</b> &mdash; ideal for printing or saving as PDF. Each exercise is chipped <b>Standard</b> or <b>Full</b> so you can see which tier it belongs to. (Open this file in a browser for the interactive Standard / Full toggle and tap-to-expand swap options.)</div>
 
     <div class="principles">
       <span class="pill">Compounds: <b>1&ndash;3 reps in reserve</b></span>
@@ -1546,12 +1546,14 @@
     <h2>The non-negotiables</h2>
     <ul>
       <li><b>Warm up before every compound.</b> 15 min upper, 20&ndash;30 min legs. Hyperextensions + light pulldowns before deadlift; body-weight squats before squatting.</li>
+      <li><b>Warm-up sets aren't counted in the numbers below.</b> Every set listed (e.g. 3 &times; 12) means <b>working</b> sets. On compounds, add <b>2 ramp-up sets first</b> &mdash; ~10&ndash;12 reps at 30&ndash;40% of your working weight, then a lighter bridge set &mdash; before the working sets. So a compound listed as 3 sets is really 2 ramp-up + 3 working = 5 total. Ramp-up weight should feel genuinely easy; if it's near your working load it isn't a warm-up.</li>
+      <li><b>Default is 3 &times; 12 working sets.</b> On recovery-focused days, keep the working sets but pull the weight back (leave more in reserve) rather than cutting sets. Managing load, not volume, is how you stay fresh.</li>
       <li><b>Never train compounds to failure.</b> 1&ndash;3 reps in reserve. Biggest single factor in not being too sore tomorrow &mdash; and in not getting hurt.</li>
       <li><b>Failure only on the last set of isolations.</b> Sparingly early on.</li>
       <li><b>Pick a swap, don't wait.</b> The movement pattern is what matters. Machine occupied &rarr; dumbbell or barbell version, same slot, keep the clock moving.</li>
       <li><b>Same exercises for 2&ndash;3 months.</b> Rotate grips and angles, not movements. That's how you see progression.</li>
       <li><b>Auto-regulate, don't skip.</b> Sore on its day? Drop a set or lighten it. Showing up beats the perfect session.</li>
-      <li><b>Rest 2 min on compounds, 30&ndash;60s on isolations.</b> Supersetting the isolations at one station is how Quick fits into 30 min without cutting rest per muscle.</li>
+      <li><b>Rest 2 min on compounds, 30&ndash;60s on isolations.</b> Supersetting isolations at one station (see the &#8644; pair tips) keeps the session tight without cutting rest per muscle.</li>
       <li><b>Form over weight.</b> Leave the ego at the door &mdash; a small tweak in form can drop the weight 50%, and that's fine. Diagrams here are schematic; check YouTube (Squat University, Jeet Selal, Flying Beast) for full form breakdowns.</li>
       <li><b>Protein 120&ndash;140g/day. Sleep uninterrupted, no alarm if you can.</b> Recovery is built outside the gym.</li>
       <li><b>Cardio in the morning, separate from lifting.</b> Running 2x/week max. Never skip lifting for cardio.</li>
@@ -1570,7 +1572,7 @@
     document.getElementById('btnFull').classList.toggle('on', mode==='full');
     var lines = {
       standard: '<b>Standard &middot; ~30&ndash;45 min:</b> compound + 3&ndash;4 isolations. Your everyday session and the default &mdash; move at a good pace with tight rests and it lands near 30. Each muscle twice a week.',
-      full: '<b>Full &middot; 75&ndash;90 min:</b> the complete version &mdash; every accessory, extra heads, rear delts, shrugs, deadlift on pull day. When you have the time and energy.'
+      full: '<b>Full &middot; 75&ndash;90 min:</b> the complete version &mdash; every accessory, extra heads, rear delts, shrugs, deadlift on pull day. Add 2 ramp-up sets before each compound (they\u2019re not counted in the set numbers). When you have the time and energy.'
     };
     document.getElementById('modeline').innerHTML = lines[mode];
   }
