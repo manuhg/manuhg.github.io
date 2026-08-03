@@ -118,6 +118,12 @@
   .day.day7::before{background:#b89aff}
   .day7-intro{color:var(--muted);font-size:.86rem;margin-top:14px;border-left:2px solid #b89aff;padding-left:12px}
   .day7-intro b{color:#c9b3ff}
+  .cooldown-list{list-style:none;margin:2px 0 0 0;padding:0}
+  .cooldown-list > li{border-top:1px solid var(--line);padding:11px 0;font-size:.9rem;color:var(--ink)}
+  .cooldown-list > li:first-child{border-top:none}
+  .cd-t{font-weight:700;color:#c9b3ff}
+  .cd-d{color:var(--muted);font-size:.84rem;line-height:1.5;margin-top:2px}
+  .cd-note{font-size:.78rem;color:var(--muted);font-style:italic;margin-top:10px;padding:9px 11px;background:rgba(184,154,255,.08);border-radius:8px}
   .dnum{font-family:'Bricolage Grotesque';font-weight:800;font-size:.8rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
   .dtitle{font-family:'Bricolage Grotesque';font-weight:600;font-size:1.5rem;margin:4px 0 4px;letter-spacing:-.01em}
   .tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700}
@@ -162,6 +168,10 @@
   .vidlink::before{content:"\25B6";font-size:.7rem}
   .vidlink:hover{filter:brightness(1.08)}
   .form-note{font-size:.74rem;color:var(--muted);margin-top:8px;font-style:italic}
+  .pushnote{font-size:.76rem;color:var(--push);font-weight:600;margin-top:8px;padding:7px 10px;background:rgba(255,122,77,.08);border-radius:7px}
+  .pushnote::before{content:"\26A1 ";}
+  .opt-chip{font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:8px;vertical-align:middle;background:rgba(139,143,154,.18);color:var(--muted)}
+  .opt-chip.gap{background:rgba(216,254,90,.16);color:var(--accent)}
   .opt{display:flex;gap:12px;align-items:center;font-size:.9rem;color:var(--muted);padding:9px 0}
   .opt .txt{flex:1}
   .pic{
@@ -191,6 +201,37 @@
 
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
   .legend .badge{font-size:.66rem;padding:4px 9px;min-width:auto}
+
+  /* ---- philosophy + framework panels ---- */
+  .philo{
+    background:linear-gradient(180deg,rgba(216,254,90,.06),rgba(21,23,28,0) 60%),var(--panel-2);
+    border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:16px;
+    padding:24px;margin-top:24px;
+  }
+  .philo h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:6px;letter-spacing:-.01em}
+  .philo .lead{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .prio{display:grid;gap:10px;margin-bottom:20px}
+  @media(min-width:680px){.prio{grid-template-columns:1fr 1fr 1fr}}
+  .prio-item{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px}
+  .prio-n{font-family:'Bricolage Grotesque';font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dim);margin-bottom:5px}
+  .prio-t{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .prio-d{font-size:.82rem;color:var(--muted);line-height:1.45}
+  .philo-rules{display:grid;gap:12px}
+  @media(min-width:680px){.philo-rules{grid-template-columns:1fr 1fr}}
+  .prule{border-top:1px solid var(--line);padding-top:12px}
+  .prule-t{font-weight:700;font-size:.9rem;color:var(--ink);margin-bottom:4px}
+  .prule-t .k{color:var(--accent)}
+  .prule-d{font-size:.83rem;color:var(--muted);line-height:1.5}
+  .prule-d b{color:var(--ink)}
+  .protected{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+  .protected .tagp{
+    font-size:.76rem;font-weight:700;background:rgba(216,254,90,.14);color:var(--accent);
+    border-radius:100px;padding:4px 12px;
+  }
+  .rpe-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.83rem}
+  .rpe-table td{border-top:1px solid var(--line);padding:7px 8px;color:var(--muted);vertical-align:top}
+  .rpe-table td:first-child{color:var(--ink);font-weight:700;white-space:nowrap;width:1%}
+  .rpe-table .rpe-n{color:var(--accent);font-variant-numeric:tabular-nums}
 
   .cardio{
     background:var(--panel-2);border:1px solid var(--line);border-radius:16px;
@@ -822,6 +863,24 @@
   <path d="M12 54 L32 20 L52 54" fill="none" stroke="#d8fe5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
 </symbol>
 
+<symbol id="s-deadbug" viewBox="0 0 64 64">
+  <!-- dead bug: lying on back, opposite arm + leg extended -->
+  <line stroke="#4a505e" stroke-width="2.5" stroke-linecap="round" x1="6" y1="46" x2="58" y2="46"/>
+  <!-- torso flat on floor -->
+  <circle fill="#dfe2e9" cx="16" cy="38" r="3.4"/>
+  <line stroke="#dfe2e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x1="18" y1="40" x2="40" y2="42"/>
+  <!-- one arm reaching back overhead (extended), one bent up -->
+  <g stroke="#d8fe5a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="20" y1="40" x2="8" y2="30"/>
+    <line x1="24" y1="41" x2="30" y2="26"/>
+  </g>
+  <!-- one leg extended low, one knee bent up -->
+  <g stroke="#dfe2e9" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="40" y1="42" x2="56" y2="40"/>
+    <line x1="36" y1="42" x2="40" y2="28"/><line x1="40" y1="28" x2="48" y2="30"/>
+  </g>
+</symbol>
+
 <div class="wrap">
   <header>
     <div class="kicker">Upper / Lower &middot; 6 Days &middot; Recovery-First</div>
@@ -836,13 +895,120 @@
     <div class="nojs-banner">Showing <b>every exercise across both tiers</b> &mdash; ideal for printing or saving as PDF. Each exercise is chipped <b>Standard</b> or <b>Full</b> so you can see which tier it belongs to. (Open this file in a browser for the interactive Standard / Full toggle and tap-to-expand swap options.)</div>
 
     <div class="principles">
-      <span class="pill">Compounds: <b>1&ndash;3 reps in reserve</b></span>
-      <span class="pill">Failure only on last isolation set</span>
+      <span class="pill">Compounds: <b>RPE 7&ndash;8</b> (2&ndash;3 in reserve)</span>
+      <span class="pill">Autoregulate: heavy day heavier, tired day lighter</span>
       <span class="pill">Squat &amp; deadlift never back-to-back</span>
       <span class="pill"><b>Warm up</b> before every compound</span>
     </div>
 
     <p class="hint"><b>Tap any exercise</b> to see swap options with movement diagrams &mdash; body position, equipment in <span style="color:var(--accent)">lime</span>, grey arrow shows the working direction. Machine taken? Grab dumbbells or a barbell and keep moving.</p>
+
+    <div class="philo">
+      <h2>Why I train &mdash; the philosophy</h2>
+      <p class="lead">Every choice in this plan is filtered through this order. When two ideas conflict, the higher priority wins.</p>
+
+      <div class="prio">
+        <div class="prio-item">
+          <div class="prio-n">Priority 1</div>
+          <div class="prio-t">Mental clarity &amp; stress recovery</div>
+          <div class="prio-d">The main reason I train. A satisfying, moderate-intensity session clears my head and resets me. This is the goal, not a side effect.</div>
+        </div>
+        <div class="prio-item">
+          <div class="prio-n">Priority 2</div>
+          <div class="prio-t">Real-world strength &amp; health</div>
+          <div class="prio-d">Strength that shows up in real life &mdash; compound, free-weight, standing movements that recruit stabilisers, plus joint and tendon health.</div>
+        </div>
+        <div class="prio-item">
+          <div class="prio-n">Priority 3</div>
+          <div class="prio-t">Hypertrophy</div>
+          <div class="prio-d">A welcome bonus, not the target. If chasing size ever fights clarity or enjoyment, clarity and enjoyment win.</div>
+        </div>
+      </div>
+
+      <div class="philo-rules">
+        <div class="prule">
+          <div class="prule-t"><span class="k">Adherence through enjoyment.</span></div>
+          <div class="prule-d">A good session I actually do every day beats a perfect one I skip. Movements I love are protected &mdash; they stay even if a machine version isn't the &ldquo;optimal&rdquo; pick, because the enjoyment is the point.</div>
+          <div class="protected">
+            <span class="tagp">Bicep curls</span>
+            <span class="tagp">Chest press</span>
+            <span class="tagp">Leg press</span>
+            <span class="tagp">Weighted squats</span>
+            <span class="tagp">Dumbbell fly</span>
+          </div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Free-weight &amp; standing by default</span> &mdash; except where I'd rather not.</div>
+          <div class="prule-d">For movements I'm neutral about, pick the free-weight / standing / more-engaging version for stabiliser recruitment and real-world carry-over. Machines drop to fallback (crowded gym, or a fatigue accessory at the end). The protected lifts above override this &mdash; enjoyment beats the free-weight rule.</div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Moderate intensity that clears the head</span> &mdash; not one that wrecks it.</div>
+          <div class="prule-d">The mood and clarity benefit comes from a decently hard session, not from grinding everything to failure. Push-past-failure tools (drop sets, myo-reps) are optional, isolation-only, for days I want to push &mdash; never the default, never on compounds.</div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Manage recovery with load, not volume.</span></div>
+          <div class="prule-d">On recovery-focused days, keep the sets but pull the weight back (train at a lower effort). Don't cut volume &mdash; dial intensity. That's what the RPE system below is for.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="philo" style="border-left-color:var(--pull)">
+      <h2>How to train it &mdash; the framework</h2>
+      <p class="lead">Borrowed from evidence-based sources (Jeff Nippard's methodology especially), tuned to the priorities above rather than to maximum hypertrophy.</p>
+
+      <div class="philo-rules">
+        <div class="prule">
+          <div class="prule-t"><span class="k">Effort by RPE (autoregulation).</span></div>
+          <div class="prule-d">Pick a weight that hits the target effort on your <b>last</b> set &mdash; earlier sets will feel easier, that's normal. Strong day? Go heavier to the same RPE. Tired day? Lighter to the same RPE. Same effort target, weight adjusts to you.
+            <table class="rpe-table">
+              <tr><td>Compounds</td><td><span class="rpe-n">RPE 7&ndash;8</span> &mdash; 2&ndash;3 reps in reserve. Never to failure (matches the no-failure-on-compounds rule).</td></tr>
+              <tr><td>Isolations</td><td><span class="rpe-n">RPE 8&ndash;9</span> default; the feel-good ones (curls, laterals, calves) can go to <span class="rpe-n">9&ndash;10</span> on a push day.</td></tr>
+              <tr><td>Recovery days</td><td>Dial everything down a point or two. Same movements, lighter effort.</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Progress by beating the logbook.</span></div>
+          <div class="prule-d">Each session, do <b>something</b> better than last time &mdash; and any of these counts: one more rep, a little more weight, better tempo, or a stronger squeeze / mind-muscle connection. That last one means your feel-good curls progress by <b>feeling</b> them harder, not just loading them.</div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Double progression &middot; 3&times;12 default.</span></div>
+          <div class="prule-d">Default is 3 working sets of ~12. Add reps at the same weight until you hit the top of the range, then add a little weight and reset to the bottom. Reps shown per exercise are a starting guide, not a rule &mdash; heavier compounds sit lower (6&ndash;10), pump/feel isolations higher (12&ndash;15).</div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Warm-up sets scale with the lift</span> (and aren't counted below).</div>
+          <div class="prule-d">Every set listed is a <b>working</b> set. Ramp up first, heavier lift = more ramp sets:
+            <table class="rpe-table">
+              <tr><td>1 set</td><td>~60% of working weight, same reps.</td></tr>
+              <tr><td>2 sets</td><td>~50% then ~70% (mini-pyramid, dropping reps).</td></tr>
+              <tr><td>3 sets</td><td>~45% &rarr; ~65% &rarr; ~85% (full pyramid, fewer reps each). For heavy compounds &amp; legs.</td></tr>
+            </table>
+            Ramp weight should feel genuinely easy &mdash; if it's near your working load it isn't a warm-up.
+          </div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Compounds first, isolations last.</span></div>
+          <div class="prule-d">Do the big movements while you're fresh; save isolations and the feel-good finishers for when fatigue won't compromise the important lifts.</div>
+        </div>
+        <div class="prule">
+          <div class="prule-t"><span class="k">Supersets to stay tight.</span></div>
+          <div class="prule-d">Pair movements that don't compete (opposing muscles, or same station) and rest ~0.5&ndash;1 min between them &mdash; one muscle rests while the other works. See the &#8644; pair tips on the exercises.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rules">
+    <h2>The non-negotiables</h2>
+    <ul>
+      <li><b>Warm up before every compound.</b> 15 min upper, 20&ndash;30 min legs. Hyperextensions + light pulldowns before deadlift; body-weight squats before squatting. (Ramp-set percentages are in the framework above.)</li>
+      <li><b>Squat &amp; deadlift never back-to-back.</b> The gap protects your lower back.</li>
+      <li><b>Same exercises for a block (roughly a month, up to 2&ndash;3).</b> Rotate grips and angles, not movements, so you can actually progress. Swap the whole movement only when it stops being fun or stops progressing.</li>
+      <li><b>Form over weight.</b> Leave the ego at the door &mdash; a small tweak in form can drop the weight 50%, and that's fine. Diagrams here are schematic; the &ldquo;Watch on YouTube&rdquo; link on each exercise opens a form Short.</li>
+      <li><b>Protein 120&ndash;140g/day. Sleep uninterrupted, no alarm if you can.</b> Recovery is built outside the gym.</li>
+      <li><b>Cardio in the morning, separate from lifting.</b> Running 2x/week max. Never skip lifting for cardio.</li>
+      <li><b>Omega-3 + vitamin D</b> for joints. Log at least weekly &mdash; beating the logbook is the whole progression engine.</li>
+    </ul>
+  </div>
 
     <div class="legend">
       <span class="badge b-bb">BB Barbell</span>
@@ -900,9 +1066,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Chest Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; front delts</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Slight bend in the elbows, hold it fixed the whole set</li><li>Open until you feel a chest stretch; don't overstretch the shoulder</li><li>Squeeze the chest to bring the arms together, hands don't need to touch</li><li class="avoid">Don't turn it into a press by bending the elbows</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=chest+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck / Chest Fly Machine</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Flat or Incline Dumbbell Fly</em> &mdash; just need a bench</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Flat or Incline Dumbbell Fly</em> &mdash; the default (free-weight, more fun than the machine)</span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck / Chest Fly Machine</em></span></div>
           </div>
         </li>
 
@@ -935,7 +1099,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Lateral Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Side delts</b> &middot; traps</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
           <div class="ssnote">Pairs with Overhead Press — same dumbbells, superset to save time</div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, tiny bend in the elbow, lead with the elbows</li><li>Raise to shoulder height — no higher — pinky slightly up</li><li>Lower slowly; control beats momentum here</li><li class="avoid">Don't swing or use the traps to heave the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lateral+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, tiny bend in the elbow, lead with the elbows</li><li>Raise to shoulder height — no higher — pinky slightly up</li><li>Lower slowly; control beats momentum here</li><li class="avoid">Don't swing or use the traps to heave the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lateral+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div><div class="pushnote">Feel-good lift &mdash; safe to push to RPE 9&ndash;10 on a day you want to. Optional drop set on the last set: hit failure, drop the weight ~40%, go again. Push days only, not recovery days.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Standing Dumbbell Lateral Raise</em> &mdash; 15&ndash;25 lb is plenty</span></div>
             <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Single-Arm Cable Lateral Raise</em> &mdash; constant tension, best version</span></div>
             <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lateral Raise Machine</em></span></div>
@@ -947,10 +1111,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Rear delts</b> &middot; traps, rhomboids</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it in toward the hips — that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em> (face the pad)</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable)</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cross-Body Cable Reverse Fly</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em> &mdash; the default (free-weight)</span></div><div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable)</span></div><div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cross-Body Cable Reverse Fly</em></span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em> (face the pad)</span></div>
           </div>
         </li>
 
@@ -966,7 +1127,7 @@
         </li>
 
         <li class="item">
-          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Medial Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; medial head</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Lateral &amp; Medial)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; lateral &amp; medial heads</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Elbows pinned to your sides, upper arms stay still</li><li>Extend fully and squeeze; control back to ~90°</li><li class="avoid">Don't let the elbows drift forward or lean over the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+pushdown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
             <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Rope Triceps Pushdown</em> &mdash; the default</span></div>
@@ -976,6 +1137,14 @@
           </div>
         </li>
 
+      
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Chest Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span><span class="opt-chip">Optional</span></span><span class="musc"><b>Chest</b> &middot; isolation, stretch</span></span><span class="sets"> 3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight bend in the elbows, hold it fixed</li><li>Open until you feel a chest stretch, then squeeze the pecs together</li><li class="avoid">Don't turn it into a press by bending the elbows</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=chest+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Flat or Incline Dumbbell Fly</em> &mdash; the default (free-weight, more fun than the machine)</span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck / Chest Fly Machine</em></span></div>
+          </div>
+        </li>
       </ul>
       <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar, slow flow; light dumbbell press; push-ups; then a couple of ramp-up sets on the bar before your working weight.</p>
       <div class="dur d-standard">Standard: ~45 min</div>
@@ -1047,6 +1216,17 @@
           </div>
         </li>
 
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Core (Anti-Extension &amp; Flexion)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Abs &amp; core</b> &middot; real-world bracing</span></span><span class="sets">3 &times; 10&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Move through the ribcage, not the neck or hip flexors</li><li>Slow and controlled, full exhale at the top of the crunch / lift</li><li>Dead bug: press the lower back into the floor the whole time &mdash; that's the bracing that carries to squats and deadlifts</li><li class="avoid">Don't yank the neck or swing the legs with momentum</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=hanging+leg+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-hangraise"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Hanging Leg Raise</em> &mdash; the default; also builds grip. Knees bent to start, straighten legs to progress</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Weighted Crunch</em> (machine or plate) &mdash; loadable, easy to progress</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Kneeling Cable Crunch</em> &mdash; round the back over the hips, constant tension</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-deadbug"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Dead Bug</em> &mdash; anti-extension; the one that most improves your compound bracing</span></div>
+          </div>
+        </li>
+
         <li class="item full-only extra">
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Overhead Triceps Extension (Long Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; long head</span></span><span class="sets">3 &times; 8&ndash;12</span></div>
           <div class="opts">
@@ -1059,7 +1239,7 @@
         </li>
 
         <li class="item full-only extra">
-          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Medial Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; medial head</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Lateral &amp; Medial)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; lateral &amp; medial heads</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Elbows pinned to your sides, upper arms stay still</li><li>Extend fully and squeeze; control back to ~90°</li><li class="avoid">Don't let the elbows drift forward or lean over the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+pushdown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
             <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Rope Pushdown</em> &mdash; right after overhead, same station</span></div>
@@ -1106,7 +1286,7 @@
         <li class="item">
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Vertical Pull (Pull-Up / Pulldown)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Lats</b> &middot; biceps, rear delts</span></span><span class="sets">3 &times; 6&ndash;10</span></div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Start with shoulder blades depressed (pull them down first)</li><li>Lead with the elbows down and back; bring the bar to upper chest</li><li>Control the stretch at the top, don't just drop</li><li class="avoid">Don't shrug up or use momentum to swing</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lat+pulldown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Start with shoulder blades depressed (pull them down first)</li><li>Lead with the elbows down and back; bring the bar to upper chest</li><li>Control the stretch at the top, don't just drop</li><li class="avoid">Don't shrug up or use momentum to swing</li></ul><div class="form-h" style="margin-top:10px">Pull-up progression</div><ul><li>Can't do strict pull-ups yet? Build inverted rows to 3&times;15, then neutral-grip assisted pull-ups, then strict overhand</li><li>Once you can do ~8 strict reps, start adding weight (belt or a dumbbell between the feet)</li><li>Lat pulldown is the swap on days pull-ups are too much &mdash; two grips (wide overhand, then close underhand) covers back + biceps</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=pull+up+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-pullup"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Pull-Up</em> &mdash; wide, neutral, or weighted</span></div>
             <div class="opt"><svg class="pic"><use href="#s-pulldown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Lat Pulldown</em> &mdash; rotate wide/close grip each session</span></div>
             <div class="opt"><svg class="pic"><use href="#s-pullup"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Assisted Pull-Up Machine</em></span></div>
@@ -1144,9 +1324,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Rear delts</b> &middot; traps, rhomboids</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it in toward the hips — that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
-            <div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable)</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em> &mdash; the default (free-weight)</span></div><div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable)</span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
           </div>
         </li>
 
@@ -1154,7 +1332,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Preacher Curl (Elbow Forward)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Biceps</b> &middot; short head emphasis</span></span><span class="sets">2 &times; 8&ndash;12</span></div>
           <div class="ssnote">Pairs with Row — cable station + EZ bar beside it</div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Back of the upper arm flat on the pad the whole set</li><li>Full stretch at the bottom, squeeze at the top</li><li>Elbows forward on the pad emphasises the short (inner) head</li><li class="avoid">Don't half-rep or bounce out of the bottom stretch</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=preacher+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Back of the upper arm flat on the pad the whole set</li><li>Full stretch at the bottom, squeeze at the top</li><li>Elbows forward on the pad emphasises the short (inner) head</li><li class="avoid">Don't half-rep or bounce out of the bottom stretch</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=preacher+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div><div class="pushnote">Feel-good lift &mdash; safe to push to RPE 9&ndash;10 on a day you want to. Optional drop set on the last set: hit failure, drop the weight ~40%, go again. Push days only, not recovery days.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>EZ-Bar Preacher Curl</em> &mdash; the default</span></div>
             <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Preacher Curl Machine</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-preacher"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Single-Arm Dumbbell Preacher Curl</em></span></div>
@@ -1165,7 +1343,7 @@
         <li class="item full-only extra">
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Incline Curl (Elbow Back)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Biceps</b> &middot; long head emphasis</span></span><span class="sets">3 &times; 8&ndash;12</span></div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Lie back on an incline bench, arms hang straight down</li><li>Elbows stay back behind the torso — this stretches the long (outer) head</li><li>Curl without letting the elbows drift forward</li><li class="avoid">Don't swing the shoulders up to start the rep</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=incline+dumbbell+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Lie back on an incline bench, arms hang straight down</li><li>Elbows stay back behind the torso — this stretches the long (outer) head</li><li>Curl without letting the elbows drift forward</li><li class="avoid">Don't swing the shoulders up to start the rep</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=incline+dumbbell+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div><div class="pushnote">Feel-good lift &mdash; safe to push to RPE 9&ndash;10 on a day you want to. Optional drop set on the last set: hit failure, drop the weight ~40%, go again. Push days only, not recovery days.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-inclinecurl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Incline Dumbbell Curl</em> (lying back on incline bench) &mdash; the default</span></div>
             <div class="opt"><svg class="pic"><use href="#s-inclinecurl"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Behind-the-Body Cable Curl</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Drag Curl</em> &mdash; bench taken</span></div>
@@ -1175,13 +1353,21 @@
         <li class="item full-only extra">
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Concentration Curl<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Biceps</b> &middot; peak / mind-muscle</span></span><span class="sets">2 &times; 10&ndash;12</span></div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Seated, elbow braced against the inner thigh</li><li>Curl slowly, twist the pinky up, hard squeeze at the top</li><li>Great for building the mind-muscle connection</li><li class="avoid">Don't move the elbow off the thigh</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=concentration+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Seated, elbow braced against the inner thigh</li><li>Curl slowly, twist the pinky up, hard squeeze at the top</li><li>Great for building the mind-muscle connection</li><li class="avoid">Don't move the elbow off the thigh</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=concentration+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div><div class="pushnote">Feel-good lift &mdash; safe to push to RPE 9&ndash;10 on a day you want to. Optional drop set on the last set: hit failure, drop the weight ~40%, go again. Push days only, not recovery days.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-conccurl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Seated Concentration Curl</em> (elbow braced on thigh) &mdash; teaches the contraction; drop it once connected</span></div>
             <div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Single-Arm Cable Curl</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Hammer Curl</em> (neutral grip) &mdash; brachialis, adds arm thickness</span></div>
           </div>
         </li>
 
+      
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Incline Curl (Elbow Back)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span><span class="opt-chip">Optional</span></span><span class="musc"><b>Biceps</b> &middot; long head, stretch</span></span><span class="sets"> 3 &times; 8&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Lie back on an incline bench, arms hang straight down</li><li>Elbows stay back behind the torso &mdash; stretches the long (outer) head</li><li class="avoid">Don't swing the shoulders up to start the rep</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=incline+dumbbell+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-inclinecurl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Incline Dumbbell Curl</em> &mdash; the default</span></div><div class="opt"><svg class="pic"><use href="#s-conccurl"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Behind-the-Body Cable Curl</em> &mdash; same stretch bias</span></div><div class="opt"><svg class="pic"><use href="#s-curl"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Hammer Curl</em> &mdash; brachialis &amp; forearm</span></div>
+          </div>
+        </li>
       </ul>
       <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar, slow flow; hyperextensions; light pulldowns; then ramp-up sets. Always warm the lower back before deadlifting.</p>
       <div class="dur d-standard">Standard: ~45 min</div>
@@ -1242,15 +1428,15 @@
         </li>
 
         <li class="item">
-          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Abs (Crunch)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Abs</b> &middot; core</span></span><span class="sets">2 &times; 12&ndash;20</span></div>
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Abs (Weighted Core)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Abs &amp; core</b> &middot; loaded flexion</span></span><span class="sets">3 &times; 12&ndash;20</span></div>
           <div class="ssnote">Pairs with Hip Thrust — same bench, no move, superset to save time</div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Curl the ribcage toward the pelvis, not just lifting the neck</li><li>Slow and controlled, exhale at the top</li><li class="avoid">Don't yank on the neck or use momentum</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=ab+crunch+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
-            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Decline Bench Crunch</em> &mdash; your go-to</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Weighted Crunch Machine</em></span></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Curl the ribcage toward the pelvis, not just lifting the neck</li><li>Slow and controlled, exhale at the top; add load once bodyweight is easy</li><li class="avoid">Don't yank on the neck or use momentum</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=hanging+leg+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-hangraise"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Hanging Leg Raise</em> &mdash; the default; lower-ab focus, also builds grip</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Weighted Crunch</em> (machine or plate) &mdash; loadable, easy to progress</span></div>
             <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Kneeling Cable Crunch</em> (rope behind head)</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-hangraise"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Hanging Leg Raise</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-plank"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Weighted Plank</em> &mdash; plate on the back</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-crunch"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Decline Bench Crunch</em> &mdash; no equipment needed</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-deadbug"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Dead Bug</em> &mdash; anti-extension, carries to squat/deadlift bracing</span></div>
           </div>
         </li>
 
@@ -1264,6 +1450,14 @@
           </div>
         </li>
 
+      
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Hamstring Curl<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span><span class="opt-chip">Optional</span></span><span class="musc"><b>Hamstrings</b> &middot; knee flexion</span></span><span class="sets"> 3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hips flat on the pad, controlled tempo</li><li>Curl fully and squeeze; slow on the way back</li><li class="avoid">Don't lift the hips to cheat the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lying or Seated Leg Curl Machine</em> &mdash; the default (RDL covers the hinge; this covers knee-flexion)</span></div><div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Nordic Hamstring Curl</em> &mdash; brutal, no machine needed</span></div>
+          </div>
+        </li>
       </ul>
       <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar with a held bridge (Setu Bandha); body-weight hip hinges; then ramp-up sets. RDL is a compound &mdash; lower back tired? Swap for leg curls.</p>
       <div class="dur d-standard">Standard: ~45 min</div>
@@ -1282,7 +1476,7 @@
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Incline ~30° for upper chest; blades retracted, feet planted</li><li>Lower to the upper chest, elbows ~45°</li><li class="avoid">Don't set the incline too steep — it turns into a shoulder press</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=incline+bench+press+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-bench"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Incline Barbell Bench Press</em> &mdash; rotate incline &rarr; decline &rarr; flat weekly</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-dbbench"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Incline Dumbbell Press</em> &mdash; bigger range of motion</span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbbench"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Incline Dumbbell Press</em> &mdash; bigger range of motion; a high incline (~45&deg;) merges chest + shoulder pressing into one movement</span></div>
             <div class="opt"><svg class="pic"><use href="#s-mpress"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Incline Chest Press Machine</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-smith"/></svg><span class="badge b-bb">BB</span><span class="txt"><em>Smith Machine Incline Press</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-pushup"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Decline Push-Up</em> (feet elevated)</span></div>
@@ -1293,9 +1487,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Chest Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Chest</b> &middot; front delts</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Slight bend in the elbows, hold it fixed the whole set</li><li>Open until you feel a chest stretch; don't overstretch the shoulder</li><li>Squeeze the chest to bring the arms together, hands don't need to touch</li><li class="avoid">Don't turn it into a press by bending the elbows</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=chest+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
-            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Fly</em> &mdash; swap vs. whatever you did Day 1</span></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-dbfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Dumbbell Fly</em> &mdash; swap vs. whatever you did Day 1</span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Seated Cable Fly</em></span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Pec Deck</em></span></div>
           </div>
         </li>
 
@@ -1325,7 +1517,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Lateral Raise<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Side delts</b> &middot; traps</span></span><span class="sets">2 &times; 12&ndash;15</span></div>
           <div class="ssnote">Pairs with Overhead Press — same dumbbells, superset to save time</div>
           <div class="opts">
-            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, tiny bend in the elbow, lead with the elbows</li><li>Raise to shoulder height — no higher — pinky slightly up</li><li>Lower slowly; control beats momentum here</li><li class="avoid">Don't swing or use the traps to heave the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lateral+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Slight forward lean, tiny bend in the elbow, lead with the elbows</li><li>Raise to shoulder height — no higher — pinky slightly up</li><li>Lower slowly; control beats momentum here</li><li class="avoid">Don't swing or use the traps to heave the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=lateral+raise+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div><div class="pushnote">Feel-good lift &mdash; safe to push to RPE 9&ndash;10 on a day you want to. Optional drop set on the last set: hit failure, drop the weight ~40%, go again. Push days only, not recovery days.</div></div>
             <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Standing Dumbbell Lateral Raise</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Cable Lateral Raise</em></span></div>
             <div class="opt"><svg class="pic"><use href="#s-latraise"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lateral Raise Machine</em></span></div>
@@ -1336,9 +1528,7 @@
           <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt Fly<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Rear delts</b> &middot; traps, rhomboids</span></span><span class="sets">3 &times; 12&ndash;15</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it in toward the hips — that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
-            <div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em></span></div>
-            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em></span></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em> &mdash; the default (free-weight)</span></div><div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em></span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
           </div>
         </li>
 
@@ -1362,6 +1552,14 @@
           </div>
         </li>
 
+      
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Rear Delt<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span><span class="opt-chip">Optional</span></span><span class="musc"><b>Rear delts</b> &middot; upper back</span></span><span class="sets"> 3 &times; 12&ndash;15</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Chest supported or hinged over; slight bend in elbows</li><li>Lead with the elbows out to the sides, squeeze the rear delts</li><li class="avoid">Don't row it toward the hips &mdash; that's back, not rear delt</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=rear+delt+fly+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-bentfly"/></svg><span class="badge b-db">DB</span><span class="txt"><em>Bent-Over Dumbbell Rear Delt Fly</em> &mdash; the default (free-weight)</span></div><div class="opt"><svg class="pic"><use href="#s-facepull"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Face Pull</em> (rope, high cable) &mdash; elbows high, pull to eye level</span></div><div class="opt"><svg class="pic"><use href="#s-pecdeck"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Reverse Pec Deck</em></span></div>
+          </div>
+        </li>
       </ul>
       <p class="note">Warm up: 3&ndash;5 rounds Surya Namaskar, slow flow; light dumbbell press; push-ups; then ramp-up sets. Rotate the bench angle each week: flat; incline; decline.</p>
       <div class="dur d-standard">Standard: ~45 min</div>
@@ -1430,7 +1628,7 @@
         </li>
 
         <li class="item full-only extra">
-          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Medial Head)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; medial head</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Triceps Pushdown (Lateral &amp; Medial)<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Triceps</b> &middot; lateral &amp; medial heads</span></span><span class="sets">3 &times; 10&ndash;12</span></div>
           <div class="opts">
             <div class="form"><div class="form-h">Form cues</div><ul><li>Elbows pinned to your sides, upper arms stay still</li><li>Extend fully and squeeze; control back to ~90°</li><li class="avoid">Don't let the elbows drift forward or lean over the weight</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=tricep+pushdown+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
             <div class="opt"><svg class="pic wide"><use href="#s-pushdown"/></svg><span class="badge b-cb">CB</span><span class="txt"><em>Rope Pushdown</em></span></div>
@@ -1459,6 +1657,14 @@
           </div>
         </li>
 
+      
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Hamstring Curl<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span><span class="opt-chip">Optional</span></span><span class="musc"><b>Hamstrings</b> &middot; knee flexion</span></span><span class="sets"> 3 &times; 10&ndash;12</span></div>
+          <div class="opts">
+            <div class="form"><div class="form-h">Form cues</div><ul><li>Hips flat on the pad, controlled tempo</li><li>Curl fully and squeeze; slow on the way back</li><li class="avoid">Don't lift the hips to cheat the weight up</li></ul><a class="vidlink" href="https://www.youtube.com/results?search_query=leg+curl+form+DeltaBolic&sp=EgIQCQ%253D%253D" target="_blank" rel="noopener">Watch on YouTube (DeltaBolic Shorts)</a><div class="form-note">Opens a Shorts search on the DeltaBolic channel for this movement.</div></div>
+            <div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-mc">MC</span><span class="txt"><em>Lying or Seated Leg Curl Machine</em> &mdash; the default (this day is otherwise all quads)</span></div><div class="opt"><svg class="pic"><use href="#s-legcurl"/></svg><span class="badge b-bw">BW</span><span class="txt"><em>Nordic Hamstring Curl</em></span></div>
+          </div>
+        </li>
       </ul>
       <p class="note">Warm up (legs, 20&ndash;30 min): 3&ndash;5 rounds Surya Namaskar with a held chair pose (Utkatasana); body-weight squats; then ramp-up sets. Day 7 is the stability &amp; yoga session below.</p>
       <div class="dur d-standard">Standard: ~45 min</div>
@@ -1534,6 +1740,21 @@
           </div>
         </li>
 
+        <li class="item">
+          <div class="row" onclick="tog(this)"><span class="exwrap"><span class="ex">Breath, Voice &amp; Posture<span class="tierchip c-std">Standard</span><span class="tierchip c-full">Full</span></span><span class="musc"><b>Downregulation</b> &middot; resonance &amp; neck posture</span></span><span class="sets">~5&ndash;8 min</span></div>
+          <div class="opts">
+            <ul class="cooldown-list">
+              <li><span class="cd-t">Diaphragmatic breaths &middot; 5&ndash;6</span><div class="cd-d">Hand on belly, slow inhale through the nose so the belly rises, long slow exhale. Sets the breath support everything else runs on.</div></li>
+              <li><span class="cd-t">Om chants &middot; 30</span><div class="cd-d">Full breath in, long steady &ldquo;oooommm&rdquo; on the exhale &mdash; feel the vibration in the chest and face. The extended exhale and vibration settle the nervous system; a clean close to the week.</div></li>
+              <li><span class="cd-t">Lip trills / straw phonation &middot; 5&ndash;6 glides</span><div class="cd-d">Lips loosely together and blow to make them flutter (a &ldquo;brrr&rdquo;), or hum through a straw. Glide your pitch gently low&rarr;high&rarr;low. Eases vocal-fold strain and smooths a harsh or shrill edge &mdash; the vocal version of a mobility drill.</div></li>
+              <li><span class="cd-t">Humming + open &ldquo;ah&rdquo; &middot; 5&ndash;6 each</span><div class="cd-d">Hum on a comfortable note, then open into a relaxed &ldquo;ahh.&rdquo; Alternating balances resonance between nose and mouth &mdash; helps an overly nasal tone. Keep the throat loose, let it buzz forward on the lips and face.</div></li>
+              <li><span class="cd-t">Chin tucks &middot; 10 slow</span><div class="cd-d">Gently draw the chin straight back (make a &ldquo;double chin&rdquo;), hold 2s, release. Strengthens the deep neck flexors and counters forward-head posture &mdash; the one thing that visibly sharpens the jaw&ndash;neck line and opens the airway for a clearer voice.</div></li>
+              <li><span class="cd-t">Tongue &amp; nasal-breathing habit</span><div class="cd-d">Through the day: rest the tongue flat against the roof of the mouth, lips sealed, breathe through the nose. A posture habit rather than a rep &mdash; modest effect, but free and worth building.</div></li>
+            </ul>
+            <div class="cd-note">Honest note: jaw and voice tone respond mostly to leanness, posture, and (for voice) relaxed breath support &mdash; not to any single exercise. These help the <em>functional</em> side. If a nasal or harsh/shrill voice persists for weeks, it can be structural (congestion, septum) or a vocal-fold issue &mdash; worth an ENT or speech-language pathologist rather than more drills.</div>
+          </div>
+        </li>
+
       </ul>
       <p class="note">Optional add-ons: deep-squat hold (Malasana) for ankle/hip mobility; Copenhagen adductor hold for groin stability. Keep it easy &mdash; this day should leave you fresher, not tired.</p>
       <div class="dur d-standard">All tiers: ~20 min</div>
@@ -1541,26 +1762,6 @@
     </div>
 
   </div>
-
-  <div class="rules">
-    <h2>The non-negotiables</h2>
-    <ul>
-      <li><b>Warm up before every compound.</b> 15 min upper, 20&ndash;30 min legs. Hyperextensions + light pulldowns before deadlift; body-weight squats before squatting.</li>
-      <li><b>Warm-up sets aren't counted in the numbers below.</b> Every set listed (e.g. 3 &times; 12) means <b>working</b> sets. On compounds, add <b>2 ramp-up sets first</b> &mdash; ~10&ndash;12 reps at 30&ndash;40% of your working weight, then a lighter bridge set &mdash; before the working sets. So a compound listed as 3 sets is really 2 ramp-up + 3 working = 5 total. Ramp-up weight should feel genuinely easy; if it's near your working load it isn't a warm-up.</li>
-      <li><b>Default is 3 &times; 12 working sets.</b> On recovery-focused days, keep the working sets but pull the weight back (leave more in reserve) rather than cutting sets. Managing load, not volume, is how you stay fresh.</li>
-      <li><b>Never train compounds to failure.</b> 1&ndash;3 reps in reserve. Biggest single factor in not being too sore tomorrow &mdash; and in not getting hurt.</li>
-      <li><b>Failure only on the last set of isolations.</b> Sparingly early on.</li>
-      <li><b>Pick a swap, don't wait.</b> The movement pattern is what matters. Machine occupied &rarr; dumbbell or barbell version, same slot, keep the clock moving.</li>
-      <li><b>Same exercises for 2&ndash;3 months.</b> Rotate grips and angles, not movements. That's how you see progression.</li>
-      <li><b>Auto-regulate, don't skip.</b> Sore on its day? Drop a set or lighten it. Showing up beats the perfect session.</li>
-      <li><b>Rest 2 min on compounds, 30&ndash;60s on isolations.</b> Supersetting isolations at one station (see the &#8644; pair tips) keeps the session tight without cutting rest per muscle.</li>
-      <li><b>Form over weight.</b> Leave the ego at the door &mdash; a small tweak in form can drop the weight 50%, and that's fine. Diagrams here are schematic; check YouTube (Squat University, Jeet Selal, Flying Beast) for full form breakdowns.</li>
-      <li><b>Protein 120&ndash;140g/day. Sleep uninterrupted, no alarm if you can.</b> Recovery is built outside the gym.</li>
-      <li><b>Cardio in the morning, separate from lifting.</b> Running 2x/week max. Never skip lifting for cardio.</li>
-      <li><b>Omega-3 + vitamin D</b> for joints. Log at least weekly to track progression.</li>
-    </ul>
-  </div>
-
   <footer>Six days in, never too wrecked to show up. &mdash; Weekly Exercise Routine</footer>
 </div>
 
